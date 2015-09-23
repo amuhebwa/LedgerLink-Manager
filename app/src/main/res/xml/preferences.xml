@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue="@string/Server_default_value"
+        android:dialogTitle="Change the Server URL"
+        android:key="LedgerLinkBaseUrl"
+        android:summary="Set the Internet Address for the server that will receive/accept data"
+        android:text="http://192.168.1.157/DigitizingDataWebServices/DigitizingDataRestfulWebService.svc/"
+        android:title="Server URL" />
+
+</PreferenceScreen>

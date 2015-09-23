@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">LedgerLink Manager</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <!-- String constants  -->
+    <string name="_RecipientPost">Recipient Post</string>
+    <string name="_RecipientName">Recipient Name</string>
+    <string name="_PhoneIMEI">IMEI</string>
+    <string name="_IMIETwoForDualSim">IMEI Two for Dual Sim</string>
+    <string name="_PhoneNumber">Phone Number</string>
+    <string name="_AccountNumber">Group Account Number</string>
+    <string name="_MemberPost">Member\'s Post</string>
+    <string name="_GroupName">Group Name</string>
+    <string name="_GroupPass">Group Passkey</string>
+    <string name="_MemberPhoneNumber">Member\'s Phone number</string>
+    <string name="_MemberName">Member\'s Name</string>
+    <string name="_GroupRepresentativeDetails">Group Members Representative</string>
+    <string name="_GroupBankDetails">Group Banking</string>
+    <string name="_appLogo">LedgerLink Manager Logo</string>
+    <string name="_userInformationRecovery">Forgot your username or passkey ? Contact your bank officer or call 0771630070</string>
+    <string name="_login">Login</string>
+    <string name="_passkeyDescription">Enter the passkey you were given</string>
+    <string name="_passkey">Passkey</string>
+    <string name="_usernameDescription">Enter the username you were given</string>
+    <string name="_username">Username</string>
+    <string name="_searchDescription">Enter name of group to Search</string>
+    <string name="_findGroup">Find a Group</string>
+    <string name="_PhysicalAddress">Physical Addresss</string>
+    <string name="_RegionName">Region Name</string>
+    <string name="title_activity_add_new_group">Add New Group</string>
+    <string name="Server_default_value">http://192.168.1.157/DigitizingDataWebServices/DigitizingDataRestfulWebService.svc/</string>
+
+    <string name="title_activity_preferences">PreferencesActivity</string>
+</resources>

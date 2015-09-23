@@ -1,0 +1,189 @@
+package org.grameenfoundation.applabs.ledgerlinkmanager.helpers;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DatabaseHandler extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "Ledgerlink";
+    private static final String TABLE_NAME = "VslaGroupsData";
+    /** Table column names */
+    private static final String ID = "id";
+    private static final String GROUPNAME = "groupName";
+    private static final String REPMEMBERNAME = "RepresentativeMemberName";
+    private static final String REPMEMBERPOST = "RepresentativeMemberPost";
+    private static final String REPMEMBERPHONENUMBER = "memberPhoneNumber";
+    private static final String GROUPACCOUNTNUMBER = "groupAccountNumber";
+    private static final String PHYSICALADDRESS = "physicalAddress";
+    private static final String REGIONNAME = "regionName";
+    private static final String LOCATIONCORDINATES = "locationCordinates";
+    private static final String ISSUEDPHONENUMBER = "issuedPhoneNumber";
+    private static final String ISDATASENT = "isDataSent";
+    private static final String SUPPORTTYPE = "supportType";
+
+    private static final String[] COLUMNS = {ID, GROUPNAME, REPMEMBERNAME, REPMEMBERPOST, REPMEMBERPHONENUMBER,
+            GROUPACCOUNTNUMBER, PHYSICALADDRESS, REGIONNAME, LOCATIONCORDINATES, ISSUEDPHONENUMBER, ISDATASENT,
+            SUPPORTTYPE};
+
+    public DatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_DATABASE_LEDGERLINK = "CREATE TABLE " +
+                TABLE_NAME + " ( " + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                GROUPNAME + " TEXT, " +
+                REPMEMBERNAME + " TEXT, " +
+                REPMEMBERPOST + " TEXT, " +
+                REPMEMBERPHONENUMBER + " TEXT, " +
+                GROUPACCOUNTNUMBER + " TEXT, " +
+                PHYSICALADDRESS + " TEXT, " +
+                REGIONNAME + " TEXT, " +
+                LOCATIONCORDINATES + " TEXT, " +
+                ISSUEDPHONENUMBER + " TEXT, " +
+                ISDATASENT + " TEXT, " +
+                SUPPORTTYPE + " TEXT " + " ) ";
+        db.execSQL(CREATE_DATABASE_LEDGERLINK);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP IF TABLE EXISTS " + TABLE_NAME);
+        onCreate(db);
+
+    }
+
+    /** ********CRUD OPERATIONS ******** */
+
+    /**
+     * Add a new group to the database
+     * Returns the Id(PK) of the group that has just been added
+     */
+    public long addGroupData(VslaDataModel vslaDataModel) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GROUPNAME, vslaDataModel.getGroupName());
+        values.put(REPMEMBERNAME, vslaDataModel.getMemberName());
+        values.put(REPMEMBERPOST, vslaDataModel.getMemberPost());
+        values.put(REPMEMBERPHONENUMBER, vslaDataModel.getMemberPhoneNumber());
+        values.put(GROUPACCOUNTNUMBER, vslaDataModel.getGroupAccountNumber());
+        values.put(PHYSICALADDRESS, vslaDataModel.getPhysicalAddress());
+        values.put(REGIONNAME, vslaDataModel.getRegionName());
+        values.put(LOCATIONCORDINATES, vslaDataModel.getLocationCordinates());
+        values.put(ISSUEDPHONENUMBER, vslaDataModel.getIssuedPhoneNumber());
+        values.put(ISDATASENT, vslaDataModel.getIsDataSent());
+        values.put(SUPPORTTYPE, vslaDataModel.getSupportType());
+        final long InsertedId = database.insert(TABLE_NAME, null, values);
+        database.close();
+        return InsertedId;
+    }
+
+    /** Query data base for a single group's information */
+    public VslaDataModel getGroupData(int id) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(TABLE_NAME, COLUMNS, ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        VslaDataModel vslaDataModel = new VslaDataModel();
+        vslaDataModel.setId(Integer.parseInt(cursor.getString(0)));
+        vslaDataModel.setGroupName(cursor.getString(1));
+        vslaDataModel.setMemberName(cursor.getString(2));
+        vslaDataModel.setMemberPost(cursor.getString(3));
+        vslaDataModel.setMemberPhoneNumber(cursor.getString(4));
+        vslaDataModel.setGroupAccountNumber(cursor.getString(5));
+        vslaDataModel.setPhysicalAddress(cursor.getString(6));
+        vslaDataModel.setRegionName(cursor.getString(7));
+        vslaDataModel.setLocationCordinates(cursor.getString(8));
+        vslaDataModel.setIssuedPhoneNumber(cursor.getString(9));
+        vslaDataModel.setIsDataSent(cursor.getString(10));
+        vslaDataModel.setSupportType(cursor.getString(11));
+        // cursor.close();
+        return vslaDataModel;
+    }
+
+    /** Query the database for a list of all groups */
+
+    public List<VslaDataModel> getAllGroups() {
+        List<VslaDataModel> allVslaGroups = new ArrayList<>();
+
+        String SelectQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(SelectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                VslaDataModel vslaDataModel = new VslaDataModel();
+                vslaDataModel.setId(Integer.parseInt(cursor.getString(0)));
+                vslaDataModel.setGroupName(cursor.getString(1));
+                vslaDataModel.setMemberName(cursor.getString(2));
+                vslaDataModel.setMemberPost(cursor.getString(3));
+                vslaDataModel.setMemberPhoneNumber(cursor.getString(4));
+                vslaDataModel.setGroupAccountNumber(cursor.getString(5));
+                vslaDataModel.setPhysicalAddress(cursor.getString(6));
+                vslaDataModel.setRegionName(cursor.getString(7));
+                vslaDataModel.setLocationCordinates(cursor.getString(8));
+                vslaDataModel.setIssuedPhoneNumber(cursor.getString(9));
+                vslaDataModel.setIsDataSent(cursor.getString(10));
+                vslaDataModel.setSupportType(cursor.getString(11));
+                allVslaGroups.add(vslaDataModel);
+            } while (cursor.moveToNext());
+            //  cursor.close();
+        }
+        return allVslaGroups;
+    }
+
+    /** update information for a particular group */
+
+    public int upDateGroupData(VslaDataModel vslaDataModel, long vslaDatabaseId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(GROUPNAME, vslaDataModel.getGroupName());
+        values.put(REPMEMBERNAME, vslaDataModel.getMemberName());
+        values.put(REPMEMBERPOST, vslaDataModel.getMemberPost());
+        values.put(REPMEMBERPHONENUMBER, vslaDataModel.getMemberPhoneNumber());
+        values.put(GROUPACCOUNTNUMBER, vslaDataModel.getGroupAccountNumber());
+        values.put(PHYSICALADDRESS, vslaDataModel.getPhysicalAddress());
+        values.put(REGIONNAME, vslaDataModel.getRegionName());
+        values.put(LOCATIONCORDINATES, vslaDataModel.getLocationCordinates());
+        values.put(ISSUEDPHONENUMBER, vslaDataModel.getIssuedPhoneNumber());
+        values.put(ISDATASENT, vslaDataModel.getIsDataSent());
+        values.put(SUPPORTTYPE, vslaDataModel.getSupportType());
+
+        return database.update(TABLE_NAME, values, ID + " = ?", new String[]{String.valueOf(vslaDatabaseId)});
+        // database.close();
+    }
+
+    /** Delete a group from the database */
+
+   /* public void deletGroupData(VslaDataModel vslaDataModel) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_NAME, ID + " = ?", new String[]{String.valueOf(vslaDataModel.getId())});
+        database.close();
+    }*/
+
+    /** Check if a group exists in the  database */
+    public boolean checkIfGroupExists(String vslaName) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(TABLE_NAME,
+                COLUMNS,
+                GROUPNAME + "=?",
+                new String[]{String.valueOf(vslaName)},
+                null,
+                null,
+                null,
+                null);
+        // cursor.close();
+        return cursor.moveToFirst();
+    }
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/_vslaName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/_GroupName"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/_physicalAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_vslaName"
+            android:text="@string/_PhysicalAddress"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/_responsiblePerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_physicalAddress"
+            android:text="@string/_MemberName"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/uploadDataIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/_vslaName" />
+
+    </RelativeLayout>
+</LinearLayout>
+<!-- From: file:/C:/Users/AGGREY/AndroidStudioProjects/LedgerLink-Manager/app/src/main/res/layout/list_item.xml -->

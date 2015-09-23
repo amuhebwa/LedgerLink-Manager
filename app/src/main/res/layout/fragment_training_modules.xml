@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <RadioButton
+                android:id="@+id/sensitization"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Sensitization And Buy-In "
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/ledgerlinkTraining"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="LedgerLink Training"
+                android:textSize="15dp" />
+
+            <RadioButton
+                android:id="@+id/ekeysTraining"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="eKeys Training"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/generalSupport"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="General Support"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/refresherTraining"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Refresher Training"
+                android:textSize="15sp" />
+        </RadioGroup>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

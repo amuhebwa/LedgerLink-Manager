@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText Username, Passkey;
-    private String username, passkey;
     private String loginResult, TechnicalTrainerId = "-1", TTUsername;
     private UrlConstants constants = new UrlConstants();
     private Activity activity = this;
@@ -53,9 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = Username.getText().toString().trim();
-                passkey = Passkey.getText().toString().trim();
-                validateUserDetails(serverUrl, username, passkey);
+                validateUserDetails(serverUrl, Username.getText().toString().trim(), Passkey.getText().toString().trim());
             }
         });
     }
@@ -66,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private void showToastMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
+
     /**
      * Validate user details before Logging in
      */

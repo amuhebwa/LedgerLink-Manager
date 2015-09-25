@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">LedgerLink Manager</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <!-- String constants  -->
     <string name="_RecipientPost">Recipient Post</string>
@@ -21,7 +20,7 @@
     <string name="_userInformationRecovery">Forgot your username or passkey ? Contact your bank officer or call 0771630070</string>
     <string name="_login">Login</string>
     <string name="_passkeyDescription">Enter the passkey you were given</string>
-    <string name="_passkey">Passkey</string>
+    <string name="_passkey">Password</string>
     <string name="_usernameDescription">Enter the username you were given</string>
     <string name="_username">Username</string>
     <string name="_searchDescription">Enter name of group to Search</string>

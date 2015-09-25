@@ -278,6 +278,8 @@ public class SubmitDataFrag extends Fragment {
             showToastMessage("An Error Occured");
             operationTypeView.setText("Error Occured");
         }
+        // Then clear the data holder
+        DataHolder.getInstance().clearDataHolder();
     }
 
     @Override

@@ -11,15 +11,31 @@ public class DataHolder {
     private String groupPhoneNumber;
     private String locationCoordinates;
     public String supportTrainingType;
-    private static DataHolder dataObject = null;
+    private static volatile DataHolder dataObject = null;
 
     private DataHolder() {
     }
 
     public static DataHolder getInstance() {
-        if (dataObject == null)
-            dataObject = new DataHolder();
+        if (dataObject == null) {
+            synchronized (DataHolder.class) {
+                if (dataObject == null) {
+                    dataObject = new DataHolder();
+                }
+            }
+        }
         return dataObject;
+    }
+
+    // Clear the singleton class
+    public void clearDataHolder() {
+        if (dataObject != null) {
+            synchronized (DataHolder.class) {
+                if (dataObject != null) {
+                    dataObject = new DataHolder();
+                }
+            }
+        }
     }
 
     public String getVslaName() {
@@ -110,4 +126,5 @@ public class DataHolder {
     public void setSupportTrainingType(String supportTrainingType) {
         this.supportTrainingType = supportTrainingType;
     }
+
 }

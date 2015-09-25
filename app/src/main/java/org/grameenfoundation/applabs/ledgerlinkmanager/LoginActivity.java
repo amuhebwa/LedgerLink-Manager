@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        if (loginResult.equalsIgnoreCase("1")) { /** Sucess*/
+                        if (loginResult.equalsIgnoreCase("1")) { /** Success */
                             SharedPreferencesUtils.saveSharedPreferences(activity, "TechnicalTrainerId", TechnicalTrainerId);
                             Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                             loginIntent.putExtra("TTUsername", TTUsername);

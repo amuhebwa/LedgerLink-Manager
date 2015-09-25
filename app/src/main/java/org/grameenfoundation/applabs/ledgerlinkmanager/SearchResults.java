@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPreferencesUtils;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
@@ -34,6 +35,7 @@ public class SearchResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
+        DataHolder.getInstance().clearDataHolder();
 
         empty_view = (CardView) findViewById(R.id.empty_view);
         FloatingActionButton NewGroupFab = (FloatingActionButton) findViewById(R.id.add_new_group_Fab);
@@ -79,7 +81,9 @@ public class SearchResults extends AppCompatActivity {
 
     }
 
-    /** Asynchronous task to process the list of groups off the main UI */
+    /**
+     * Asynchronous task to process the list of groups off the main UI
+     */
     private class JsonProcessingAsycTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

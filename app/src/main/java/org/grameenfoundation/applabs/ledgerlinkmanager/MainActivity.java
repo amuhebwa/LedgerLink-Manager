@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
      * Check that there is an internet connection
      **/
     private void validateSearchQuery(String serverUrl) {
-        String searchTerm = groupSearch.getText().toString();
+        String searchTerm = groupSearch.getText().toString().replace(" ","");
         if (!ledgerLinkUtils.isInternetOn(this)) {
             showToastMessage("No Internet Connection");
         } else if (searchTerm.isEmpty()) {

@@ -93,7 +93,9 @@ public class SubmitDataFrag extends Fragment {
         groupSupportType = DataHolder.getInstance().getSupportTrainingType();
     }
 
-    /** Called when you click the send button in the actionbar */
+    /**
+     * Called when you click the send button in the actionbar
+     */
     private void dataSubmission() {
         getSavePreferences(); // First Reload all the data
 

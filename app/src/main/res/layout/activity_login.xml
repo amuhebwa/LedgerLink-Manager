@@ -34,7 +34,7 @@
         android:layout_below="@+id/username_label"
         android:inputType="text"
         android:singleLine="true"
-        android:textSize="15sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/passkey_label"
@@ -54,7 +54,7 @@
         android:layout_below="@+id/passkey_label"
         android:inputType="text"
         android:singleLine="true"
-        android:textSize="15sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/loginButton"

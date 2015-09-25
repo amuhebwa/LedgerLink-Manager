@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -26,6 +27,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -37,7 +40,7 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.LocationInform
 public class LocationInformationFrag extends Fragment implements LocationInformationInterface, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
-    private GoogleMap _googleMap;
+    private GoogleMap googleMap;
     private EditText PhysicalAddress;
     private Spinner RegionName;
     private MenuItem cancelMenu, editMenu, saveMenu;
@@ -56,28 +59,28 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
         mapView.onCreate(savedInstanceState);
 
         setUpGoogleMaps();
-
         createGoogleApiClient();
-
         intializeUIComponents(view);
-
         disableEditing();
         return view;
     }
-    /**  Set up Google maps */
+
+    /**
+     * Set up Google maps
+     */
     private void setUpGoogleMaps() {
-        _googleMap = mapView.getMap();
-        _googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+        mapView.onResume(); // Display the map immediately
         try {
-            MapsInitializer.initialize(this.getActivity());
+            MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        _googleMap.setMyLocationEnabled(true);
+        googleMap = mapView.getMap();
     }
 
-    /**   Intialize the User interface components */
+    /**
+     * Intialize the User interface components
+     */
     private void intializeUIComponents(View view) {
         PhysicalAddress = (EditText) view.findViewById(R.id.PhysicalAddress);
         RegionName = (Spinner) view.findViewById(R.id.RegionName);
@@ -119,7 +122,6 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
         } else {
             DataHolder.getInstance().setPhysicalAddress(PhysicalAddress.getText().toString());
         }
-        DataHolder.getInstance().setLocationCoordinates(locationCoodinates);
     }
 
     /**
@@ -138,7 +140,9 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
         RegionName.setEnabled(false);
     }
 
-    /** Clear Error messages  */
+    /**
+     * Clear Error messages
+     */
     private void clearErrorMessages() {
         PhysicalAddress.setError(null);
     }
@@ -151,7 +155,9 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
                 .build();
     }
 
-    /** Check if google play services are available */
+    /**
+     * Check if google play services are available
+     */
     private boolean checkGooglePlayServices() {
         int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
@@ -185,6 +191,18 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        //  mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
 
     }
@@ -196,10 +214,11 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
             float latitude = (float) mCurrentLocation.getLatitude();
             float longitude = (float) mCurrentLocation.getLongitude();
             locationCoodinates = String.valueOf(latitude) + " , " + String.valueOf(longitude);
-            LatLng _currentLocation = new LatLng(latitude, longitude);
-            _googleMap.addMarker(new MarkerOptions().position(_currentLocation));
-            _googleMap.moveCamera(CameraUpdateFactory.newLatLng(_currentLocation));
-            _googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(_currentLocation, 15));
+            DataHolder.getInstance().setLocationCoordinates(locationCoodinates);
+            LatLng currentLocation = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(currentLocation));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
 
         }
     }

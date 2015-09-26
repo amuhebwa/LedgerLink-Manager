@@ -24,9 +24,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.LedgerLinkUtils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.UrlConstants;
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,11 +43,11 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity {
     private EditText groupSearch;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private ArrayList<VslaDataModel> _vslaDataModel;
+    private ArrayList<VslaInfo> _vslaInfo;
     private LinearLayout empty_view;
-    private LedgerLinkUtils ledgerLinkUtils;
+    private Utils utils;
     private ProgressDialog progressDialog;
-    private UrlConstants constants = new UrlConstants();
+    private Constants constants = new Constants();
     private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber,
             groupBankAccount, physicalAddress, regionName, groupPhoneNumber, locationCoordinates, groupSupportType, TechnicalTrainerId;
     private int VslaId;
@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         empty_view = (LinearLayout) findViewById(R.id.empty_view);
-        ledgerLinkUtils = new LedgerLinkUtils();
+        utils = new Utils();
 
-        _vslaDataModel = new ArrayList<>();
+        _vslaInfo = new ArrayList<>();
 
         new queryDatabaseForGroupsAsyncTask().execute();
 
@@ -108,28 +108,28 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(_vslaDataModel);
+        recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
 
     /** If data has not been sent, allow it to be uploaded */
     private void uploadUnsentData(int position) {
-        String isDataSent = _vslaDataModel.get(position).getIsDataSent();
+        String isDataSent = _vslaInfo.get(position).getIsDataSent();
         DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
-        VslaId = _vslaDataModel.get(position).getId();
+        VslaId = _vslaInfo.get(position).getId();
         if (!isDataSent.equalsIgnoreCase("1")) {
-            VslaDataModel vslaDataModel = databaseHandler.getGroupData(VslaId);
-            vslaName = vslaDataModel.getGroupName();
-            groupRepresentativeName = vslaDataModel.getMemberName();
-            groupRepresentativePost = vslaDataModel.getMemberPost();
-            groupRepresentativePhoneNumber = vslaDataModel.getMemberPhoneNumber();
-            groupBankAccount = vslaDataModel.getGroupAccountNumber();
-            physicalAddress = vslaDataModel.getPhysicalAddress();
-            regionName = vslaDataModel.getRegionName();
-            groupPhoneNumber = vslaDataModel.getIssuedPhoneNumber();
-            locationCoordinates = vslaDataModel.getLocationCordinates();
-            groupSupportType = vslaDataModel.getSupportType();
+            VslaInfo vslaInfo = databaseHandler.getGroupData(VslaId);
+            vslaName = vslaInfo.getGroupName();
+            groupRepresentativeName = vslaInfo.getMemberName();
+            groupRepresentativePost = vslaInfo.getMemberPost();
+            groupRepresentativePhoneNumber = vslaInfo.getMemberPhoneNumber();
+            groupBankAccount = vslaInfo.getGroupAccountNumber();
+            physicalAddress = vslaInfo.getPhysicalAddress();
+            regionName = vslaInfo.getRegionName();
+            groupPhoneNumber = vslaInfo.getIssuedPhoneNumber();
+            locationCoordinates = vslaInfo.getLocationCordinates();
+            groupSupportType = vslaInfo.getSupportType();
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -159,19 +159,19 @@ public class MainActivity extends AppCompatActivity {
     /** Update the group's sent status to true after successfully submitting */
     private void updateDatabaseToSent() {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
-        VslaDataModel vslaDataModel = new VslaDataModel();
-        vslaDataModel.setGroupName(vslaName);
-        vslaDataModel.setMemberName(groupRepresentativeName);
-        vslaDataModel.setMemberPost(groupRepresentativePost);
-        vslaDataModel.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-        vslaDataModel.setGroupAccountNumber(groupBankAccount);
-        vslaDataModel.setPhysicalAddress(physicalAddress);
-        vslaDataModel.setRegionName(regionName);
-        vslaDataModel.setLocationCordinates(locationCoordinates);
-        vslaDataModel.setIssuedPhoneNumber(groupPhoneNumber);
-        vslaDataModel.setIsDataSent("1");
-        vslaDataModel.setSupportType(groupSupportType);
-        databaseHandler.upDateGroupData(vslaDataModel, VslaId);
+        VslaInfo vslaInfo = new VslaInfo();
+        vslaInfo.setGroupName(vslaName);
+        vslaInfo.setMemberName(groupRepresentativeName);
+        vslaInfo.setMemberPost(groupRepresentativePost);
+        vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
+        vslaInfo.setGroupAccountNumber(groupBankAccount);
+        vslaInfo.setPhysicalAddress(physicalAddress);
+        vslaInfo.setRegionName(regionName);
+        vslaInfo.setLocationCordinates(locationCoordinates);
+        vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
+        vslaInfo.setIsDataSent("1");
+        vslaInfo.setSupportType(groupSupportType);
+        databaseHandler.upDateGroupData(vslaInfo, VslaId);
     }
 
     /** Show toast method */
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
      **/
     private void validateSearchQuery(String serverUrl) {
         String searchTerm = groupSearch.getText().toString().replace(" ","");
-        if (!ledgerLinkUtils.isInternetOn(this)) {
+        if (!utils.isInternetOn(this)) {
             showToastMessage("No Internet Connection");
         } else if (searchTerm.isEmpty()) {
             groupSearch.setError("Invalid Search Term");
@@ -222,30 +222,30 @@ public class MainActivity extends AppCompatActivity {
      * Ansynchrounous task class to take off the pressure from the ui thread
      * If any groups are found, add them to the list
      */
-    private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaDataModel>> {
+    private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaInfo>> {
         @Override
-        protected List<VslaDataModel> doInBackground(Void... params) {
+        protected List<VslaInfo> doInBackground(Void... params) {
            DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
             return databaseHandler.getAllGroups();
         }
 
         @Override
-        protected void onPostExecute(List<VslaDataModel> vslaDataModels) {
-            super.onPostExecute(vslaDataModels);
-            if (vslaDataModels.size() != 0) {
-                for (int i = 0; i < vslaDataModels.size(); i++) {
-                    VslaDataModel dataSet = new VslaDataModel();
-                    dataSet.setId(vslaDataModels.get(i).getId());
-                    dataSet.setGroupName(vslaDataModels.get(i).getGroupName());
-                    dataSet.setPhysicalAddress(vslaDataModels.get(i).getPhysicalAddress());
-                    dataSet.setMemberName(vslaDataModels.get(i).getMemberName());
-                    dataSet.setVslaId(vslaDataModels.get(i).getVslaId());
-                    dataSet.setIsDataSent(vslaDataModels.get(i).getIsDataSent());
+        protected void onPostExecute(List<VslaInfo> vslaInfos) {
+            super.onPostExecute(vslaInfos);
+            if (vslaInfos.size() != 0) {
+                for (int i = 0; i < vslaInfos.size(); i++) {
+                    VslaInfo dataSet = new VslaInfo();
+                    dataSet.setId(vslaInfos.get(i).getId());
+                    dataSet.setGroupName(vslaInfos.get(i).getGroupName());
+                    dataSet.setPhysicalAddress(vslaInfos.get(i).getPhysicalAddress());
+                    dataSet.setMemberName(vslaInfos.get(i).getMemberName());
+                    dataSet.setVslaId(vslaInfos.get(i).getVslaId());
+                    dataSet.setIsDataSent(vslaInfos.get(i).getIsDataSent());
                     /** if the data has not been uploaded, show the cloud upload icon*/
-                    if (vslaDataModels.get(i).getIsDataSent().equalsIgnoreCase("0")) {
+                    if (vslaInfos.get(i).getIsDataSent().equalsIgnoreCase("0")) {
                         dataSet.setUploadDataIcon(R.drawable.ic_cloud_upload);
                     }
-                    _vslaDataModel.add(dataSet);
+                    _vslaInfo.add(dataSet);
                 }
                 recyclerViewAdapter.notifyDataSetChanged();
                 empty_view.setVisibility(View.VISIBLE);

@@ -2,10 +2,10 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.helpers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-public class LedgerLinkUtils {
+public class Utils {
 
 
-    public LedgerLinkUtils() {
+    public Utils() {
     }
 
     public final boolean isInternetOn(Context context) {

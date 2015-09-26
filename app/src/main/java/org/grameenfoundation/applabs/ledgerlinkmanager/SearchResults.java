@@ -16,8 +16,8 @@ import android.view.View;
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPreferencesUtils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 
 public class SearchResults extends AppCompatActivity {
-    private ArrayList<VslaDataModel> _vslaDataModel;
+    private ArrayList<VslaInfo> _vslaInfo;
     private RecyclerViewAdapter recyclerViewAdapter;
     private CardView empty_view;
     Activity activity = this;
@@ -45,7 +45,7 @@ public class SearchResults extends AppCompatActivity {
                 startActivity(new Intent(SearchResults.this, VslaGroupDetails.class));
             }
         });
-        _vslaDataModel = new ArrayList<>();
+        _vslaInfo = new ArrayList<>();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -59,7 +59,7 @@ public class SearchResults extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(_vslaDataModel);
+        recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
         recyclerViewAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerView.ItemDecoration itemDecoration = new
@@ -69,10 +69,10 @@ public class SearchResults extends AppCompatActivity {
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                int vslaId = _vslaDataModel.get(position).getVslaId();
+                int vslaId = _vslaInfo.get(position).getVslaId();
                 Intent intent = new Intent(SearchResults.this, VslaGroupDetails.class);
-                SharedPreferencesUtils.saveSharedPreferences(activity, "IsEditing", "1");
-                SharedPreferencesUtils.saveSharedPreferences(activity, "vslaId", String.valueOf(vslaId));
+                SharedPrefs.saveSharedPreferences(activity, "IsEditing", "1");
+                SharedPrefs.saveSharedPreferences(activity, "vslaId", String.valueOf(vslaId));
                 intent.putExtra("VslaId", vslaId);
                 startActivity(intent);
                 finish();
@@ -99,7 +99,7 @@ public class SearchResults extends AppCompatActivity {
                 if (jsonArray.length() != 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        VslaDataModel dataSet = new VslaDataModel();
+                        VslaInfo dataSet = new VslaInfo();
                         String VSLAName = obj.getString("VslaName");
                         String PhysicalAddress = obj.getString("PhysicalAddress");
                         String ResponsiblePerson = obj.getString("GroupRepresentativeName");
@@ -108,11 +108,11 @@ public class SearchResults extends AppCompatActivity {
                         dataSet.setPhysicalAddress(PhysicalAddress);
                         dataSet.setMemberName(ResponsiblePerson);
                         dataSet.setVslaId(vslaId);
-                        _vslaDataModel.add(dataSet);
+                        _vslaInfo.add(dataSet);
                     }
                 } else {
-                    SharedPreferencesUtils.saveSharedPreferences(activity, "IsEditing", "0");
-                    SharedPreferencesUtils.saveSharedPreferences(activity, "vslaId", "-1");
+                    SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
+                    SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
                     return "-1";
 
                 }
@@ -144,8 +144,8 @@ public class SearchResults extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_add_group) {
-            SharedPreferencesUtils.saveSharedPreferences(activity, "IsEditing", "0");
-            SharedPreferencesUtils.saveSharedPreferences(activity, "vslaId", "-1");
+            SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
+            SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
             startActivity(new Intent(SearchResults.this, VslaGroupDetails.class));
             return true;
         }

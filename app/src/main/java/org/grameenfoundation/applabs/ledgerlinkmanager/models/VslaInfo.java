@@ -4,7 +4,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.models;
  * POJO for group information, phone information
  * and location information
  */
-public class VslaDataModel {
+public class VslaInfo {
     private int id;
     private int vslaId;
     private String groupName;
@@ -20,7 +20,7 @@ public class VslaDataModel {
     private int uploadDataIcon;
     private String supportType;
 
-    public VslaDataModel() {
+    public VslaInfo() {
     }
     
     public int getId() {

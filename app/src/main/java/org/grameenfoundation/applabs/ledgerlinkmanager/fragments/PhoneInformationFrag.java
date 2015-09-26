@@ -16,9 +16,9 @@ import android.widget.EditText;
 import org.grameenfoundation.applabs.ledgerlinkmanager.VslaGroupDetails;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.PhoneInformationInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IPhoneInformation;
 
-public class PhoneInformationFrag extends Fragment implements PhoneInformationInterface {
+public class PhoneInformationFrag extends Fragment implements IPhoneInformation {
     private Context context;
     private EditText groupPhoneNumber;
     private MenuItem cancelMenu, editMenu, saveMenu;

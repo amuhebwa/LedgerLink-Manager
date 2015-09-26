@@ -8,16 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    ArrayList<VslaDataModel> vslaDataModel;
+    ArrayList<VslaInfo> vslaInfo;
     OnItemClickListener mItemClickListener;
 
-    public RecyclerViewAdapter(ArrayList<VslaDataModel> vslaDataModel) {
-        this.vslaDataModel = vslaDataModel;
+    public RecyclerViewAdapter(ArrayList<VslaInfo> vslaInfo) {
+        this.vslaInfo = vslaInfo;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        VslaDataModel dataSet = vslaDataModel.get(position);
+        VslaInfo dataSet = vslaInfo.get(position);
         holder.vslaName.setText(dataSet.getGroupName());
         holder.physicalAddress.setText(dataSet.getPhysicalAddress());
         holder.responsiblePerson.setText(dataSet.getMemberName());
@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return vslaDataModel.size();
+        return vslaInfo.size();
     }
 
     /**  Class to load the UI components */

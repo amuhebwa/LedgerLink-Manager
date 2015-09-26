@@ -15,10 +15,10 @@ import android.widget.EditText;
 import org.grameenfoundation.applabs.ledgerlinkmanager.VslaGroupDetails;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.GroupInformationInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
 
 
-public class GroupInformationFrag extends Fragment implements GroupInformationInterface {
+public class GroupInformationFrag extends Fragment implements IGroupInformation {
     private EditText GroupName, GroupPhoneNumber, MemberName, MemberPost, MemberPhoneNumber, GroupAccountName;
     private MenuItem cancelMenu, editMenu, saveMenu;
 
@@ -112,7 +112,7 @@ public class GroupInformationFrag extends Fragment implements GroupInformationIn
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).groupInformationInterface = this;
+        ((VslaGroupDetails) context).IGroupInformation = this;
     }
 
     @Override

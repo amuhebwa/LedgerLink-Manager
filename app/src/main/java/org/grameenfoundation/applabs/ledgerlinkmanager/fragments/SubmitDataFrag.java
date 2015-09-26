@@ -1,7 +1,6 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,9 +17,9 @@ import android.widget.Toast;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPreferencesUtils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.UrlConstants;
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +39,8 @@ public class SubmitDataFrag extends Fragment {
     private TextView operationTypeView;
     private Activity activity;
     private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber,
-            groupBankAccount, physicalAddress, regionName, groupPhoneNumber, locationCoordinates, groupSupportType;
+            groupBankAccount, physicalAddress, regionName, groupPhoneNumber, locationCoordinates,
+            groupSupportType;
 
 
     public SubmitDataFrag() {
@@ -50,7 +50,7 @@ public class SubmitDataFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_submit_data, container, false);
 
-        getSavePreferences();
+        getPreferences();
 
         operationTypeView = (TextView) view.findViewById(R.id.operationType);
         if (IsEditing.equalsIgnoreCase("1")) {
@@ -73,13 +73,13 @@ public class SubmitDataFrag extends Fragment {
     /**
      * Load preference information & data saved in the singleton class
      */
-    private void getSavePreferences() {
-        UrlConstants constants = new UrlConstants();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+    private void getPreferences() {
+        Constants constants = new Constants();
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
-        IsEditing = SharedPreferencesUtils.readSharedPreferences(activity, "IsEditing", "0");
-        TechnicalTrainerId = SharedPreferencesUtils.readSharedPreferences(activity, "TechnicalTrainerId", "-1");
-        vslaId = SharedPreferencesUtils.readSharedPreferences(activity, "vslaId", "-1");
+        IsEditing = SharedPrefs.readSharedPreferences(activity, "IsEditing", "0");
+        TechnicalTrainerId = SharedPrefs.readSharedPreferences(activity, "TechnicalTrainerId", "-1");
+        vslaId = SharedPrefs.readSharedPreferences(activity, "vslaId", "-1");
         vslaName = DataHolder.getInstance().getVslaName();
         groupRepresentativeName = DataHolder.getInstance().getGroupRepresentativeName();
         groupRepresentativePost = DataHolder.getInstance().getGroupRepresentativePost();
@@ -97,7 +97,7 @@ public class SubmitDataFrag extends Fragment {
      * Called when you click the send button in the actionbar
      */
     private void dataSubmission() {
-        getSavePreferences(); // First Reload all the data
+        getPreferences(); // First Reload all the data
 
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
@@ -155,21 +155,21 @@ public class SubmitDataFrag extends Fragment {
     private void saveToDatabase() {
         if (!databaseHandler.checkIfGroupExists(vslaName)) { /** Group Doesn't exist in the database*/
 
-            VslaDataModel vslaDataModel = new VslaDataModel();
-            vslaDataModel.setGroupName(vslaName);
-            vslaDataModel.setMemberName(groupRepresentativeName);
-            vslaDataModel.setMemberPost(groupRepresentativePost);
-            vslaDataModel.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-            vslaDataModel.setGroupAccountNumber(groupBankAccount);
-            vslaDataModel.setPhysicalAddress(physicalAddress);
-            vslaDataModel.setRegionName(regionName);
-            vslaDataModel.setLocationCordinates(locationCoordinates);
-            vslaDataModel.setIssuedPhoneNumber(groupPhoneNumber);
-            vslaDataModel.setSupportType(groupSupportType);
-            vslaDataModel.setIsDataSent("0");
+            VslaInfo vslaInfo = new VslaInfo();
+            vslaInfo.setGroupName(vslaName);
+            vslaInfo.setMemberName(groupRepresentativeName);
+            vslaInfo.setMemberPost(groupRepresentativePost);
+            vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
+            vslaInfo.setGroupAccountNumber(groupBankAccount);
+            vslaInfo.setPhysicalAddress(physicalAddress);
+            vslaInfo.setRegionName(regionName);
+            vslaInfo.setLocationCordinates(locationCoordinates);
+            vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
+            vslaInfo.setSupportType(groupSupportType);
+            vslaInfo.setIsDataSent("0");
 
             /** Get the Id of the Group just added to the database */
-            currentDatabaseId = databaseHandler.addGroupData(vslaDataModel);
+            currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
             showToastMessage("Data Saved Successfully");
 
         } else {
@@ -181,19 +181,19 @@ public class SubmitDataFrag extends Fragment {
      * Update the group's sent status to true after successfully submitting
      */
     private void updateDatabaseToSent() {
-        VslaDataModel vslaDataModel = new VslaDataModel();
-        vslaDataModel.setGroupName(vslaName);
-        vslaDataModel.setMemberName(groupRepresentativeName);
-        vslaDataModel.setMemberPost(groupRepresentativePost);
-        vslaDataModel.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-        vslaDataModel.setGroupAccountNumber(groupBankAccount);
-        vslaDataModel.setPhysicalAddress(physicalAddress);
-        vslaDataModel.setRegionName(regionName);
-        vslaDataModel.setLocationCordinates(locationCoordinates);
-        vslaDataModel.setIssuedPhoneNumber(groupPhoneNumber);
-        vslaDataModel.setIsDataSent("1");
-        vslaDataModel.setSupportType(groupSupportType);
-        databaseHandler.upDateGroupData(vslaDataModel, currentDatabaseId);
+        VslaInfo vslaInfo = new VslaInfo();
+        vslaInfo.setGroupName(vslaName);
+        vslaInfo.setMemberName(groupRepresentativeName);
+        vslaInfo.setMemberPost(groupRepresentativePost);
+        vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
+        vslaInfo.setGroupAccountNumber(groupBankAccount);
+        vslaInfo.setPhysicalAddress(physicalAddress);
+        vslaInfo.setRegionName(regionName);
+        vslaInfo.setLocationCordinates(locationCoordinates);
+        vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
+        vslaInfo.setIsDataSent("1");
+        vslaInfo.setSupportType(groupSupportType);
+        databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 
     /**
@@ -234,9 +234,7 @@ public class SubmitDataFrag extends Fragment {
                     response += (inStream.nextLine());
                 }
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return response;
@@ -247,10 +245,7 @@ public class SubmitDataFrag extends Fragment {
             super.onPostExecute(response);
             try {
                 JSONObject jsonObject = new JSONObject(response);
-                String operationType = jsonObject.getString("operation");
-                String operationResult = jsonObject.getString("result");
-                String newVslaCode = jsonObject.getString("VslaCode");
-                showResultFeedback(operationType, operationResult, newVslaCode);
+                showResultFeedback(jsonObject.getString("operation"), jsonObject.getString("result"), jsonObject.getString("VslaCode"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

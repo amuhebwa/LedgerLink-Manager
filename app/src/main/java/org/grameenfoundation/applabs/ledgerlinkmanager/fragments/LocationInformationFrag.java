@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -27,17 +26,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.VslaGroupDetails;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.LocationInformationInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
 
-public class LocationInformationFrag extends Fragment implements LocationInformationInterface, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
+public class LocationInformationFrag extends Fragment implements ILocationInformation, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
     private GoogleMap googleMap;
@@ -237,7 +234,7 @@ public class LocationInformationFrag extends Fragment implements LocationInforma
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).locationInformationInterface = this;
+        ((VslaGroupDetails) context).ILocationInformation = this;
 
     }
 

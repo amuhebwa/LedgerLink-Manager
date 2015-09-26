@@ -14,20 +14,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.ViewPagerAdapter;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.UrlConstants;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.GroupInformationInterface;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.LocationInformationInterface;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.PhoneInformationInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IPhoneInformation;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
 public class VslaGroupDetails extends AppCompatActivity {
-    private UrlConstants constants = new UrlConstants();
+    private Constants constants = new Constants();
 
-    public GroupInformationInterface groupInformationInterface;
-    public PhoneInformationInterface phoneInformationInterface;
-    public LocationInformationInterface locationInformationInterface;
+    public IGroupInformation IGroupInformation;
+    public IPhoneInformation phoneInformationInterface;
+    public ILocationInformation ILocationInformation;
 
     private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber, groupBankAccount,
             physicalAddress, regionName, groupPhoneNumber, locationCoordinates;
@@ -108,16 +108,16 @@ public class VslaGroupDetails extends AppCompatActivity {
      * Add data to interfaces
      */
     private void setGroupDataToInterfaces() {
-        if (groupInformationInterface != null) {
-            groupInformationInterface.passGroupInformation(vslaName, groupPhoneNumber, groupRepresentativeName, groupRepresentativePost,
+        if (IGroupInformation != null) {
+            IGroupInformation.passGroupInformation(vslaName, groupPhoneNumber, groupRepresentativeName, groupRepresentativePost,
                     groupRepresentativePhoneNumber, groupBankAccount);
         }
         if (phoneInformationInterface != null) {
 
             phoneInformationInterface.passPhoneInformation(groupPhoneNumber);
         }
-        if (locationInformationInterface != null) {
-            locationInformationInterface.passLocationInformation(physicalAddress, regionName, locationCoordinates);
+        if (ILocationInformation != null) {
+            ILocationInformation.passLocationInformation(physicalAddress, regionName, locationCoordinates);
 
         }
     }

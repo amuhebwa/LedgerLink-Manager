@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaDataModel;
+import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,54 +68,54 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * Add a new group to the database
      * Returns the Id(PK) of the group that has just been added
      */
-    public long addGroupData(VslaDataModel vslaDataModel) {
+    public long addGroupData(VslaInfo vslaInfo) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(GROUPNAME, vslaDataModel.getGroupName());
-        values.put(REPMEMBERNAME, vslaDataModel.getMemberName());
-        values.put(REPMEMBERPOST, vslaDataModel.getMemberPost());
-        values.put(REPMEMBERPHONENUMBER, vslaDataModel.getMemberPhoneNumber());
-        values.put(GROUPACCOUNTNUMBER, vslaDataModel.getGroupAccountNumber());
-        values.put(PHYSICALADDRESS, vslaDataModel.getPhysicalAddress());
-        values.put(REGIONNAME, vslaDataModel.getRegionName());
-        values.put(LOCATIONCORDINATES, vslaDataModel.getLocationCordinates());
-        values.put(ISSUEDPHONENUMBER, vslaDataModel.getIssuedPhoneNumber());
-        values.put(ISDATASENT, vslaDataModel.getIsDataSent());
-        values.put(SUPPORTTYPE, vslaDataModel.getSupportType());
+        values.put(GROUPNAME, vslaInfo.getGroupName());
+        values.put(REPMEMBERNAME, vslaInfo.getMemberName());
+        values.put(REPMEMBERPOST, vslaInfo.getMemberPost());
+        values.put(REPMEMBERPHONENUMBER, vslaInfo.getMemberPhoneNumber());
+        values.put(GROUPACCOUNTNUMBER, vslaInfo.getGroupAccountNumber());
+        values.put(PHYSICALADDRESS, vslaInfo.getPhysicalAddress());
+        values.put(REGIONNAME, vslaInfo.getRegionName());
+        values.put(LOCATIONCORDINATES, vslaInfo.getLocationCordinates());
+        values.put(ISSUEDPHONENUMBER, vslaInfo.getIssuedPhoneNumber());
+        values.put(ISDATASENT, vslaInfo.getIsDataSent());
+        values.put(SUPPORTTYPE, vslaInfo.getSupportType());
         final long InsertedId = database.insert(TABLE_NAME, null, values);
         database.close();
         return InsertedId;
     }
 
     /** Query data base for a single group's information */
-    public VslaDataModel getGroupData(int id) {
+    public VslaInfo getGroupData(int id) {
         SQLiteDatabase database = this.getReadableDatabase();
         Cursor cursor = database.query(TABLE_NAME, COLUMNS, ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        VslaDataModel vslaDataModel = new VslaDataModel();
-        vslaDataModel.setId(Integer.parseInt(cursor.getString(0)));
-        vslaDataModel.setGroupName(cursor.getString(1));
-        vslaDataModel.setMemberName(cursor.getString(2));
-        vslaDataModel.setMemberPost(cursor.getString(3));
-        vslaDataModel.setMemberPhoneNumber(cursor.getString(4));
-        vslaDataModel.setGroupAccountNumber(cursor.getString(5));
-        vslaDataModel.setPhysicalAddress(cursor.getString(6));
-        vslaDataModel.setRegionName(cursor.getString(7));
-        vslaDataModel.setLocationCordinates(cursor.getString(8));
-        vslaDataModel.setIssuedPhoneNumber(cursor.getString(9));
-        vslaDataModel.setIsDataSent(cursor.getString(10));
-        vslaDataModel.setSupportType(cursor.getString(11));
+        VslaInfo vslaInfo = new VslaInfo();
+        vslaInfo.setId(Integer.parseInt(cursor.getString(0)));
+        vslaInfo.setGroupName(cursor.getString(1));
+        vslaInfo.setMemberName(cursor.getString(2));
+        vslaInfo.setMemberPost(cursor.getString(3));
+        vslaInfo.setMemberPhoneNumber(cursor.getString(4));
+        vslaInfo.setGroupAccountNumber(cursor.getString(5));
+        vslaInfo.setPhysicalAddress(cursor.getString(6));
+        vslaInfo.setRegionName(cursor.getString(7));
+        vslaInfo.setLocationCordinates(cursor.getString(8));
+        vslaInfo.setIssuedPhoneNumber(cursor.getString(9));
+        vslaInfo.setIsDataSent(cursor.getString(10));
+        vslaInfo.setSupportType(cursor.getString(11));
         // cursor.close();
-        return vslaDataModel;
+        return vslaInfo;
     }
 
     /** Query the database for a list of all groups */
 
-    public List<VslaDataModel> getAllGroups() {
-        List<VslaDataModel> allVslaGroups = new ArrayList<>();
+    public List<VslaInfo> getAllGroups() {
+        List<VslaInfo> allVslaGroups = new ArrayList<>();
 
         String SelectQuery = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase database = this.getWritableDatabase();
@@ -123,20 +123,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                VslaDataModel vslaDataModel = new VslaDataModel();
-                vslaDataModel.setId(Integer.parseInt(cursor.getString(0)));
-                vslaDataModel.setGroupName(cursor.getString(1));
-                vslaDataModel.setMemberName(cursor.getString(2));
-                vslaDataModel.setMemberPost(cursor.getString(3));
-                vslaDataModel.setMemberPhoneNumber(cursor.getString(4));
-                vslaDataModel.setGroupAccountNumber(cursor.getString(5));
-                vslaDataModel.setPhysicalAddress(cursor.getString(6));
-                vslaDataModel.setRegionName(cursor.getString(7));
-                vslaDataModel.setLocationCordinates(cursor.getString(8));
-                vslaDataModel.setIssuedPhoneNumber(cursor.getString(9));
-                vslaDataModel.setIsDataSent(cursor.getString(10));
-                vslaDataModel.setSupportType(cursor.getString(11));
-                allVslaGroups.add(vslaDataModel);
+                VslaInfo vslaInfo = new VslaInfo();
+                vslaInfo.setId(Integer.parseInt(cursor.getString(0)));
+                vslaInfo.setGroupName(cursor.getString(1));
+                vslaInfo.setMemberName(cursor.getString(2));
+                vslaInfo.setMemberPost(cursor.getString(3));
+                vslaInfo.setMemberPhoneNumber(cursor.getString(4));
+                vslaInfo.setGroupAccountNumber(cursor.getString(5));
+                vslaInfo.setPhysicalAddress(cursor.getString(6));
+                vslaInfo.setRegionName(cursor.getString(7));
+                vslaInfo.setLocationCordinates(cursor.getString(8));
+                vslaInfo.setIssuedPhoneNumber(cursor.getString(9));
+                vslaInfo.setIsDataSent(cursor.getString(10));
+                vslaInfo.setSupportType(cursor.getString(11));
+                allVslaGroups.add(vslaInfo);
             } while (cursor.moveToNext());
             //  cursor.close();
         }
@@ -145,20 +145,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     /** update information for a particular group */
 
-    public int upDateGroupData(VslaDataModel vslaDataModel, long vslaDatabaseId) {
+    public int upDateGroupData(VslaInfo vslaInfo, long vslaDatabaseId) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(GROUPNAME, vslaDataModel.getGroupName());
-        values.put(REPMEMBERNAME, vslaDataModel.getMemberName());
-        values.put(REPMEMBERPOST, vslaDataModel.getMemberPost());
-        values.put(REPMEMBERPHONENUMBER, vslaDataModel.getMemberPhoneNumber());
-        values.put(GROUPACCOUNTNUMBER, vslaDataModel.getGroupAccountNumber());
-        values.put(PHYSICALADDRESS, vslaDataModel.getPhysicalAddress());
-        values.put(REGIONNAME, vslaDataModel.getRegionName());
-        values.put(LOCATIONCORDINATES, vslaDataModel.getLocationCordinates());
-        values.put(ISSUEDPHONENUMBER, vslaDataModel.getIssuedPhoneNumber());
-        values.put(ISDATASENT, vslaDataModel.getIsDataSent());
-        values.put(SUPPORTTYPE, vslaDataModel.getSupportType());
+        values.put(GROUPNAME, vslaInfo.getGroupName());
+        values.put(REPMEMBERNAME, vslaInfo.getMemberName());
+        values.put(REPMEMBERPOST, vslaInfo.getMemberPost());
+        values.put(REPMEMBERPHONENUMBER, vslaInfo.getMemberPhoneNumber());
+        values.put(GROUPACCOUNTNUMBER, vslaInfo.getGroupAccountNumber());
+        values.put(PHYSICALADDRESS, vslaInfo.getPhysicalAddress());
+        values.put(REGIONNAME, vslaInfo.getRegionName());
+        values.put(LOCATIONCORDINATES, vslaInfo.getLocationCordinates());
+        values.put(ISSUEDPHONENUMBER, vslaInfo.getIssuedPhoneNumber());
+        values.put(ISDATASENT, vslaInfo.getIsDataSent());
+        values.put(SUPPORTTYPE, vslaInfo.getSupportType());
 
         return database.update(TABLE_NAME, values, ID + " = ?", new String[]{String.valueOf(vslaDatabaseId)});
         // database.close();
@@ -166,7 +166,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     /** Delete a group from the database */
 
-   /* public void deletGroupData(VslaDataModel vslaDataModel) {
+   /* public void deletGroupData(VslaInfo vslaDataModel) {
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_NAME, ID + " = ?", new String[]{String.valueOf(vslaDataModel.getId())});
         database.close();

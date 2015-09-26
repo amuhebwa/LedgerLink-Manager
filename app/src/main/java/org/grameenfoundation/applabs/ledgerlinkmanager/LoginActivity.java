@@ -3,7 +3,6 @@ package org.grameenfoundation.applabs.ledgerlinkmanager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.LedgerLinkUtils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPreferencesUtils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.UrlConstants;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,9 +28,9 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     private EditText Username, Passkey;
     private String loginResult, TechnicalTrainerId = "-1", TTUsername;
-    private UrlConstants constants = new UrlConstants();
+    private Constants constants = new Constants();
     private Activity activity = this;
-    private LedgerLinkUtils ledgerLinkUtils;
+    private Utils utils;
     private ProgressDialog progressDialog;
 
     @Override
@@ -42,9 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging In ...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
-        ledgerLinkUtils = new LedgerLinkUtils();
+        utils = new Utils();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         Username = (EditText) findViewById(R.id.username);
         Passkey = (EditText) findViewById(R.id.passkey);
@@ -76,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Username.setError(null);
             Passkey.setError(null);
-            if (ledgerLinkUtils.isInternetOn(getApplicationContext())) {
+            if (utils.isInternetOn(getApplicationContext())) {
                 getLoginCredentials(serverUrl, username, passkey);
             } else {
                 showToastMessage("No Internet Connection");
@@ -105,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         if (loginResult.equalsIgnoreCase("1")) { /** Success */
-                            SharedPreferencesUtils.saveSharedPreferences(activity, "TechnicalTrainerId", TechnicalTrainerId);
+                            SharedPrefs.saveSharedPreferences(activity, "TechnicalTrainerId", TechnicalTrainerId);
                             Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                             loginIntent.putExtra("TTUsername", TTUsername);
                             loginIntent.putExtra("TechnicalTrainerId", TechnicalTrainerId);

@@ -41,7 +41,7 @@ import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
-    private EditText groupSearch;
+    private EditText extGroupSearch;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<VslaInfo> _vslaInfo;
     private LinearLayout empty_view;
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        groupSearch = (EditText) findViewById(R.id.group_search);
-        groupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        extGroupSearch = (EditText) findViewById(R.id.group_search);
+        extGroupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -190,13 +190,13 @@ public class MainActivity extends AppCompatActivity {
      * Check that there is an internet connection
      **/
     private void validateSearchQuery(String serverUrl) {
-        String searchTerm = groupSearch.getText().toString().replace(" ", "");
+        String searchTerm = extGroupSearch.getText().toString().replace(" ", "");
         if (!utils.isInternetOn(this)) {
             showFlashMessage("No Internet Connection");
         } else if (searchTerm.isEmpty()) {
-            groupSearch.setError("Invalid Search Term");
+            extGroupSearch.setError("Invalid Search Term");
         } else {
-            groupSearch.setError(null);
+            extGroupSearch.setError(null);
             searchForGroupInformation(searchTerm, serverUrl);
         }
     }

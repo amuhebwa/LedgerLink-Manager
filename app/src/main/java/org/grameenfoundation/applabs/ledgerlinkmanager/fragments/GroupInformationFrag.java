@@ -19,7 +19,8 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformat
 
 
 public class GroupInformationFrag extends Fragment implements IGroupInformation {
-    private EditText GroupName, GroupPhoneNumber, MemberName, MemberPost, MemberPhoneNumber, GroupAccountName;
+    private EditText extGroupName, extGroupPhoneNumber, extMemberName, extMemberPost,
+            extMemberPhoneNumber, extGroupAccountName;
     private MenuItem cancelMenu, editMenu, saveMenu;
 
     public GroupInformationFrag() {
@@ -38,73 +39,76 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
      * Load UI components
      */
     private void loadUIComponents(View view) {
-        GroupName = (EditText) view.findViewById(R.id.groupName);
-        GroupPhoneNumber = (EditText) view.findViewById(R.id.groupPhoneNumber);
-        MemberName = (EditText) view.findViewById(R.id.memberName);
-        MemberPost = (EditText) view.findViewById(R.id.memberPost);
-        MemberPhoneNumber = (EditText) view.findViewById(R.id.memberPhoneNumber);
-        GroupAccountName = (EditText) view.findViewById(R.id.groupAccountNumber);
+        extGroupName = (EditText) view.findViewById(R.id.groupName);
+        extGroupPhoneNumber = (EditText) view.findViewById(R.id.groupPhoneNumber);
+        extMemberName = (EditText) view.findViewById(R.id.memberName);
+        extMemberPost = (EditText) view.findViewById(R.id.memberPost);
+        extMemberPhoneNumber = (EditText) view.findViewById(R.id.memberPhoneNumber);
+        extGroupAccountName = (EditText) view.findViewById(R.id.groupAccountNumber);
     }
 
     /**
      * Disable text fields to disable/editing/allow saving
      */
     private void disableEditing() {
-        GroupName.setEnabled(false);
-        MemberName.setEnabled(false);
-        MemberPost.setEnabled(false);
-        MemberPhoneNumber.setEnabled(false);
-        GroupAccountName.setEnabled(false);
-        GroupPhoneNumber.setEnabled(false);
+        extGroupName.setEnabled(false);
+        extMemberName.setEnabled(false);
+        extMemberPost.setEnabled(false);
+        extMemberPhoneNumber.setEnabled(false);
+        extGroupAccountName.setEnabled(false);
+        extGroupPhoneNumber.setEnabled(false);
     }
 
     /**
      * Enable text fields in order to edit/add information
      */
     private void enableEditing() {
-        GroupName.setEnabled(true);
-        MemberName.setEnabled(true);
-        MemberPost.setEnabled(true);
-        MemberPhoneNumber.setEnabled(true);
-        GroupAccountName.setEnabled(true);
-        GroupPhoneNumber.setEnabled(true);
+        extGroupName.setEnabled(true);
+        extMemberName.setEnabled(true);
+        extMemberPost.setEnabled(true);
+        extMemberPhoneNumber.setEnabled(true);
+        extGroupAccountName.setEnabled(true);
+        extGroupPhoneNumber.setEnabled(true);
     }
 
     /**
      * Clear error messages from text fields
      */
     public void clearErrorMessages() {
-        GroupName.setError(null);
-        MemberName.setError(null);
-        MemberPost.setError(null);
-        MemberPhoneNumber.setError(null);
-        GroupAccountName.setError(null);
-        GroupPhoneNumber.setError(null);
+        extGroupName.setError(null);
+        extMemberName.setError(null);
+        extMemberPost.setError(null);
+        extMemberPhoneNumber.setError(null);
+        extGroupAccountName.setError(null);
+        extGroupPhoneNumber.setError(null);
     }
 
     /**
      * Save the text field data to the data holder/singleton class
      */
     private void saveInformationToDataHolder() {
-        if (GroupName.getText().toString().isEmpty()) {
-            GroupName.setError("Enter Valid Group Name");
-        } else if (GroupPhoneNumber.getText().toString().isEmpty() || GroupPhoneNumber.getText().toString().length() < 10 | GroupPhoneNumber.getText().toString().length() > 10) {
-            GroupPhoneNumber.setError("Phone Number is 10 Digits");
-        } else if (MemberName.getText().toString().isEmpty() || MemberName.getText().toString().length() < 2) {
-            MemberName.setError("Enter Member Name");
-        } else if (MemberPost.getText().toString().isEmpty()) {
-            MemberPost.setError("Enter Member Post");
-        } else if (MemberPhoneNumber.getText().toString().isEmpty() || MemberPhoneNumber.getText().toString().length() < 10 || MemberPhoneNumber.getText().toString().length() > 10) {
-            MemberPhoneNumber.setError("Phone Number is 10 Digits");
-        } else if (GroupAccountName.getText().toString().isEmpty() || GroupAccountName.getText().toString().length() < 10 || GroupAccountName.getText().toString().length() > 10) {
-            GroupAccountName.setError("Group Account is 10 Digits");
+        if (extGroupName.getText().toString().isEmpty()) {
+            extGroupName.setError("Enter Valid Group Name");
+        } else if (extGroupPhoneNumber.getText().toString().isEmpty() || extGroupPhoneNumber.getText().toString().length() < 10
+                || extGroupPhoneNumber.getText().toString().length() > 10) {
+            extGroupPhoneNumber.setError("Phone Number is 10 Digits");
+        } else if (extMemberName.getText().toString().isEmpty() || extMemberName.getText().toString().length() < 2) {
+            extMemberName.setError("Enter Member Name");
+        } else if (extMemberPost.getText().toString().isEmpty()) {
+            extMemberPost.setError("Enter Member Post");
+        } else if (extMemberPhoneNumber.getText().toString().isEmpty() || extMemberPhoneNumber.getText().toString().length() < 10
+                || extMemberPhoneNumber.getText().toString().length() > 10) {
+            extMemberPhoneNumber.setError("Phone Number is 10 Digits");
+        } else if (extGroupAccountName.getText().toString().isEmpty() || extGroupAccountName.getText().toString().length() < 10 ||
+                extGroupAccountName.getText().toString().length() > 10) {
+            extGroupAccountName.setError("Group Account is 10 Digits");
         } else {
-            DataHolder.getInstance().setVslaName(GroupName.getText().toString());
-            DataHolder.getInstance().setGroupPhoneNumber(GroupPhoneNumber.getText().toString());
-            DataHolder.getInstance().setGroupRepresentativeName(MemberName.getText().toString());
-            DataHolder.getInstance().setGroupRepresentativePost(MemberPost.getText().toString());
-            DataHolder.getInstance().setGroupRepresentativePhoneNumber(MemberPhoneNumber.getText().toString());
-            DataHolder.getInstance().setGroupBankAccount(GroupAccountName.getText().toString());
+            DataHolder.getInstance().setVslaName(extGroupName.getText().toString());
+            DataHolder.getInstance().setGroupPhoneNumber(extGroupPhoneNumber.getText().toString());
+            DataHolder.getInstance().setGroupRepresentativeName(extMemberName.getText().toString());
+            DataHolder.getInstance().setGroupRepresentativePost(extMemberPost.getText().toString());
+            DataHolder.getInstance().setGroupRepresentativePhoneNumber(extMemberPhoneNumber.getText().toString());
+            DataHolder.getInstance().setGroupBankAccount(extGroupAccountName.getText().toString());
         }
     }
 
@@ -119,12 +123,12 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
     public void passGroupInformation(String groupName, String groupPhoneNumber, String memberName, String memberPost, String memberPhoneNumber, String branchName) {
 
         /** Populate the fields with data from the server */
-        GroupName.setText(groupName);
-        GroupPhoneNumber.setText(groupPhoneNumber);
-        MemberName.setText(memberName);
-        MemberPost.setText(memberPost);
-        MemberPhoneNumber.setText(memberPhoneNumber);
-        GroupAccountName.setText(branchName);
+        extGroupName.setText(groupName);
+        extGroupPhoneNumber.setText(groupPhoneNumber);
+        extMemberName.setText(memberName);
+        extMemberPost.setText(memberPost);
+        extMemberPhoneNumber.setText(memberPhoneNumber);
+        extGroupAccountName.setText(branchName);
 
         ((VslaGroupDetails) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
 

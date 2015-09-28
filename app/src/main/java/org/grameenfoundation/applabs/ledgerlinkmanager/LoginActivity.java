@@ -26,8 +26,8 @@ import org.json.JSONObject;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText Username, Passkey;
-    private String loginResult, TechnicalTrainerId = "-1", TTUsername;
+    private EditText txtUsername, txtPasskey;
+    private String loginResult, technicalTrainerId = "-1", tTUsername;
     private Constants constants = new Constants();
     private Activity activity = this;
     private Utils utils;
@@ -45,13 +45,13 @@ public class LoginActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
-        Username = (EditText) findViewById(R.id.username);
-        Passkey = (EditText) findViewById(R.id.passkey);
+        txtUsername = (EditText) findViewById(R.id.username);
+        txtPasskey = (EditText) findViewById(R.id.passkey);
         Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateUserDetails(serverUrl, Username.getText().toString().trim(), Passkey.getText().toString().trim());
+                validateUserDetails(serverUrl, txtUsername.getText().toString().trim(), txtPasskey.getText().toString().trim());
             }
         });
     }
@@ -69,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
     private void validateUserDetails(String serverUrl, String username, String passkey) {
 
         if (username.isEmpty()) {
-            Username.setError("Username cannot be empty");
+            txtUsername.setError("Username cannot be empty");
         } else if (passkey.isEmpty()) {
-            Passkey.setError("Passkey cannot be empty");
+            txtPasskey.setError("Passkey cannot be empty");
         } else {
-            Username.setError(null);
-            Passkey.setError(null);
+            txtUsername.setError(null);
+            txtPasskey.setError(null);
             if (utils.isInternetOn(getApplicationContext())) {
                 getLoginCredentials(serverUrl, username, passkey);
             } else {
@@ -98,16 +98,16 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject loginDetails = response.getJSONObject("technicalTrainerLoginResult");
                             loginResult = loginDetails.getString("result");
-                            TechnicalTrainerId = loginDetails.getString("TechnicalTrainerId");
-                            TTUsername = loginDetails.getString("Username");
+                            technicalTrainerId = loginDetails.getString("TechnicalTrainerId");
+                            tTUsername = loginDetails.getString("Username");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         if (loginResult.equalsIgnoreCase("1")) { /** Success */
-                            SharedPrefs.saveSharedPreferences(activity, "TechnicalTrainerId", TechnicalTrainerId);
+                            SharedPrefs.saveSharedPreferences(activity, "TechnicalTrainerId", technicalTrainerId);
                             Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-                            loginIntent.putExtra("TTUsername", TTUsername);
-                            loginIntent.putExtra("TechnicalTrainerId", TechnicalTrainerId);
+                            loginIntent.putExtra("TTUsername", tTUsername);
+                            loginIntent.putExtra("TechnicalTrainerId", technicalTrainerId);
                             startActivity(loginIntent);
                             finish();
 

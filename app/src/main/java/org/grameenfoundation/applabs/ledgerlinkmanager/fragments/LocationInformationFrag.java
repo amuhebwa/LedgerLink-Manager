@@ -38,7 +38,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
     private GoogleMap googleMap;
-    private EditText PhysicalAddress;
+    private EditText extPhysicalAddress;
     private Spinner RegionName;
     private MenuItem cancelMenu, editMenu, saveMenu;
     private String locationCoodinates;
@@ -79,7 +79,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
      * Intialize the User interface components
      */
     private void intializeUIComponents(View view) {
-        PhysicalAddress = (EditText) view.findViewById(R.id.PhysicalAddress);
+        extPhysicalAddress = (EditText) view.findViewById(R.id.PhysicalAddress);
         RegionName = (Spinner) view.findViewById(R.id.RegionName);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, disticts);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -114,10 +114,10 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     }
 
     private void setDataToDataHolderClass() {
-        if (PhysicalAddress.getText().toString().isEmpty() || PhysicalAddress.getText().toString().length() < 4) {
-            PhysicalAddress.setError("Physical Address is Empty");
+        if (extPhysicalAddress.getText().toString().isEmpty() || extPhysicalAddress.getText().toString().length() < 4) {
+            extPhysicalAddress.setError("Physical Address is Empty");
         } else {
-            DataHolder.getInstance().setPhysicalAddress(PhysicalAddress.getText().toString());
+            DataHolder.getInstance().setPhysicalAddress(extPhysicalAddress.getText().toString());
         }
     }
 
@@ -125,7 +125,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
      * Enable Edit Boxes
      */
     private void enableEditing() {
-        PhysicalAddress.setEnabled(true);
+        extPhysicalAddress.setEnabled(true);
         RegionName.setEnabled(true);
     }
 
@@ -133,7 +133,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
      * Disable Edit Boxes
      */
     private void disableEditing() {
-        PhysicalAddress.setEnabled(false);
+        extPhysicalAddress.setEnabled(false);
         RegionName.setEnabled(false);
     }
 
@@ -141,7 +141,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
      * Clear Error messages
      */
     private void clearErrorMessages() {
-        PhysicalAddress.setError(null);
+        extPhysicalAddress.setError(null);
     }
 
     protected void createGoogleApiClient() {
@@ -240,7 +240,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
 
     @Override
     public void passLocationInformation(String physicalAddress, String regionName, String locationCordinates) {
-        PhysicalAddress.setText(physicalAddress);
+        extPhysicalAddress.setText(physicalAddress);
 
         /**  Then save information to the data holder **/
         setDataToDataHolderClass();
@@ -262,7 +262,6 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case R.id.action_edit:
                 cancelMenu.setVisible(true);

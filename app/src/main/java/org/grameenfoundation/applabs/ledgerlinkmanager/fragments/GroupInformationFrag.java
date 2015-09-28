@@ -112,7 +112,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).IGroupInformation = this;
+        ((VslaGroupDetails) context).iGroupInformation = this;
     }
 
     @Override
@@ -149,20 +149,23 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_edit) {
-            cancelMenu.setVisible(true);
-            saveMenu.setVisible(true);
-            editMenu.setVisible(false);
-            enableEditing();
-            clearErrorMessages();
-        }
-        if (id == R.id.action_save) {
-            cancelMenu.setVisible(false);
-            saveMenu.setVisible(false);
-            editMenu.setVisible(true);
-            saveInformationToDataHolder();
-            disableEditing();
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                cancelMenu.setVisible(true);
+                saveMenu.setVisible(true);
+                editMenu.setVisible(false);
+                enableEditing();
+                clearErrorMessages();
+                break;
+            case R.id.action_save:
+                cancelMenu.setVisible(false);
+                saveMenu.setVisible(false);
+                editMenu.setVisible(true);
+                saveInformationToDataHolder();
+                disableEditing();
+                break;
+            default:
+
         }
         return super.onOptionsItemSelected(item);
 

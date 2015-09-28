@@ -234,7 +234,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).ILocationInformation = this;
+        ((VslaGroupDetails) context).iLocationInformation = this;
 
     }
 
@@ -263,19 +263,21 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_edit) {
-            cancelMenu.setVisible(true);
-            saveMenu.setVisible(true);
-            editMenu.setVisible(false);
-            clearErrorMessages();
-            enableEditing();
-        }
-        if (id == R.id.action_save) {
-            cancelMenu.setVisible(false);
-            saveMenu.setVisible(false);
-            editMenu.setVisible(true);
-            setDataToDataHolderClass();
-            disableEditing();
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                cancelMenu.setVisible(true);
+                saveMenu.setVisible(true);
+                editMenu.setVisible(false);
+                clearErrorMessages();
+                enableEditing();
+                break;
+            case R.id.action_save:
+                cancelMenu.setVisible(false);
+                saveMenu.setVisible(false);
+                editMenu.setVisible(true);
+                setDataToDataHolderClass();
+                disableEditing();
+                break;
         }
         return super.onOptionsItemSelected(item);
 

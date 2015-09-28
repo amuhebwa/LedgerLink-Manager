@@ -25,10 +25,9 @@ import org.json.JSONObject;
 public class VslaGroupDetails extends AppCompatActivity {
     private Constants constants = new Constants();
 
-    public IGroupInformation IGroupInformation;
+    public IGroupInformation iGroupInformation;
     public IPhoneInformation phoneInformationInterface;
-    public ILocationInformation ILocationInformation;
-
+    public ILocationInformation iLocationInformation;
     private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber, groupBankAccount,
             physicalAddress, regionName, groupPhoneNumber, locationCoordinates;
 
@@ -41,11 +40,7 @@ public class VslaGroupDetails extends AppCompatActivity {
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", "NA");
         Intent intent = getIntent();
         if (intent != null) {
-            int VslaId = intent.getIntExtra("VslaId", 0);
-
-                searchForVSLADetails(VslaId, serverUrl);
-
-
+            searchForVSLADetails(intent.getIntExtra("VslaId", 0), serverUrl);
         }
         InitializeUIComponents();
     }
@@ -68,6 +63,7 @@ public class VslaGroupDetails extends AppCompatActivity {
             getSupportActionBar().setTitle(title);
         }
     }
+
     /**
      * Get all group details from the server based on tthe supplied Unique Id
      */
@@ -78,18 +74,19 @@ public class VslaGroupDetails extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
-                            vslaName = vslaDetails.getString("VslaName");
-                            groupRepresentativeName = vslaDetails.getString("GroupRepresentativeName");
-                            groupRepresentativePost = vslaDetails.getString("GroupRepresentativePosition");
-                            groupRepresentativePhoneNumber = vslaDetails.getString("GroupRepresentativePhonenumber");
-                            groupBankAccount = vslaDetails.getString("GroupAccountNumber");
-                            physicalAddress = vslaDetails.getString("PhysicalAddress");
-                            regionName = vslaDetails.getString("RegionName");
-                            groupPhoneNumber = vslaDetails.getString("VslaPhoneMsisdn");
-                            locationCoordinates = vslaDetails.getString("GpsLocation");
-
-                            setGroupDataToInterfaces();
+                            if (response != JSONObject.NULL) {
+                                JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
+                                vslaName = vslaDetails.getString("VslaName");
+                                groupRepresentativeName = vslaDetails.getString("GroupRepresentativeName");
+                                groupRepresentativePost = vslaDetails.getString("GroupRepresentativePosition");
+                                groupRepresentativePhoneNumber = vslaDetails.getString("GroupRepresentativePhonenumber");
+                                groupBankAccount = vslaDetails.getString("GroupAccountNumber");
+                                physicalAddress = vslaDetails.getString("PhysicalAddress");
+                                regionName = vslaDetails.getString("RegionName");
+                                groupPhoneNumber = vslaDetails.getString("VslaPhoneMsisdn");
+                                locationCoordinates = vslaDetails.getString("GpsLocation");
+                                setGroupDataToInterfaces();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -108,16 +105,16 @@ public class VslaGroupDetails extends AppCompatActivity {
      * Add data to interfaces
      */
     private void setGroupDataToInterfaces() {
-        if (IGroupInformation != null) {
-            IGroupInformation.passGroupInformation(vslaName, groupPhoneNumber, groupRepresentativeName, groupRepresentativePost,
-                    groupRepresentativePhoneNumber, groupBankAccount);
+        if (iGroupInformation != null) {
+            iGroupInformation.passGroupInformation(vslaName, groupPhoneNumber, groupRepresentativeName,
+                    groupRepresentativePost, groupRepresentativePhoneNumber, groupBankAccount);
         }
         if (phoneInformationInterface != null) {
 
             phoneInformationInterface.passPhoneInformation(groupPhoneNumber);
         }
-        if (ILocationInformation != null) {
-            ILocationInformation.passLocationInformation(physicalAddress, regionName, locationCoordinates);
+        if (iLocationInformation != null) {
+            iLocationInformation.passLocationInformation(physicalAddress, regionName, locationCoordinates);
 
         }
     }

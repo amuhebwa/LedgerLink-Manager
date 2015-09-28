@@ -29,6 +29,10 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
         return view;
     }
 
+    private void showFlashMessage(String toastMessage) {
+        Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         RadioButton radioButton = (RadioButton) group.findViewById(checkedId);
@@ -37,7 +41,7 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
     }
 
     /**
-     * Enable radion buttons
+     * Enable radio buttons
      */
     private void enableRadioGroup() {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
@@ -59,7 +63,7 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
      */
     private void saveSelectionToDataHolder() {
         if (DataHolder.getInstance().getSupportTrainingType() == null) {
-            Toast.makeText(getActivity(), "Select Training Module", Toast.LENGTH_SHORT).show();
+            showFlashMessage("Select Training Module");
         }
     }
 
@@ -79,19 +83,20 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_edit) {
-            cancelMenu.setVisible(true);
-            saveMenu.setVisible(true);
-            editMenu.setVisible(false);
-            enableRadioGroup();
-        }
-        if (id == R.id.action_save) {
-            cancelMenu.setVisible(false);
-            saveMenu.setVisible(false);
-            editMenu.setVisible(true);
-            disableRadionGroup();
-            saveSelectionToDataHolder();
-
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                cancelMenu.setVisible(true);
+                saveMenu.setVisible(true);
+                editMenu.setVisible(false);
+                enableRadioGroup();
+                break;
+            case R.id.action_save:
+                cancelMenu.setVisible(false);
+                saveMenu.setVisible(false);
+                editMenu.setVisible(true);
+                disableRadionGroup();
+                saveSelectionToDataHolder();
+                break;
         }
         return super.onOptionsItemSelected(item);
 

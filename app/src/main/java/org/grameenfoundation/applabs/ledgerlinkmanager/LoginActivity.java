@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Show toast method
      */
-    private void showToastMessage(String toastMessage) {
+    private void showFlashMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             if (utils.isInternetOn(getApplicationContext())) {
                 getLoginCredentials(serverUrl, username, passkey);
             } else {
-                showToastMessage("No Internet Connection");
+                showFlashMessage("No Internet Connection");
             }
         }
     }
@@ -113,14 +113,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else { /** Failed to Login*/
                             progressDialog.dismiss();
-                            showToastMessage("Error Occured . Try again");
+                            showFlashMessage("Error Occured . Try again");
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 progressDialog.dismiss();
-                showToastMessage("An Error Occurred. Try again");
+                showFlashMessage("An Error Occurred. Try again");
             }
         });
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);

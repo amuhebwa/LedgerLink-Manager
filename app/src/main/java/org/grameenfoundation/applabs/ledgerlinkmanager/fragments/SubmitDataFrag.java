@@ -66,7 +66,7 @@ public class SubmitDataFrag extends Fragment {
     /**
      * Show toast method
      */
-    private void showToastMessage(String toastMessage) {
+    private void showFlashMessage(String toastMessage) {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -105,7 +105,7 @@ public class SubmitDataFrag extends Fragment {
         if (vslaName == null || groupRepresentativeName == null || groupRepresentativePost == null
                 || groupRepresentativePhoneNumber == null || groupBankAccount == null || physicalAddress == null
                 || groupPhoneNumber == null || groupSupportType == null) {
-            showToastMessage("Please Fill all Fields");
+            showFlashMessage("Please Fill all Fields");
 
         } else if (IsEditing.equalsIgnoreCase("1")) {
             url.append("editExistingVsla");
@@ -170,10 +170,10 @@ public class SubmitDataFrag extends Fragment {
 
             /** Get the Id of the Group just added to the database */
             currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
-            showToastMessage("Data Saved Successfully");
+            showFlashMessage("Data Saved Successfully");
 
         } else {
-            showToastMessage("Group Already Exists");
+            showFlashMessage("Group Already Exists");
         }
     }
 
@@ -204,7 +204,7 @@ public class SubmitDataFrag extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showToastMessage("Sending Data");
+            showFlashMessage("Sending Data");
         }
 
         @Override
@@ -260,17 +260,17 @@ public class SubmitDataFrag extends Fragment {
      */
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
-            showToastMessage("Successfully added new VSLA.");
+            showFlashMessage("Successfully added new VSLA.");
             operationTypeView.setText("New Group created with the following VSLA Code : " + newVslaCode);
             updateDatabaseToSent(); /** update the database to sent*/
 
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             operationTypeView.setText("Group Information successfully Edited");
-            showToastMessage("Successfully Edited Details.");
+            showFlashMessage("Successfully Edited Details.");
             updateDatabaseToSent(); /** update the database to sent*/
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
-            showToastMessage("An Error Occured");
+            showFlashMessage("An Error Occured");
             operationTypeView.setText("Error Occured");
         }
         // Then clear the data holder
@@ -297,8 +297,7 @@ public class SubmitDataFrag extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_send) {
+        if (item.getItemId() == R.id.action_send) {
             dataSubmission();
         }
         return super.onOptionsItemSelected(item);

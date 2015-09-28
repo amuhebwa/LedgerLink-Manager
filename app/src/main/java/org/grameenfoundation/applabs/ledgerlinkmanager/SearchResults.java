@@ -141,9 +141,9 @@ public class SearchResults extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+        // int id = item.getItemId();
 
-        if (id == R.id.action_add_group) {
+        if (item.getItemId() == R.id.action_add_group) {
             SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
             SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
             startActivity(new Intent(SearchResults.this, VslaGroupDetails.class));

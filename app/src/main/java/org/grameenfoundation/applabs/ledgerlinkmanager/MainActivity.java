@@ -113,7 +113,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /** If data has not been sent, allow it to be uploaded */
+    /**
+     * If data has not been sent, allow it to be uploaded
+     */
     private void uploadUnsentData(int position) {
         String isDataSent = _vslaInfo.get(position).getIsDataSent();
         DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
@@ -156,7 +158,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Update the group's sent status to true after successfully submitting */
+    /**
+     * Update the group's sent status to true after successfully submitting
+     */
     private void updateDatabaseToSent() {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         VslaInfo vslaInfo = new VslaInfo();
@@ -174,8 +178,10 @@ public class MainActivity extends AppCompatActivity {
         databaseHandler.upDateGroupData(vslaInfo, VslaId);
     }
 
-    /** Show toast method */
-    private void showToastMessage(String toastMessage) {
+    /**
+     * Show toast method
+     */
+    private void showFlashMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -184,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
      * Check that there is an internet connection
      **/
     private void validateSearchQuery(String serverUrl) {
-        String searchTerm = groupSearch.getText().toString().replace(" ","");
+        String searchTerm = groupSearch.getText().toString().replace(" ", "");
         if (!utils.isInternetOn(this)) {
-            showToastMessage("No Internet Connection");
+            showFlashMessage("No Internet Connection");
         } else if (searchTerm.isEmpty()) {
             groupSearch.setError("Invalid Search Term");
         } else {
@@ -195,7 +201,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Search the server for a table that matches the supplied string */
+    /**
+     * Search the server for a table that matches the supplied string
+     */
     private void searchForGroupInformation(String keyWord, String url) {
         progressDialog.show();
         String urlRequest = url + constants.SEARCHVSLA + "/" + keyWord;
@@ -212,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 progressDialog.dismiss();
-                showToastMessage("Error Occurred");
+                showFlashMessage("Error Occurred");
             }
         });
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
@@ -225,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaInfo>> {
         @Override
         protected List<VslaInfo> doInBackground(Void... params) {
-           DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
+            DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
             return databaseHandler.getAllGroups();
         }
 
@@ -254,13 +262,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /** Asynchronous task class to send data to the server. */
+    /**
+     * Asynchronous task class to send data to the server.
+     */
 
     private class HttpAsyncTaskClass extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showToastMessage("Sending Data");
+            showFlashMessage("Sending Data");
         }
 
         @Override
@@ -314,15 +324,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /** Show results : Success/Fail */
+    /**
+     * Show results : Success/Fail
+     */
     private void showResultFeedback(String operationType, String operationResult) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
-            showToastMessage("Successfully added new VSLA.");
+            showFlashMessage("Successfully added new VSLA.");
 
             updateDatabaseToSent(); /** update the database to sent*/
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
-            showToastMessage("An Error Occured");
+            showFlashMessage("An Error Occured");
 
         }
     }

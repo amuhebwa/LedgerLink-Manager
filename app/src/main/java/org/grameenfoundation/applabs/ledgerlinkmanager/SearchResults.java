@@ -62,8 +62,7 @@ public class SearchResults extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
         recyclerViewAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(recyclerViewAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new
-                RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
 
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {

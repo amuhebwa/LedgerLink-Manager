@@ -24,6 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
@@ -110,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
         recyclerView.setAdapter(recyclerViewAdapter);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
 

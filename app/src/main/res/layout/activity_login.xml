@@ -1,91 +1,97 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:scrollbars="none">
 
-    <ImageView
-        android:id="@+id/ledgerlink_logo"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/_appLogo"
-        android:scaleType="centerInside"
-        android:src="@drawable/ledgerlink_logo" />
-
-    <TextView
-        android:id="@+id/username_label"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ledgerlink_logo"
-        android:paddingTop="5dp"
-        android:text="@string/_username"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content">
 
-    <EditText
+        <ImageView
+            android:id="@+id/ledgerlink_logo"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/_appLogo"
+            android:scaleType="centerInside"
+            android:src="@drawable/ledgerlink_logo" />
 
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username_label"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/username_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ledgerlink_logo"
+            android:paddingTop="5dp"
+            android:text="@string/_username"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/passkey_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
-        android:layout_margin="5dp"
-        android:text="@string/_passkey"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <EditText
 
-    <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username_label"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="18sp" />
 
-        android:id="@+id/passkey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passkey_label"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/passkey_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_margin="5dp"
+            android:text="@string/_passkey"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/passkey"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:background="#1E88E5"
-        android:gravity="center"
-        android:text="@string/_login"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <EditText
 
-    <TextView
-        android:id="@+id/credentials_recovery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginButton"
-        android:layout_margin="5dp"
-        android:text="@string/_userInformationRecovery"
-        android:textSize="13sp"
-        android:textStyle="bold" />
-    <!-- Version format {yy}{mm}{dd}{release number }  -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/credentials_recovery"
-        android:gravity="center"
-        android:text="V15091701"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-</RelativeLayout>
+            android:id="@+id/passkey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passkey_label"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passkey"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="#1E88E5"
+            android:gravity="center"
+            android:text="@string/_login"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/credentials_recovery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loginButton"
+            android:layout_margin="5dp"
+            android:text="@string/_userInformationRecovery"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+        <!-- Version format {yy}{mm}{dd}{release number }  -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/credentials_recovery"
+            android:gravity="center"
+            android:text="V15091701"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</ScrollView>

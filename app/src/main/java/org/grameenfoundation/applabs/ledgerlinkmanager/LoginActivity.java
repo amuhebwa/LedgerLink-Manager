@@ -87,9 +87,9 @@ public class LoginActivity extends AppCompatActivity {
      * Method to Log in a technical trainer to the system
      */
 
-    private void getLoginCredentials(String url, String _username, String _passkey) {
+    private void getLoginCredentials(String url, String username, String passkey) {
         progressDialog.show();
-        String request_url = url + constants.TechnicalTrainer + "/" + _username + "/" + _passkey;
+        String request_url = url + constants.TechnicalTrainer + "/" + username + "/" + passkey;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url, null,
                 new Response.Listener<JSONObject>() {
                     @Override

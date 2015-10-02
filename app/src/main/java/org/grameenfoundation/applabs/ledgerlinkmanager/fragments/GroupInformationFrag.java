@@ -28,7 +28,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_group_information, container, false);
+        View view = inflater.inflate(R.layout.group_information, container, false);
         setHasOptionsMenu(true);
         loadUIComponents(view);
         disableEditing();

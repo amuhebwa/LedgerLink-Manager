@@ -23,10 +23,8 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -48,7 +46,7 @@ public class SubmitDataFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_submit_data, container, false);
+        View view = inflater.inflate(R.layout.submit_data, container, false);
 
         getPreferences();
 

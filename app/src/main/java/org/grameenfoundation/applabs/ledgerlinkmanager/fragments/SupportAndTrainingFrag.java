@@ -21,7 +21,7 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_training_modules, container, false);
+        View view = inflater.inflate(R.layout.training_modules, container, false);
         setHasOptionsMenu(true);
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(this);

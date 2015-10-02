@@ -50,7 +50,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
         if (!checkGooglePlayServices()) {
             getActivity().finish();
         }
-        View view = inflater.inflate(R.layout.fragment_location_information, container, false);
+        View view = inflater.inflate(R.layout.location_information, container, false);
         setHasOptionsMenu(true);
         mapView = (MapView) view.findViewById(R.id.googleMap);
         mapView.onCreate(savedInstanceState);

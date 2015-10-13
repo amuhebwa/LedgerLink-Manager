@@ -43,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         utils = new Utils();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.
+                getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         txtUsername = (EditText) findViewById(R.id.username);
         txtPasskey = (EditText) findViewById(R.id.passkey);
@@ -51,7 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateUserDetails(serverUrl, txtUsername.getText().toString().trim(), txtPasskey.getText().toString().trim());
+                validateUserDetails(serverUrl, txtUsername.getText().toString().trim(),
+                        txtPasskey.getText().toString().trim());
             }
         });
     }
@@ -60,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
      * Show toast method
      */
     private void showFlashMessage(String toastMessage) {
-        Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),
+                toastMessage, Toast.LENGTH_SHORT).show();
     }
 
     /**

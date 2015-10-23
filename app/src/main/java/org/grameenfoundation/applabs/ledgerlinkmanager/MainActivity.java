@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         TextView TrainerUsername = (TextView) findViewById(R.id.TrainerUsername);
-        if (getIntent().getStringExtra("TTUsername") != null) {
-            TrainerUsername.setText(getIntent().getStringExtra("TTUsername"));
+        if (getIntent().getStringExtra("_username") != null) {
+            TrainerUsername.setText(getIntent().getStringExtra("_username"));
         }
-        if (getIntent().getStringExtra("TechnicalTrainerId") != null) {
-            TechnicalTrainerId = getIntent().getStringExtra("TechnicalTrainerId");
+        if (getIntent().getStringExtra("ttrainerId") != null) {
+            TechnicalTrainerId = getIntent().getStringExtra("ttrainerId");
         }
 
         initializeUIComponents();

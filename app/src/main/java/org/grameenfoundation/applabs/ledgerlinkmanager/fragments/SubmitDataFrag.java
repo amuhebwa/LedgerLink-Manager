@@ -76,7 +76,7 @@ public class SubmitDataFrag extends Fragment {
         android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         IsEditing = SharedPrefs.readSharedPreferences(activity, "IsEditing", "0");
-        TechnicalTrainerId = SharedPrefs.readSharedPreferences(activity, "TechnicalTrainerId", "-1");
+        TechnicalTrainerId = SharedPrefs.readSharedPreferences(activity, "ttrainerId", "-1");
         vslaId = SharedPrefs.readSharedPreferences(activity, "vslaId", "-1");
         vslaName = DataHolder.getInstance().getVslaName();
         groupRepresentativeName = DataHolder.getInstance().getGroupRepresentativeName();

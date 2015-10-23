@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername, txtPasskey;
-    private String loginResult, technicalTrainerId = "-1", tTUsername;
+    private String loginResult, _trainerId = "-1", _username;
     private Constants constants = new Constants();
     private Activity activity = this;
     private Utils utils;
@@ -101,16 +101,16 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject loginDetails = response.getJSONObject("technicalTrainerLoginResult");
                             loginResult = loginDetails.getString("result");
-                            technicalTrainerId = loginDetails.getString("TechnicalTrainerId");
-                            tTUsername = loginDetails.getString("Username");
+                            _trainerId = loginDetails.getString("TechnicalTrainerId");
+                            _username = loginDetails.getString("Username");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         if (loginResult.equalsIgnoreCase("1")) { /** Success */
-                            SharedPrefs.saveSharedPreferences(activity, "TechnicalTrainerId", technicalTrainerId);
+                            SharedPrefs.saveSharedPreferences(activity, "ttrainerId", _trainerId);
                             Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-                            loginIntent.putExtra("TTUsername", tTUsername);
-                            loginIntent.putExtra("TechnicalTrainerId", technicalTrainerId);
+                            loginIntent.putExtra("_username", _username);
+                            loginIntent.putExtra("ttrainerId", _trainerId);
                             startActivity(loginIntent);
                             finish();
 

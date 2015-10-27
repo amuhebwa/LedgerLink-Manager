@@ -28,8 +28,8 @@ public class VslaGroupDetails extends AppCompatActivity {
     public IGroupInformation iGroupInformation;
     public IPhoneInformation phoneInformationInterface;
     public ILocationInformation iLocationInformation;
-    private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber, groupBankAccount,
-            physicalAddress, regionName, groupPhoneNumber, locationCoordinates;
+    private String vslaName, representativeName, representativePost, repPhoneNumber, grpBankAccount,
+            physAddress, regionName, grpPhoneNumber, locCoordinates;
 
 
     @Override
@@ -77,14 +77,14 @@ public class VslaGroupDetails extends AppCompatActivity {
                             if (response != JSONObject.NULL) {
                                 JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
                                 vslaName = vslaDetails.getString("VslaName");
-                                groupRepresentativeName = vslaDetails.getString("GroupRepresentativeName");
-                                groupRepresentativePost = vslaDetails.getString("GroupRepresentativePosition");
-                                groupRepresentativePhoneNumber = vslaDetails.getString("GroupRepresentativePhonenumber");
-                                groupBankAccount = vslaDetails.getString("GroupAccountNumber");
-                                physicalAddress = vslaDetails.getString("PhysicalAddress");
+                                representativeName = vslaDetails.getString("representativeName");
+                                representativePost = vslaDetails.getString("representativePosition");
+                                repPhoneNumber = vslaDetails.getString("repPhoneNumber");
+                                grpBankAccount = vslaDetails.getString("GroupAccountNumber");
+                                physAddress = vslaDetails.getString("PhysicalAddress");
                                 regionName = vslaDetails.getString("RegionName");
-                                groupPhoneNumber = vslaDetails.getString("VslaPhoneMsisdn");
-                                locationCoordinates = vslaDetails.getString("GpsLocation");
+                                grpPhoneNumber = vslaDetails.getString("grpPhoneNumber");
+                                locCoordinates = vslaDetails.getString("GpsLocation");
                                 setGroupDataToInterfaces();
                             }
 
@@ -106,15 +106,15 @@ public class VslaGroupDetails extends AppCompatActivity {
      */
     private void setGroupDataToInterfaces() {
         if (iGroupInformation != null) {
-            iGroupInformation.passGroupInformation(vslaName, groupPhoneNumber, groupRepresentativeName,
-                    groupRepresentativePost, groupRepresentativePhoneNumber, groupBankAccount);
+            iGroupInformation.passGroupInformation(vslaName, grpPhoneNumber, representativeName,
+                    representativePost, repPhoneNumber, grpBankAccount);
         }
         if (phoneInformationInterface != null) {
 
-            phoneInformationInterface.passPhoneInformation(groupPhoneNumber);
+            phoneInformationInterface.passPhoneInformation(grpPhoneNumber);
         }
         if (iLocationInformation != null) {
-            iLocationInformation.passLocationInformation(physicalAddress, regionName, locationCoordinates);
+            iLocationInformation.passLocationInformation(physAddress, regionName, locCoordinates);
 
         }
     }

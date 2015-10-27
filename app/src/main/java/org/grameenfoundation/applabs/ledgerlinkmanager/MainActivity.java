@@ -141,15 +141,15 @@ public class MainActivity extends AppCompatActivity {
             try {
                 jsonObject.put("GroupSupport", "-NA-");
                 jsonObject.put("VslaName", vslaName);
-                jsonObject.put("VslaPhoneMsisdn", grpPhoneNumber);
+                jsonObject.put("grpPhoneNumber", grpPhoneNumber);
                 jsonObject.put("PhysicalAddress", physAddress);
                 jsonObject.put("GpsLocation", locCoordinates);
-                jsonObject.put("GroupRepresentativeName", representativeName);
-                jsonObject.put("GroupRepresentativePosition", representativePost);
+                jsonObject.put("representativeName", representativeName);
+                jsonObject.put("representativePosition", representativePost);
                 jsonObject.put("GroupAccountNumber", grpBankAccount);
-                jsonObject.put("GroupRepresentativePhonenumber", repPhoneNumber);
+                jsonObject.put("repPhoneNumber", repPhoneNumber);
                 jsonObject.put("RegionName", regionName);
-                jsonObject.put("TechnicalTrainerId", TechnicalTrainerId);
+                jsonObject.put("tTrainerId", TechnicalTrainerId);
                 jsonObject.put("Status", "2");
                 jsonObject.put("GroupSupport", groupSupportType);
             } catch (JSONException e) {

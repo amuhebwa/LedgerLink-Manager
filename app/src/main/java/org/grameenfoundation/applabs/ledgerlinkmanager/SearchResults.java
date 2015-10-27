@@ -101,7 +101,7 @@ public class SearchResults extends AppCompatActivity {
                         VslaInfo dataSet = new VslaInfo();
                         String VSLAName = obj.getString("VslaName");
                         String PhysicalAddress = obj.getString("PhysicalAddress");
-                        String ResponsiblePerson = obj.getString("GroupRepresentativeName");
+                        String ResponsiblePerson = obj.getString("representativeName");
                         int vslaId = obj.getInt("VslaId");
                         dataSet.setGroupName(VSLAName);
                         dataSet.setPhysicalAddress(PhysicalAddress);

@@ -130,15 +130,15 @@ public class SubmitDataFrag extends Fragment {
             }
             jsonObject.put("GroupSupport", grpSupportType);
             jsonObject.put("VslaName", vslaName);
-            jsonObject.put("VslaPhoneMsisdn", grpPhoneNumber);
+            jsonObject.put("grpPhoneNumber", grpPhoneNumber);
             jsonObject.put("PhysicalAddress", physAddress);
             jsonObject.put("GpsLocation", locCoordinates);
-            jsonObject.put("GroupRepresentativeName", representativeName);
-            jsonObject.put("GroupRepresentativePosition", representativePost);
+            jsonObject.put("representativeName", representativeName);
+            jsonObject.put("representativePosition", representativePost);
             jsonObject.put("GroupAccountNumber", grpBankAccount);
-            jsonObject.put("GroupRepresentativePhonenumber", repPhoneNumber);
+            jsonObject.put("repPhoneNumber", repPhoneNumber);
             jsonObject.put("RegionName", regionName);
-            jsonObject.put("TechnicalTrainerId", tTrainerId);
+            jsonObject.put("tTrainerId", tTrainerId);
             jsonObject.put("Status", "2");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -257,7 +257,7 @@ public class SubmitDataFrag extends Fragment {
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
             showFlashMessage("Successfully added new VSLA.");
-            txtOperationType.setText("New Group created with the following VSLA Code : " + newVslaCode);
+            txtOperationType.setText(String.format("New Group created with the following VSLA Code %s", newVslaCode));
             updateVslaInformation(); /** update the database to sent*/
 
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {

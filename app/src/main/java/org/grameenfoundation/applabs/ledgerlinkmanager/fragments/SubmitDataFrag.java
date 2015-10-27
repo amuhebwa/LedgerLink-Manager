@@ -33,12 +33,12 @@ public class SubmitDataFrag extends Fragment {
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
-    private String IsEditing, TechnicalTrainerId, vslaId;
+    private String IsEditing, tTrainerId, vslaId;
     private TextView txtOperationType;
     private Activity activity;
-    private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber,
-            groupBankAccount, physicalAddress, regionName, groupPhoneNumber, locationCoordinates,
-            groupSupportType;
+    private String vslaName, representativeName, representativePost, repPhoneNumber,
+            grpBankAccount, physAddress, regionName, grpPhoneNumber, locCoordinates,
+            grpSupportType;
 
 
     public SubmitDataFrag() {
@@ -52,7 +52,7 @@ public class SubmitDataFrag extends Fragment {
 
         txtOperationType = (TextView) view.findViewById(R.id.operationType);
         if (IsEditing.equalsIgnoreCase("1")) {
-            txtOperationType.setText("Currently Editing Information for " + vslaName);
+            txtOperationType.setText(String.format("Currently Editing Information for %s", vslaName));
         } else {
             txtOperationType.setText("Adding New Group \n Please check that all fields have been filled");
         }
@@ -76,19 +76,19 @@ public class SubmitDataFrag extends Fragment {
         android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         IsEditing = SharedPrefs.readSharedPreferences(activity, "IsEditing", "0");
-        TechnicalTrainerId = SharedPrefs.readSharedPreferences(activity, "ttrainerId", "-1");
+        tTrainerId = SharedPrefs.readSharedPreferences(activity, "ttrainerId", "-1");
         vslaId = SharedPrefs.readSharedPreferences(activity, "vslaId", "-1");
         vslaName = DataHolder.getInstance().getVslaName();
-        groupRepresentativeName = DataHolder.getInstance().getGroupRepresentativeName();
-        groupRepresentativePost = DataHolder.getInstance().getGroupRepresentativePost();
-        groupRepresentativePhoneNumber = DataHolder.getInstance().getGroupRepresentativePhoneNumber();
-        groupBankAccount = DataHolder.getInstance().getGroupBankAccount();
-        physicalAddress = DataHolder.getInstance().getPhysicalAddress();
+        representativeName = DataHolder.getInstance().getGroupRepresentativeName();
+        representativePost = DataHolder.getInstance().getGroupRepresentativePost();
+        repPhoneNumber = DataHolder.getInstance().getGroupRepresentativePhoneNumber();
+        grpBankAccount = DataHolder.getInstance().getGroupBankAccount();
+        physAddress = DataHolder.getInstance().getPhysicalAddress();
         regionName = DataHolder.getInstance().getRegionName();
-        groupPhoneNumber = DataHolder.getInstance().getGroupPhoneNumber();
-        groupBankAccount = DataHolder.getInstance().getGroupBankAccount();
-        locationCoordinates = DataHolder.getInstance().getLocationCoordinates();
-        groupSupportType = DataHolder.getInstance().getSupportTrainingType();
+        grpPhoneNumber = DataHolder.getInstance().getGroupPhoneNumber();
+        grpBankAccount = DataHolder.getInstance().getGroupBankAccount();
+        locCoordinates = DataHolder.getInstance().getLocationCoordinates();
+        grpSupportType = DataHolder.getInstance().getSupportTrainingType();
     }
 
     /**
@@ -100,9 +100,9 @@ public class SubmitDataFrag extends Fragment {
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
         url.append(serverUrl);
-        if (vslaName == null || groupRepresentativeName == null || groupRepresentativePost == null
-                || groupRepresentativePhoneNumber == null || groupBankAccount == null || physicalAddress == null
-                || groupPhoneNumber == null || groupSupportType == null) {
+        if (vslaName == null || representativeName == null || representativePost == null
+                || repPhoneNumber == null || grpBankAccount == null || physAddress == null
+                || grpPhoneNumber == null || grpSupportType == null) {
             showFlashMessage("Please Fill all Fields");
 
         } else if (IsEditing.equalsIgnoreCase("1")) {
@@ -128,17 +128,17 @@ public class SubmitDataFrag extends Fragment {
                 /** Editing an existing VSLA's information */
                 jsonObject.put("VslaId", vslaId);
             }
-            jsonObject.put("GroupSupport", groupSupportType);
+            jsonObject.put("GroupSupport", grpSupportType);
             jsonObject.put("VslaName", vslaName);
-            jsonObject.put("VslaPhoneMsisdn", groupPhoneNumber);
-            jsonObject.put("PhysicalAddress", physicalAddress);
-            jsonObject.put("GpsLocation", locationCoordinates);
-            jsonObject.put("GroupRepresentativeName", groupRepresentativeName);
-            jsonObject.put("GroupRepresentativePosition", groupRepresentativePost);
-            jsonObject.put("GroupAccountNumber", groupBankAccount);
-            jsonObject.put("GroupRepresentativePhonenumber", groupRepresentativePhoneNumber);
+            jsonObject.put("VslaPhoneMsisdn", grpPhoneNumber);
+            jsonObject.put("PhysicalAddress", physAddress);
+            jsonObject.put("GpsLocation", locCoordinates);
+            jsonObject.put("GroupRepresentativeName", representativeName);
+            jsonObject.put("GroupRepresentativePosition", representativePost);
+            jsonObject.put("GroupAccountNumber", grpBankAccount);
+            jsonObject.put("GroupRepresentativePhonenumber", repPhoneNumber);
             jsonObject.put("RegionName", regionName);
-            jsonObject.put("TechnicalTrainerId", TechnicalTrainerId);
+            jsonObject.put("TechnicalTrainerId", tTrainerId);
             jsonObject.put("Status", "2");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -154,15 +154,15 @@ public class SubmitDataFrag extends Fragment {
 
             VslaInfo vslaInfo = new VslaInfo();
             vslaInfo.setGroupName(vslaName);
-            vslaInfo.setMemberName(groupRepresentativeName);
-            vslaInfo.setMemberPost(groupRepresentativePost);
-            vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-            vslaInfo.setGroupAccountNumber(groupBankAccount);
-            vslaInfo.setPhysicalAddress(physicalAddress);
+            vslaInfo.setMemberName(representativeName);
+            vslaInfo.setMemberPost(representativePost);
+            vslaInfo.setMemberPhoneNumber(repPhoneNumber);
+            vslaInfo.setGroupAccountNumber(grpBankAccount);
+            vslaInfo.setPhysicalAddress(physAddress);
             vslaInfo.setRegionName(regionName);
-            vslaInfo.setLocationCordinates(locationCoordinates);
-            vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
-            vslaInfo.setSupportType(groupSupportType);
+            vslaInfo.setLocationCordinates(locCoordinates);
+            vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
+            vslaInfo.setSupportType(grpSupportType);
             vslaInfo.setIsDataSent("0");
 
             /** Get the Id of the Group just added to the database */
@@ -180,16 +180,16 @@ public class SubmitDataFrag extends Fragment {
     private void updateVslaInformation() {
         VslaInfo vslaInfo = new VslaInfo();
         vslaInfo.setGroupName(vslaName);
-        vslaInfo.setMemberName(groupRepresentativeName);
-        vslaInfo.setMemberPost(groupRepresentativePost);
-        vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-        vslaInfo.setGroupAccountNumber(groupBankAccount);
-        vslaInfo.setPhysicalAddress(physicalAddress);
+        vslaInfo.setMemberName(representativeName);
+        vslaInfo.setMemberPost(representativePost);
+        vslaInfo.setMemberPhoneNumber(repPhoneNumber);
+        vslaInfo.setGroupAccountNumber(grpBankAccount);
+        vslaInfo.setPhysicalAddress(physAddress);
         vslaInfo.setRegionName(regionName);
-        vslaInfo.setLocationCordinates(locationCoordinates);
-        vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
+        vslaInfo.setLocationCordinates(locCoordinates);
+        vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
         vslaInfo.setIsDataSent("1");
-        vslaInfo.setSupportType(groupSupportType);
+        vslaInfo.setSupportType(grpSupportType);
         databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 

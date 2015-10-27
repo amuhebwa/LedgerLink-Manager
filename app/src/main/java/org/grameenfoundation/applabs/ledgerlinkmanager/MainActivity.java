@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private Utils utils;
     private ProgressDialog progressDialog;
     private Constants constants = new Constants();
-    private String vslaName, groupRepresentativeName, groupRepresentativePost, groupRepresentativePhoneNumber,
-            groupBankAccount, physicalAddress, regionName, groupPhoneNumber, locationCoordinates, groupSupportType, TechnicalTrainerId;
+    private String vslaName, representativeName, representativePost, repPhoneNumber,
+            grpBankAccount, physAddress, regionName, grpPhoneNumber, locCoordinates, groupSupportType,
+            TechnicalTrainerId;
     private int VslaId;
 
 
@@ -126,27 +127,27 @@ public class MainActivity extends AppCompatActivity {
         if (!isDataSent.equalsIgnoreCase("1")) {
             VslaInfo vslaInfo = databaseHandler.getGroupData(VslaId);
             vslaName = vslaInfo.getGroupName();
-            groupRepresentativeName = vslaInfo.getMemberName();
-            groupRepresentativePost = vslaInfo.getMemberPost();
-            groupRepresentativePhoneNumber = vslaInfo.getMemberPhoneNumber();
-            groupBankAccount = vslaInfo.getGroupAccountNumber();
-            physicalAddress = vslaInfo.getPhysicalAddress();
+            representativeName = vslaInfo.getMemberName();
+            representativePost = vslaInfo.getMemberPost();
+            repPhoneNumber = vslaInfo.getMemberPhoneNumber();
+            grpBankAccount = vslaInfo.getGroupAccountNumber();
+            physAddress = vslaInfo.getPhysicalAddress();
             regionName = vslaInfo.getRegionName();
-            groupPhoneNumber = vslaInfo.getIssuedPhoneNumber();
-            locationCoordinates = vslaInfo.getLocationCordinates();
+            grpPhoneNumber = vslaInfo.getIssuedPhoneNumber();
+            locCoordinates = vslaInfo.getLocationCordinates();
             groupSupportType = vslaInfo.getSupportType();
 
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("GroupSupport", "-NA-");
                 jsonObject.put("VslaName", vslaName);
-                jsonObject.put("VslaPhoneMsisdn", groupPhoneNumber);
-                jsonObject.put("PhysicalAddress", physicalAddress);
-                jsonObject.put("GpsLocation", locationCoordinates);
-                jsonObject.put("GroupRepresentativeName", groupRepresentativeName);
-                jsonObject.put("GroupRepresentativePosition", groupRepresentativePost);
-                jsonObject.put("GroupAccountNumber", groupBankAccount);
-                jsonObject.put("GroupRepresentativePhonenumber", groupRepresentativePhoneNumber);
+                jsonObject.put("VslaPhoneMsisdn", grpPhoneNumber);
+                jsonObject.put("PhysicalAddress", physAddress);
+                jsonObject.put("GpsLocation", locCoordinates);
+                jsonObject.put("GroupRepresentativeName", representativeName);
+                jsonObject.put("GroupRepresentativePosition", representativePost);
+                jsonObject.put("GroupAccountNumber", grpBankAccount);
+                jsonObject.put("GroupRepresentativePhonenumber", repPhoneNumber);
                 jsonObject.put("RegionName", regionName);
                 jsonObject.put("TechnicalTrainerId", TechnicalTrainerId);
                 jsonObject.put("Status", "2");
@@ -168,14 +169,14 @@ public class MainActivity extends AppCompatActivity {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         VslaInfo vslaInfo = new VslaInfo();
         vslaInfo.setGroupName(vslaName);
-        vslaInfo.setMemberName(groupRepresentativeName);
-        vslaInfo.setMemberPost(groupRepresentativePost);
-        vslaInfo.setMemberPhoneNumber(groupRepresentativePhoneNumber);
-        vslaInfo.setGroupAccountNumber(groupBankAccount);
-        vslaInfo.setPhysicalAddress(physicalAddress);
+        vslaInfo.setMemberName(representativeName);
+        vslaInfo.setMemberPost(representativePost);
+        vslaInfo.setMemberPhoneNumber(repPhoneNumber);
+        vslaInfo.setGroupAccountNumber(grpBankAccount);
+        vslaInfo.setPhysicalAddress(physAddress);
         vslaInfo.setRegionName(regionName);
-        vslaInfo.setLocationCordinates(locationCoordinates);
-        vslaInfo.setIssuedPhoneNumber(groupPhoneNumber);
+        vslaInfo.setLocationCordinates(locCoordinates);
+        vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
         vslaInfo.setIsDataSent("1");
         vslaInfo.setSupportType(groupSupportType);
         databaseHandler.upDateGroupData(vslaInfo, VslaId);

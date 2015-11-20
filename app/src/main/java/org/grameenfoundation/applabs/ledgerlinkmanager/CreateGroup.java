@@ -22,92 +22,100 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class VslaGroupDetails extends AppCompatActivity {
+public class CreateGroup extends AppCompatActivity {
     private Constants constants = new Constants();
 
     public IGroupInformation iGroupInformation;
     public IPhoneInformation phoneInformationInterface;
     public ILocationInformation iLocationInformation;
-    private String vslaName, representativeName, representativePost, repPhoneNumber, grpBankAccount,
-            physAddress, regionName, grpPhoneNumber, locCoordinates;
+    private String vslaName;
+    private String representativeName;
+    private String representativePost;
+    private String repPhoneNumber;
+    private String grpBankAccount;
+    private String physAddress;
+    private String regionName;
+    private String grpPhoneNumber;
+    private String locCoordinates;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_new_group);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        setContentView(R.layout.new_group);
+
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", "NA");
+
         Intent intent = getIntent();
+
         if (intent != null) {
             searchForVSLADetails(intent.getIntExtra("VslaId", 0), serverUrl);
         }
         InitializeUIComponents();
     }
 
-    /**
-     * Intitialize the UI components
-     */
+    // intitialize the UI components
     private void InitializeUIComponents() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id._tabLayout);
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), VslaGroupDetails.this));
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), CreateGroup.this));
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    /**
-     * If in Editing mode, change the title of the actionbar
-     */
+    // if in Editing mode, change the title of the actionbar
     public void changeActionBarTitle(String title) {
         if (title != null) {
             getSupportActionBar().setTitle(title);
         }
     }
 
-    /**
-     * Get all group details from the server based on tthe supplied Unique Id
-     */
+    // Get all group details from the server based on tthe supplied Unique Id
     public void searchForVSLADetails(int VslaId, String url) {
+
         String request_url = url + constants.SINGLEVSLADETAILS + "/" + String.valueOf(VslaId);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            if (response != JSONObject.NULL) {
-                                JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
-                                vslaName = vslaDetails.getString("VslaName");
-                                representativeName = vslaDetails.getString("representativeName");
-                                representativePost = vslaDetails.getString("representativePosition");
-                                repPhoneNumber = vslaDetails.getString("repPhoneNumber");
-                                grpBankAccount = vslaDetails.getString("GroupAccountNumber");
-                                physAddress = vslaDetails.getString("PhysicalAddress");
-                                regionName = vslaDetails.getString("RegionName");
-                                grpPhoneNumber = vslaDetails.getString("grpPhoneNumber");
-                                locCoordinates = vslaDetails.getString("GpsLocation");
-                                setGroupDataToInterfaces();
-                            }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                request_url, null, new Response.Listener<JSONObject>() {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            @Override
+            public void onResponse(JSONObject response) {
 
+                try {
+                    if (response != JSONObject.NULL) {
+                        JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
+                        vslaName = vslaDetails.getString("VslaName");
+                        representativeName = vslaDetails.getString("representativeName");
+                        representativePost = vslaDetails.getString("representativePosition");
+                        repPhoneNumber = vslaDetails.getString("repPhoneNumber");
+                        grpBankAccount = vslaDetails.getString("GroupAccountNumber");
+                        physAddress = vslaDetails.getString("PhysicalAddress");
+                        regionName = vslaDetails.getString("RegionName");
+                        grpPhoneNumber = vslaDetails.getString("grpPhoneNumber");
+                        locCoordinates = vslaDetails.getString("GpsLocation");
+                        setGroupDataToInterfaces();
                     }
-                }, new Response.ErrorListener() {
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
+
     }
 
-    /**
-     * Add data to interfaces
-     */
+    // Add data to interfaces
     private void setGroupDataToInterfaces() {
+
         if (iGroupInformation != null) {
-            iGroupInformation.passGroupInformation(vslaName, grpPhoneNumber, representativeName,
-                    representativePost, repPhoneNumber, grpBankAccount);
+            iGroupInformation.passGroupInformation(vslaName, grpPhoneNumber,
+                    representativeName, representativePost, repPhoneNumber, grpBankAccount);
         }
         if (phoneInformationInterface != null) {
 

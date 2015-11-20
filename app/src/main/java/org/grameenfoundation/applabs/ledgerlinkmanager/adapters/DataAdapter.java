@@ -12,29 +12,32 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    ArrayList<VslaInfo> vslaInfo;
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+
+    private ArrayList<VslaInfo> vslaInfo;
     OnItemClickListener mItemClickListener;
 
-    public RecyclerViewAdapter(ArrayList<VslaInfo> vslaInfo) {
+    public DataAdapter(ArrayList<VslaInfo> vslaInfo) {
         this.vslaInfo = vslaInfo;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         VslaInfo dataSet = vslaInfo.get(position);
+
         holder.vslaName.setText(dataSet.getGroupName());
         holder.physicalAddress.setText(dataSet.getPhysicalAddress());
         holder.responsiblePerson.setText(dataSet.getMemberName());
         holder.uploadDataIcon.setImageResource(dataSet.getUploadDataIcon());
-
-
     }
 
     @Override
@@ -42,8 +45,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return vslaInfo.size();
     }
 
-    /**  Class to load the UI components */
+    // class to load the UI components
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         public TextView vslaName;
         public TextView physicalAddress;
         public TextView responsiblePerson;
@@ -51,10 +55,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             vslaName = (TextView) itemView.findViewById(R.id._vslaName);
             physicalAddress = (TextView) itemView.findViewById(R.id._physicalAddress);
             responsiblePerson = (TextView) itemView.findViewById(R.id._responsiblePerson);
             uploadDataIcon = (ImageView) itemView.findViewById(R.id.uploadDataIcon);
+
             itemView.setOnClickListener(this);
         }
 
@@ -66,13 +72,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    /**
-     * Interface
-     */
+    // Interface
     public interface OnItemClickListener {
         void onItemClickListener(View view, int position);
     }
-    /** Set on click listener */
+
+    // set on click listener
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }

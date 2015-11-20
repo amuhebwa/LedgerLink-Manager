@@ -1,8 +1,6 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.helpers;
 
-/**
- * End point methods in the API to which to which the phone makes http requests
- */
+// End point methods for makes http requests
 public class Constants {
     public String SINGLEVSLADETAILS = "getSingleVslaDetails";
     public String TechnicalTrainer = "technicalTrainerLogin";

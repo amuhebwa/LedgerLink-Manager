@@ -37,17 +37,21 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging In ...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
+
         utils = new Utils();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         android.content.SharedPreferences sharedPreferences = PreferenceManager.
                 getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+
         txtUsername = (EditText) findViewById(R.id.username);
         txtPasskey = (EditText) findViewById(R.id.passkey);
+
         Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,17 +62,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Show toast method
-     */
+    // Show toast method
     private void showFlashMessage(String toastMessage) {
-        Toast.makeText(getApplicationContext(),
-                toastMessage, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Validate user details before Logging in
-     */
+    // Validate user details before Logging in
     private void validateUserDetails(String serverUrl, String username, String passkey) {
 
         if (username.isEmpty()) {
@@ -86,27 +85,28 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Method to Log in a technical trainer to the system
-     */
-
+    // Log-in the Technical Trainer
     private void getLoginCredentials(String url, String username, String passkey) {
         progressDialog.show();
         String request_url = url + constants.TechnicalTrainer + "/" + username + "/" + passkey;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url, null,
-                new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url,
+                null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         progressDialog.dismiss();
+
                         try {
+
                             JSONObject loginDetails = response.getJSONObject("technicalTrainerLoginResult");
                             result = loginDetails.getString("result");
                             _trainerId = loginDetails.getString("TechnicalTrainerId");
                             _username = loginDetails.getString("Username");
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        if (result.equalsIgnoreCase("1")) { /** Success */
+
+                        if (result.equalsIgnoreCase("1")) { //  Success
                             SharedPrefs.saveSharedPreferences(activity, "ttrainerId", _trainerId);
                             Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                             loginIntent.putExtra("_username", _username);
@@ -114,18 +114,22 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(loginIntent);
                             finish();
 
-                        } else { /** Failed to Login*/
+                        } else { // Failed
                             progressDialog.dismiss();
                             showFlashMessage("Error Occured . Try again");
                         }
                     }
                 }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+
                 progressDialog.dismiss();
                 showFlashMessage("An Error Occurred. Try again");
+
             }
         });
+
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
     }
 

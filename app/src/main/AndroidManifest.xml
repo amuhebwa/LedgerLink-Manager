@@ -39,7 +39,7 @@
             android:label="@string/_findGroup"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".VslaGroupDetails"
+            android:name=".CreateGroup"
             android:label="Create New Group"
             android:screenOrientation="portrait" />
 

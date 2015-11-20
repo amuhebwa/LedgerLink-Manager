@@ -111,14 +111,6 @@ public class DataHolder {
         this.locationCoordinates = locationCoordinates;
     }
 
-   /* public static DataHolder getDataObject() {
-        return dataObject;
-    }
-
-    public static void setDataObject(DataHolder dataObject) {
-        DataHolder.dataObject = dataObject;
-    }*/
-
     public String getSupportTrainingType() {
         return supportTrainingType;
     }

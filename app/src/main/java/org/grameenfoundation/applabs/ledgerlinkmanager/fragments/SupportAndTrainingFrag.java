@@ -15,12 +15,16 @@ import android.widget.Toast;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 
-public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnCheckedChangeListener {
+public class SupportAndTrainingFrag extends Fragment implements
+        RadioGroup.OnCheckedChangeListener {
     private RadioGroup radioGroup;
-    private MenuItem cancelMenu, editMenu, saveMenu;
+    private MenuItem cancelMenu;
+    private MenuItem editMenu;
+    private MenuItem saveMenu;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_modules, container, false);
         setHasOptionsMenu(true);
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
@@ -40,27 +44,21 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
         DataHolder.getInstance().setSupportTrainingType(_groupSupportType);
     }
 
-    /**
-     * Enable radio buttons
-     */
+    // enable radio buttons
     private void enableRadioGroup() {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             (radioGroup.getChildAt(i)).setEnabled(true);
         }
     }
 
-    /**
-     * Disable radio buttons
-     */
+    // disable radio buttons
     private void disableRadionGroup() {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
             (radioGroup.getChildAt(i)).setEnabled(false);
         }
     }
 
-    /**
-     * Save data to data holder
-     */
+    // Save data to data holder
     private void saveSelectionToDataHolder() {
         if (DataHolder.getInstance().getSupportTrainingType() == null) {
             showFlashMessage("Select Training Module");
@@ -69,12 +67,15 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
         inflater.inflate(R.menu.menu_training_information, menu);
+
         if (menu != null) {
             cancelMenu = menu.findItem(R.id.action_cancel);
             editMenu = menu.findItem(R.id.action_edit);
             saveMenu = menu.findItem(R.id.action_save);
         }
+
         cancelMenu.setVisible(false);
         saveMenu.setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
@@ -82,14 +83,18 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         int id = item.getItemId();
+
         switch (item.getItemId()) {
+
             case R.id.action_edit:
                 cancelMenu.setVisible(true);
                 saveMenu.setVisible(true);
                 editMenu.setVisible(false);
                 enableRadioGroup();
                 break;
+
             case R.id.action_save:
                 cancelMenu.setVisible(false);
                 saveMenu.setVisible(false);
@@ -97,8 +102,9 @@ public class SupportAndTrainingFrag extends Fragment implements RadioGroup.OnChe
                 disableRadionGroup();
                 saveSelectionToDataHolder();
                 break;
-        }
-        return super.onOptionsItemSelected(item);
 
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

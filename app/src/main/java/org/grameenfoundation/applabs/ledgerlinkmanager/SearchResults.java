@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
+import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
@@ -26,26 +26,30 @@ import java.util.ArrayList;
 
 
 public class SearchResults extends AppCompatActivity {
-    private ArrayList<VslaInfo> _vslaInfo;
-    private RecyclerViewAdapter recyclerViewAdapter;
-    private CardView empty_view;
+    private ArrayList<VslaInfo> vslaInfo;
+    private CardView emptyView;
     Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_results);
-        DataHolder.getInstance().clearDataHolder();
 
-        empty_view = (CardView) findViewById(R.id.empty_view);
-        FloatingActionButton NewGroupFab = (FloatingActionButton) findViewById(R.id.add_new_group_Fab);
+        setContentView(R.layout.search_results);
+
+        DataHolder.getInstance().clearDataHolder();
+        vslaInfo = new ArrayList<>();
+
+        emptyView = (CardView) findViewById(R.id.empty_view);
+        FloatingActionButton NewGroupFab = (FloatingActionButton)
+                findViewById(R.id.add_new_group_Fab);
+
         NewGroupFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SearchResults.this, VslaGroupDetails.class));
+                startActivity(new Intent(SearchResults.this, CreateGroup.class));
             }
         });
-        _vslaInfo = new ArrayList<>();
+
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -59,17 +63,18 @@ public class SearchResults extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
-        recyclerViewAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(recyclerViewAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
+        DataAdapter dataAdapter = new DataAdapter(vslaInfo);
+        dataAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(dataAdapter);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this,
+                RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
 
-        recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        dataAdapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                int vslaId = _vslaInfo.get(position).getVslaId();
-                Intent intent = new Intent(SearchResults.this, VslaGroupDetails.class);
+                int vslaId = vslaInfo.get(position).getVslaId();
+                Intent intent = new Intent(SearchResults.this, CreateGroup.class);
                 SharedPrefs.saveSharedPreferences(activity, "IsEditing", "1");
                 SharedPrefs.saveSharedPreferences(activity, "vslaId", String.valueOf(vslaId));
                 intent.putExtra("VslaId", vslaId);
@@ -80,9 +85,7 @@ public class SearchResults extends AppCompatActivity {
 
     }
 
-    /**
-     * Asynchronous task to process the list of groups off the main UI
-     */
+    // asynchronous task to process JSON request
     private class JsonProcessingAsycTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -92,9 +95,12 @@ public class SearchResults extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String jsonString = params[0];
+
             try {
+
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray jsonArray = jsonObject.getJSONArray("searchForVslaResult");
+
                 if (jsonArray.length() != 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
@@ -107,27 +113,29 @@ public class SearchResults extends AppCompatActivity {
                         dataSet.setPhysicalAddress(PhysicalAddress);
                         dataSet.setMemberName(ResponsiblePerson);
                         dataSet.setVslaId(vslaId);
-                        _vslaInfo.add(dataSet);
+                        vslaInfo.add(dataSet);
                     }
                 } else {
                     SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
                     SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
                     return "-1";
-
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
             if (result == "-1") {
-                empty_view.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
             }
+
         }
     }
 
@@ -140,13 +148,12 @@ public class SearchResults extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // int id = item.getItemId();
-
         if (item.getItemId() == R.id.action_add_group) {
             SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
             SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
-            startActivity(new Intent(SearchResults.this, VslaGroupDetails.class));
+            startActivity(new Intent(SearchResults.this, CreateGroup.class));
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);

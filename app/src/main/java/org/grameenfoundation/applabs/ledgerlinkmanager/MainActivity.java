@@ -1,5 +1,6 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -22,9 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.RecyclerViewAdapter;
+import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
@@ -43,26 +47,37 @@ import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     private EditText extGroupSearch;
-    private RecyclerViewAdapter recyclerViewAdapter;
-    private ArrayList<VslaInfo> _vslaInfo;
+    Activity activity = this;
+    private DataAdapter dataAdapter;
+    private ArrayList<VslaInfo> vslaInfo;
     private LinearLayout empty_view;
     private Utils utils;
     private ProgressDialog progressDialog;
     private Constants constants = new Constants();
-    private String vslaName, representativeName, representativePost, repPhoneNumber,
-            grpBankAccount, physAddress, regionName, grpPhoneNumber, locCoordinates, groupSupportType,
-            TechnicalTrainerId;
+    private String vslaName;
+    private String representativeName;
+    private String representativePost;
+    private String repPhoneNumber;
+    private String grpBankAccount;
+    private String physAddress;
+    private String regionName;
+    private String grpPhoneNumber;
+    private String locCoordinates;
+    private String groupSupportType;
+    private String TechnicalTrainerId;
     private int VslaId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+
         TextView TrainerUsername = (TextView) findViewById(R.id.TrainerUsername);
+
         if (getIntent().getStringExtra("_username") != null) {
             TrainerUsername.setText(getIntent().getStringExtra("_username"));
         }
@@ -72,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeUIComponents();
 
-        recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        dataAdapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
                 uploadUnsentData(position);
@@ -91,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Initialize UI components
-     */
+    // Initialize UI components
     private void initializeUIComponents() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Searching For Group Name");
@@ -102,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         empty_view = (LinearLayout) findViewById(R.id.empty_view);
         utils = new Utils();
 
-        _vslaInfo = new ArrayList<>();
+        vslaInfo = new ArrayList<>();
 
         new queryDatabaseForGroupsAsyncTask().execute();
 
@@ -110,20 +123,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(_vslaInfo);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
+
+        dataAdapter = new DataAdapter(vslaInfo);
+        recyclerView.setAdapter(dataAdapter);
+
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this,
+                RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
     }
 
 
-    /**
-     * If data has not been sent, allow it to be uploaded
-     */
+    // If data has not been sent, allow it to be uploaded
     private void uploadUnsentData(int position) {
-        String isDataSent = _vslaInfo.get(position).getIsDataSent();
+
+        String isDataSent = vslaInfo.get(position).getIsDataSent();
         DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
-        VslaId = _vslaInfo.get(position).getId();
+        VslaId = vslaInfo.get(position).getId();
+
         if (!isDataSent.equalsIgnoreCase("1")) {
             VslaInfo vslaInfo = databaseHandler.getGroupData(VslaId);
             vslaName = vslaInfo.getGroupName();
@@ -155,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             StringBuilder url = new StringBuilder();
             url.append(constants.DEFAULTURL);
             url.append("createNewVsla");
@@ -162,9 +179,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Update the group's sent status to true after successfully submitting
-     */
+    // Update the group's sent status to true after successfully submitting
     private void updateDatabaseToSent() {
         DatabaseHandler databaseHandler = new DatabaseHandler(this);
         VslaInfo vslaInfo = new VslaInfo();
@@ -182,17 +197,12 @@ public class MainActivity extends AppCompatActivity {
         databaseHandler.upDateGroupData(vslaInfo, VslaId);
     }
 
-    /**
-     * Show toast method
-     */
+    // Show toast method
     private void showFlashMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Validate that a search term has been added into the query box
-     * Check that there is an internet connection
-     **/
+    // Validate search term and check for internet connection
     private void validateSearchQuery(String serverUrl) {
         String searchTerm = extGroupSearch.getText().toString().replace(" ", "");
         if (!utils.isInternetOn(this)) {
@@ -205,13 +215,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Search the server for a table that matches the supplied string
-     */
+    // Search for the requested group name
     private void searchForGroupInformation(String keyWord, String url) {
         progressDialog.show();
         String urlRequest = url + constants.SEARCHVSLA + "/" + keyWord;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlRequest, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, urlRequest, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 progressDialog.dismiss();
@@ -223,27 +232,30 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+
                 progressDialog.dismiss();
                 showFlashMessage("Error Occurred");
             }
         });
+
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
     }
 
-    /**
-     * Ansynchrounous task class to take off the pressure from the ui thread
-     * If any groups are found, add them to the list
-     */
+    // asynchronous class for seaching the database
     private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaInfo>> {
+
         @Override
         protected List<VslaInfo> doInBackground(Void... params) {
+
             DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
+
             return databaseHandler.getAllGroups();
         }
 
         @Override
         protected void onPostExecute(List<VslaInfo> vslaInfos) {
             super.onPostExecute(vslaInfos);
+
             if (vslaInfos.size() != 0) {
                 for (int i = 0; i < vslaInfos.size(); i++) {
                     VslaInfo dataSet = new VslaInfo();
@@ -253,24 +265,24 @@ public class MainActivity extends AppCompatActivity {
                     dataSet.setMemberName(vslaInfos.get(i).getMemberName());
                     dataSet.setVslaId(vslaInfos.get(i).getVslaId());
                     dataSet.setIsDataSent(vslaInfos.get(i).getIsDataSent());
-                    /** if the data has not been uploaded, show the cloud upload icon*/
+
+                    // if the data has not been uploaded, show the cloud upload icon
                     if (vslaInfos.get(i).getIsDataSent().equalsIgnoreCase("0")) {
                         dataSet.setUploadDataIcon(R.drawable.ic_cloud_upload);
                     }
-                    _vslaInfo.add(dataSet);
+
+                    vslaInfo.add(dataSet);
                 }
-                recyclerViewAdapter.notifyDataSetChanged();
+
+                dataAdapter.notifyDataSetChanged();
                 empty_view.setVisibility(View.VISIBLE);
             }
-
         }
     }
 
-    /**
-     * Asynchronous task class to send data to the server.
-     */
-
+    // asynchronous task class to send data to the server.
     private class HttpAsyncTaskClass extends AsyncTask<String, Integer, String> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -287,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
             HttpURLConnection conn;
 
             try {
+
                 url = new URL(postString);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
@@ -300,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 out.print(jsonObjectString);
                 out.close();
                 Scanner inStream = new Scanner(conn.getInputStream());
+
                 while (inStream.hasNextLine()) {
                     response += (inStream.nextLine());
                 }
@@ -309,13 +323,16 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             return response;
         }
 
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
+
             try {
+
                 JSONObject jsonObject = new JSONObject(response);
                 String operationType = jsonObject.getString("operation");
                 String operationResult = jsonObject.getString("result");
@@ -328,18 +345,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Show results : Success/Fail
-     */
+    // Show results : success/fail
     private void showResultFeedback(String operationType, String operationResult) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
             showFlashMessage("Successfully added new VSLA.");
 
-            updateDatabaseToSent(); /** update the database to sent*/
+            updateDatabaseToSent(); // update the database to sent
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
             showFlashMessage("An Error Occured");
-
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_add_group) {
+            SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
+            SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
+            // Intent intent = new Intent(MainActivity.this, SearchResults.class);
+            // startActivity(intent);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

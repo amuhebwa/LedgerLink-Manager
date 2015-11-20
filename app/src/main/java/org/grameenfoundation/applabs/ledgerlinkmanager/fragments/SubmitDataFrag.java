@@ -33,19 +33,29 @@ public class SubmitDataFrag extends Fragment {
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
-    private String IsEditing, tTrainerId, vslaId;
+    private String IsEditing;
+    private String tTrainerId;
+    private String vslaId;
     private TextView txtOperationType;
     private Activity activity;
-    private String vslaName, representativeName, representativePost, repPhoneNumber,
-            grpBankAccount, physAddress, regionName, grpPhoneNumber, locCoordinates,
-            grpSupportType;
+    private String vslaName;
+    private String representativeName;
+    private String representativePost;
+    private String repPhoneNumber;
+    private String grpBankAccount;
+    private String physAddress;
+    private String regionName;
+    private String grpPhoneNumber;
+    private String locCoordinates;
+    private String grpSupportType;
 
 
     public SubmitDataFrag() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.submit_data, container, false);
 
         getPreferences();
@@ -56,28 +66,29 @@ public class SubmitDataFrag extends Fragment {
         } else {
             txtOperationType.setText("Adding New Group \n Please check that all fields have been filled");
         }
+
         setHasOptionsMenu(true);
         databaseHandler = new DatabaseHandler(getActivity());
+
         return view;
     }
 
-    /**
-     * Show toast method
-     */
+    // Show toast method
     private void showFlashMessage(String toastMessage) {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * Load preference information & data saved in the singleton class
-     */
+    // Load preference information & data saved in the singleton class
     private void getPreferences() {
         Constants constants = new Constants();
-        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
         IsEditing = SharedPrefs.readSharedPreferences(activity, "IsEditing", "0");
         tTrainerId = SharedPrefs.readSharedPreferences(activity, "ttrainerId", "-1");
         vslaId = SharedPrefs.readSharedPreferences(activity, "vslaId", "-1");
+
         vslaName = DataHolder.getInstance().getVslaName();
         representativeName = DataHolder.getInstance().getGroupRepresentativeName();
         representativePost = DataHolder.getInstance().getGroupRepresentativePost();
@@ -91,15 +102,14 @@ public class SubmitDataFrag extends Fragment {
         grpSupportType = DataHolder.getInstance().getSupportTrainingType();
     }
 
-    /**
-     * Called when you click the send button in the actionbar
-     */
+    // csubmit data to the server
     private void dataSubmission() {
         getPreferences(); // First Reload all the data
 
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
         url.append(serverUrl);
+
         if (vslaName == null || representativeName == null || representativePost == null
                 || repPhoneNumber == null || grpBankAccount == null || physAddress == null
                 || grpPhoneNumber == null || grpSupportType == null) {
@@ -109,23 +119,21 @@ public class SubmitDataFrag extends Fragment {
             url.append("editExistingVsla");
             new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
             saveVslaInformation();
-        } else { /**Creating a new VSLA*/
+
+        } else { // Creating a new VSLA
             url.append("createNewVsla");
             new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
             saveVslaInformation();
         }
-
     }
 
-    /**
-     * Load information and create a json object
-     */
+    // Load information and create a json object
     public String createJsonObject() {
         JSONObject jsonObject = new JSONObject();
 
         try {
             if (!vslaId.equalsIgnoreCase("-1")) {
-                /** Editing an existing VSLA's information */
+                // Editing an existing VSLA's information
                 jsonObject.put("VslaId", vslaId);
             }
             jsonObject.put("GroupSupport", grpSupportType);
@@ -140,17 +148,17 @@ public class SubmitDataFrag extends Fragment {
             jsonObject.put("RegionName", regionName);
             jsonObject.put("tTrainerId", tTrainerId);
             jsonObject.put("Status", "2");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return jsonObject.toString();
     }
 
-    /**
-     * Insert data into the database
-     */
+    // insert data into the database
     private void saveVslaInformation() {
-        if (!databaseHandler.checkIfGroupExists(vslaName)) { /** Group Doesn't exist in the database*/
+        if (!databaseHandler.checkIfGroupExists(vslaName)) { // Group Doesn't exist in the database
 
             VslaInfo vslaInfo = new VslaInfo();
             vslaInfo.setGroupName(vslaName);
@@ -165,7 +173,7 @@ public class SubmitDataFrag extends Fragment {
             vslaInfo.setSupportType(grpSupportType);
             vslaInfo.setIsDataSent("0");
 
-            /** Get the Id of the Group just added to the database */
+            // get the Id of the Group just added to the database
             currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
             showFlashMessage("Data Saved Successfully");
 
@@ -174,9 +182,7 @@ public class SubmitDataFrag extends Fragment {
         }
     }
 
-    /**
-     * Update the group's sent status to true after successfully submitting
-     */
+    // Update the group's sent status to true after successfully submitting
     private void updateVslaInformation() {
         VslaInfo vslaInfo = new VslaInfo();
         vslaInfo.setGroupName(vslaName);
@@ -193,10 +199,7 @@ public class SubmitDataFrag extends Fragment {
         databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 
-    /**
-     * Asynchronous task class to send data to the server.
-     */
-
+    // asynchronous task class to send data to the server.
     private class HttpAsyncTaskClass extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {
@@ -226,6 +229,7 @@ public class SubmitDataFrag extends Fragment {
                 PrintWriter out = new PrintWriter(conn.getOutputStream());
                 out.print(jsonObjectString);
                 out.close();
+
                 Scanner inStream = new Scanner(conn.getInputStream());
                 while (inStream.hasNextLine()) {
                     response += (inStream.nextLine());
@@ -248,27 +252,28 @@ public class SubmitDataFrag extends Fragment {
                 e.printStackTrace();
             }
         }
-
     }
 
-    /**
-     * Show results : Success/Fail
-     */
+    // show results : Success/Fail
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
+
             showFlashMessage("Successfully added new VSLA.");
-            txtOperationType.setText(String.format("New Group created with the following VSLA Code %s", newVslaCode));
-            updateVslaInformation(); /** update the database to sent*/
+            txtOperationType.setText(String.format("New Group created with the following VSLA Code %s",
+                    newVslaCode));
+            updateVslaInformation(); // update the database to sent
 
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             txtOperationType.setText("Group Information successfully Edited");
             showFlashMessage("Successfully Edited Details.");
-            updateVslaInformation(); /** update the database to sent*/
+            updateVslaInformation(); // update the database to sent
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
+
             showFlashMessage("An Error Occured");
             txtOperationType.setText("Error Occured");
         }
+
         // Then clear the data holder
         DataHolder.getInstance().clearDataHolder();
     }

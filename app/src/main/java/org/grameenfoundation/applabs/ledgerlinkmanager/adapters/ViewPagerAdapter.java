@@ -12,7 +12,6 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.SupportAndTrain
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[]{"Group Info", "Location","Training","Send"};
     public Context context;
 
     public ViewPagerAdapter(FragmentManager fm, Context context) {
@@ -41,7 +40,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-   public CharSequence getPageTitle(int position) {
-    return tabTitles[position];
-}
+    public CharSequence getPageTitle(int position) {
+
+        String tabTitles[] = new String[]{"Group Info", "Location", "Training", "Send"};
+
+        return tabTitles[position];
+    }
 }

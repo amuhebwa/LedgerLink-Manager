@@ -29,20 +29,23 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.VslaGroupDetails;
+import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
 
-public class LocationInformationFrag extends Fragment implements ILocationInformation, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
+public class LocationInformationFrag extends Fragment implements ILocationInformation,
+        LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
     private GoogleApiClient mGoogleApiClient;
     private MapView mapView;
     private GoogleMap googleMap;
     private EditText extPhysicalAddress;
     private Spinner RegionName;
-    private MenuItem cancelMenu, editMenu, saveMenu;
+    private MenuItem cancelMenu;
+    private MenuItem editMenu;
+    private MenuItem saveMenu;
     private String locationCoodinates;
-    private String[] disticts = {"Busia", "Bugiri", "Iganga", "Namayingo"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,61 +53,75 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
         if (!checkGooglePlayServices()) {
             getActivity().finish();
         }
+
         View view = inflater.inflate(R.layout.location_information, container, false);
         setHasOptionsMenu(true);
         mapView = (MapView) view.findViewById(R.id.googleMap);
         mapView.onCreate(savedInstanceState);
-
         setUpGoogleMaps();
+
         createGoogleApiClient();
         intializeUIComponents(view);
         disableEditing();
+
         return view;
     }
 
-    /**
-     * Set up Google maps
-     */
+    // Set up Google maps
     private void setUpGoogleMaps() {
+
         mapView.onResume(); // Display the map immediately
+
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         googleMap = mapView.getMap();
     }
 
-    /**
-     * Intialize the User interface components
-     */
+    // Intialize the User interface components
     private void intializeUIComponents(View view) {
+
         extPhysicalAddress = (EditText) view.findViewById(R.id.PhysicalAddress);
         RegionName = (Spinner) view.findViewById(R.id.RegionName);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, disticts);
+
+        String[] disticts = {"Busia", "Bugiri", "Iganga", "Namayingo"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item, disticts);
+
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         RegionName.setAdapter(spinnerAdapter);
         RegionName.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
         RegionName.setSelection(position);
+
         switch (position) {
             case 0:
                 DataHolder.getInstance().setRegionName("9");
                 break;
+
             case 1:
                 DataHolder.getInstance().setRegionName("10");
                 break;
+
             case 2:
                 DataHolder.getInstance().setRegionName("11");
                 break;
+
             case 3:
                 DataHolder.getInstance().setRegionName("12");
                 break;
+
             default:
                 break;
+
         }
     }
 
@@ -121,25 +138,19 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
         }
     }
 
-    /**
-     * Enable Edit Boxes
-     */
+    // Enable Edit Boxes
     private void enableEditing() {
         extPhysicalAddress.setEnabled(true);
         RegionName.setEnabled(true);
     }
 
-    /**
-     * Disable Edit Boxes
-     */
+    // Disable Edit Boxes
     private void disableEditing() {
         extPhysicalAddress.setEnabled(false);
         RegionName.setEnabled(false);
     }
 
-    /**
-     * Clear Error messages
-     */
+    // clear Error messages
     private void clearErrorMessages() {
         extPhysicalAddress.setError(null);
     }
@@ -152,14 +163,13 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
                 .build();
     }
 
-    /**
-     * Check if google play services are available
-     */
+    // check if google play services are available
     private boolean checkGooglePlayServices() {
         int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (status != ConnectionResult.SUCCESS) {
-            GooglePlayServicesUtil.getErrorDialog(status, getActivity(), REQUEST_CODE_RECOVER_PLAY_SERVICES);
+            GooglePlayServicesUtil.getErrorDialog(status, getActivity(),
+                    REQUEST_CODE_RECOVER_PLAY_SERVICES);
             return false;
         }
         return true;
@@ -190,7 +200,6 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     @Override
     public void onPause() {
         super.onPause();
-        //  mapView.onPause();
     }
 
     @Override
@@ -206,12 +215,16 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
 
     @Override
     public void onConnected(Bundle bundle) {
+
         Location mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mCurrentLocation != null) {
+
             float latitude = (float) mCurrentLocation.getLatitude();
             float longitude = (float) mCurrentLocation.getLongitude();
+
             locationCoodinates = String.valueOf(latitude) + " , " + String.valueOf(longitude);
             DataHolder.getInstance().setLocationCoordinates(locationCoodinates);
+
             LatLng currentLocation = new LatLng(latitude, longitude);
             googleMap.addMarker(new MarkerOptions().position(currentLocation));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
@@ -234,7 +247,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).iLocationInformation = this;
+        ((CreateGroup) context).iLocationInformation = this;
 
     }
 
@@ -242,7 +255,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     public void passLocationInformation(String physicalAddress, String regionName, String locationCordinates) {
         extPhysicalAddress.setText(physicalAddress);
 
-        /**  Then save information to the data holder **/
+        // then save information to the data holder
         setDataToDataHolderClass();
         DataHolder.getInstance().setLocationCoordinates(locationCoodinates);
     }
@@ -250,18 +263,22 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_location_information, menu);
+
         if (menu != null) {
             cancelMenu = menu.findItem(R.id.action_cancel);
             editMenu = menu.findItem(R.id.action_edit);
             saveMenu = menu.findItem(R.id.action_save);
         }
+
         cancelMenu.setVisible(false);
         saveMenu.setVisible(false);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.action_edit:
                 cancelMenu.setVisible(true);
@@ -270,6 +287,7 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
                 clearErrorMessages();
                 enableEditing();
                 break;
+
             case R.id.action_save:
                 cancelMenu.setVisible(false);
                 saveMenu.setVisible(false);
@@ -277,8 +295,9 @@ public class LocationInformationFrag extends Fragment implements ILocationInform
                 setDataToDataHolderClass();
                 disableEditing();
                 break;
-        }
-        return super.onOptionsItemSelected(item);
 
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

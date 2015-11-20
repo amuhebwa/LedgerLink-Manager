@@ -12,22 +12,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.VslaGroupDetails;
+import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
 
 
 public class GroupInformationFrag extends Fragment implements IGroupInformation {
-    private EditText extGroupName, extGroupPhoneNumber, extMemberName, extMemberPost,
-            extMemberPhoneNumber, extGroupAccountName;
-    private MenuItem cancelMenu, editMenu, saveMenu;
+    private EditText extGroupName;
+    private EditText extGroupPhoneNumber;
+    private EditText extMemberName;
+    private EditText extMemberPost;
+    private EditText extMemberPhoneNumber;
+    private EditText extGroupAccountName;
+    private MenuItem cancelMenu;
+    private MenuItem editMenu;
+    private MenuItem saveMenu;
 
     public GroupInformationFrag() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.group_information, container, false);
         setHasOptionsMenu(true);
         loadUIComponents(view);
@@ -35,9 +42,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         return view;
     }
 
-    /**
-     * Load UI components
-     */
+    // Load UI components
     private void loadUIComponents(View view) {
         extGroupName = (EditText) view.findViewById(R.id.groupName);
         extGroupPhoneNumber = (EditText) view.findViewById(R.id.groupPhoneNumber);
@@ -47,9 +52,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         extGroupAccountName = (EditText) view.findViewById(R.id.groupAccountNumber);
     }
 
-    /**
-     * Disable text fields to disable/editing/allow saving
-     */
+    // Disable text fields to disable text fields
     private void disableEditing() {
         extGroupName.setEnabled(false);
         extMemberName.setEnabled(false);
@@ -59,9 +62,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         extGroupPhoneNumber.setEnabled(false);
     }
 
-    /**
-     * Enable text fields in order to edit/add information
-     */
+    // Enable text fields
     private void enableEditing() {
         extGroupName.setEnabled(true);
         extMemberName.setEnabled(true);
@@ -71,9 +72,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         extGroupPhoneNumber.setEnabled(true);
     }
 
-    /**
-     * Clear error messages from text fields
-     */
+    // Clear error messages from text fields
     public void clearErrorMessages() {
         extGroupName.setError(null);
         extMemberName.setError(null);
@@ -83,24 +82,19 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         extGroupPhoneNumber.setError(null);
     }
 
-    /**
-     * Save the text field data to the data holder/singleton class
-     */
+    // Save data to singleton class
     private void saveInformationToDataHolder() {
         if (extGroupName.getText().toString().isEmpty()) {
             extGroupName.setError("Enter Valid Group Name");
-        } else if (extGroupPhoneNumber.getText().toString().isEmpty() || extGroupPhoneNumber.getText().toString().length() < 10
-                || extGroupPhoneNumber.getText().toString().length() > 10) {
+        } else if (extGroupPhoneNumber.getText().toString().isEmpty() || extGroupPhoneNumber.getText().toString().length() < 10 || extGroupPhoneNumber.getText().toString().length() > 10) {
             extGroupPhoneNumber.setError("Phone Number is 10 Digits");
         } else if (extMemberName.getText().toString().isEmpty() || extMemberName.getText().toString().length() < 2) {
             extMemberName.setError("Enter Member Name");
         } else if (extMemberPost.getText().toString().isEmpty()) {
             extMemberPost.setError("Enter Member Post");
-        } else if (extMemberPhoneNumber.getText().toString().isEmpty() || extMemberPhoneNumber.getText().toString().length() < 10
-                || extMemberPhoneNumber.getText().toString().length() > 10) {
+        } else if (extMemberPhoneNumber.getText().toString().isEmpty() || extMemberPhoneNumber.getText().toString().length() < 10 || extMemberPhoneNumber.getText().toString().length() > 10) {
             extMemberPhoneNumber.setError("Phone Number is 10 Digits");
-        } else if (extGroupAccountName.getText().toString().isEmpty() || extGroupAccountName.getText().toString().length() < 10 ||
-                extGroupAccountName.getText().toString().length() > 10) {
+        } else if (extGroupAccountName.getText().toString().isEmpty() || extGroupAccountName.getText().toString().length() < 10 || extGroupAccountName.getText().toString().length() > 10) {
             extGroupAccountName.setError("Group Account is 10 Digits");
         } else {
             DataHolder.getInstance().setVslaName(extGroupName.getText().toString());
@@ -116,13 +110,13 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((VslaGroupDetails) context).iGroupInformation = this;
+        ((CreateGroup) context).iGroupInformation = this;
     }
 
     @Override
     public void passGroupInformation(String groupName, String groupPhoneNumber, String memberName, String memberPost, String memberPhoneNumber, String branchName) {
 
-        /** Populate the fields with data from the server */
+        // Populate the fields with data from the server
         extGroupName.setText(groupName);
         extGroupPhoneNumber.setText(groupPhoneNumber);
         extMemberName.setText(memberName);
@@ -130,30 +124,32 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
         extMemberPhoneNumber.setText(memberPhoneNumber);
         extGroupAccountName.setText(branchName);
 
-        ((VslaGroupDetails) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
-
-        /** Then save data to the data holder */
+        ((CreateGroup) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
+        // Then save data to the data holder
         saveInformationToDataHolder();
-
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_group_information, menu);
+
         if (menu != null) {
             cancelMenu = menu.findItem(R.id.action_cancel);
             editMenu = menu.findItem(R.id.action_edit);
             saveMenu = menu.findItem(R.id.action_save);
         }
+
         cancelMenu.setVisible(false);
         saveMenu.setVisible(false);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.action_edit:
                 cancelMenu.setVisible(true);
                 saveMenu.setVisible(true);
@@ -161,6 +157,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
                 enableEditing();
                 clearErrorMessages();
                 break;
+
             case R.id.action_save:
                 cancelMenu.setVisible(false);
                 saveMenu.setVisible(false);
@@ -168,10 +165,11 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
                 saveInformationToDataHolder();
                 disableEditing();
                 break;
+
             default:
 
         }
-        return super.onOptionsItemSelected(item);
 
+        return super.onOptionsItemSelected(item);
     }
 }

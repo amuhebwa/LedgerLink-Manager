@@ -46,7 +46,7 @@ public class CreateGroup extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
-        final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", "NA");
+        final String serverUrl = sharedPreferences.getString("baseurl", "NA");
 
         Intent intent = getIntent();
 
@@ -74,7 +74,7 @@ public class CreateGroup extends AppCompatActivity {
     // Get all group details from the server based on tthe supplied Unique Id
     public void searchForVSLADetails(int VslaId, String url) {
 
-        String request_url = url + constants.SINGLEVSLADETAILS + "/" + String.valueOf(VslaId);
+        String request_url = url + constants.vslaInformation + "/" + String.valueOf(VslaId);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 request_url, null, new Response.Listener<JSONObject>() {
 
@@ -83,7 +83,7 @@ public class CreateGroup extends AppCompatActivity {
 
                 try {
                     if (response != JSONObject.NULL) {
-                        JSONObject vslaDetails = response.getJSONObject("getSingleVslaDetailsResult");
+                        JSONObject vslaDetails = response.getJSONObject("vslaInformationResult");
                         vslaName = vslaDetails.getString("VslaName");
                         representativeName = vslaDetails.getString("representativeName");
                         representativePost = vslaDetails.getString("representativePosition");

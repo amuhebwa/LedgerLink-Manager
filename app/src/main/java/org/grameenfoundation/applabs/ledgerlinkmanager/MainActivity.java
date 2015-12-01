@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
     // Search for the requested group name
     private void searchForGroupInformation(String keyWord, String url) {
         progressDialog.show();
-        String urlRequest = url + constants.SEARCHVSLA + "/" + keyWord;
+        String urlRequest = url + constants.searchVsla + "/" + keyWord;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, urlRequest, null, new Response.Listener<JSONObject>() {
             @Override

@@ -99,7 +99,7 @@ public class SearchResults extends AppCompatActivity {
             try {
 
                 JSONObject jsonObject = new JSONObject(jsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray("searchForVslaResult");
+                JSONArray jsonArray = jsonObject.getJSONArray("searchVslaResult");
 
                 if (jsonArray.length() != 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {

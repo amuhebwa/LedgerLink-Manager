@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         android.content.SharedPreferences sharedPreferences = PreferenceManager.
                 getDefaultSharedPreferences(getBaseContext());
-        final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+        final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
         txtUsername = (EditText) findViewById(R.id.username);
         txtPasskey = (EditText) findViewById(R.id.passkey);
@@ -71,14 +71,14 @@ public class LoginActivity extends AppCompatActivity {
     private void validateUserDetails(String serverUrl, String username, String passkey) {
 
         if (username.isEmpty()) {
-            txtUsername.setError("Username cannot be empty");
+            txtUsername.setError("Enter Valid Username");
         } else if (passkey.isEmpty()) {
-            txtPasskey.setError("Passkey cannot be empty");
+            txtPasskey.setError("Enter Valid PassKey");
         } else {
             txtUsername.setError(null);
             txtPasskey.setError(null);
             if (utils.isInternetOn(getApplicationContext())) {
-                getLoginCredentials(serverUrl, username, passkey);
+                validateTrainer(serverUrl, username, passkey);
             } else {
                 showFlashMessage("No Internet Connection");
             }
@@ -86,9 +86,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Log-in the Technical Trainer
-    private void getLoginCredentials(String url, String username, String passkey) {
+    private void validateTrainer(String url, String username, String passkey) {
         progressDialog.show();
-        String request_url = url + constants.TechnicalTrainer + "/" + username + "/" + passkey;
+        String request_url = url + constants.validateTrainer + "/" + username + "/" + passkey;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url,
                 null, new Response.Listener<JSONObject>() {
                     @Override
@@ -97,10 +97,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         try {
 
-                            JSONObject loginDetails = response.getJSONObject("technicalTrainerLoginResult");
-                            result = loginDetails.getString("result");
-                            _trainerId = loginDetails.getString("TechnicalTrainerId");
-                            _username = loginDetails.getString("Username");
+                            JSONObject loginDetails = response.getJSONObject("validateTrainerResult");
+                            result = loginDetails.getString("resultId");
+                            _trainerId = loginDetails.getString("TrainerId");
+                            _username = loginDetails.getString("userName");
 
                         } catch (JSONException e) {
                             e.printStackTrace();

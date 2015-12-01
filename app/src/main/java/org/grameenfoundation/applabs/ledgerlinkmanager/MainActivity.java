@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
-        final String serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+        final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
         TextView TrainerUsername = (TextView) findViewById(R.id.TrainerUsername);
 
@@ -367,11 +367,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_add_group) {
-            SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
-            SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
-            // Intent intent = new Intent(MainActivity.this, SearchResults.class);
-            // startActivity(intent);
-
+            Intent intent = new Intent(MainActivity.this, CreateGroup.class);
+            startActivity(intent);
             return true;
         }
 

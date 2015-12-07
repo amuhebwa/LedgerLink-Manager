@@ -40,7 +40,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".CreateGroup"
-            android:label="Create New Group"
+            android:label="New Group"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 .getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
-        TextView TrainerUsername = (TextView) findViewById(R.id.TrainerUsername);
+        TextView usernameTxt = (TextView) findViewById(R.id.TrainerUsername);
 
         if (getIntent().getStringExtra("_username") != null) {
-            TrainerUsername.setText(getIntent().getStringExtra("_username"));
+            usernameTxt.setText(getIntent().getStringExtra("_username"));
         }
         if (getIntent().getStringExtra("ttrainerId") != null) {
             TechnicalTrainerId = getIntent().getStringExtra("ttrainerId");

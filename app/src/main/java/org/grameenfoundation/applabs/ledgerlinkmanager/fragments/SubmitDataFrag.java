@@ -3,8 +3,10 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,7 +76,7 @@ public class SubmitDataFrag extends Fragment {
     }
 
     // Show toast method
-    private void showFlashMessage(String toastMessage) {
+    private void flashMessage(String toastMessage) {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -102,9 +104,9 @@ public class SubmitDataFrag extends Fragment {
         grpSupportType = DataHolder.getInstance().getSupportTrainingType();
     }
 
-    // csubmit data to the server
+    // submit data to the server
     private void dataSubmission() {
-        getPreferences(); // First Reload all the data
+        getPreferences(); // reload all the data
 
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
@@ -113,15 +115,15 @@ public class SubmitDataFrag extends Fragment {
         if (vslaName == null || representativeName == null || representativePost == null
                 || repPhoneNumber == null || grpBankAccount == null || physAddress == null
                 || grpPhoneNumber == null || grpSupportType == null) {
-            showFlashMessage("Please Fill all Fields");
+            flashMessage("Please Fill all Fields");
 
         } else if (IsEditing.equalsIgnoreCase("1")) {
-            url.append("editExistingVsla");
+            url.append("editVsla");
             new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
             saveVslaInformation();
 
         } else { // Creating a new VSLA
-            url.append("createNewVsla");
+            url.append("addNewVsla");
             new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
             saveVslaInformation();
         }
@@ -133,7 +135,7 @@ public class SubmitDataFrag extends Fragment {
 
         try {
             if (!vslaId.equalsIgnoreCase("-1")) {
-                // Editing an existing VSLA's information
+                // editing existing information
                 jsonObject.put("VslaId", vslaId);
             }
             jsonObject.put("GroupSupport", grpSupportType);
@@ -175,10 +177,10 @@ public class SubmitDataFrag extends Fragment {
 
             // get the Id of the Group just added to the database
             currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
-            showFlashMessage("Data Saved Successfully");
+            flashMessage("Data Saved Successfully");
 
         } else {
-            showFlashMessage("Group Already Exists");
+            flashMessage("Group Already Exists");
         }
     }
 
@@ -204,7 +206,7 @@ public class SubmitDataFrag extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showFlashMessage("Sending Data");
+            flashMessage("Sending Data");
         }
 
         @Override
@@ -245,8 +247,8 @@ public class SubmitDataFrag extends Fragment {
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             try {
-                JSONObject jsonObject = new JSONObject(response);
-                showResultFeedback(jsonObject.getString("operation"), jsonObject.getString("result"), jsonObject.getString("VslaCode"));
+                 JSONObject jsonObject = new JSONObject(response);
+                 showResultFeedback(jsonObject.getString("operation"), jsonObject.getString("result"), jsonObject.getString("VslaCode"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -258,19 +260,19 @@ public class SubmitDataFrag extends Fragment {
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
 
-            showFlashMessage("Successfully added new VSLA.");
+            flashMessage("Added new VSLA.");
             txtOperationType.setText(String.format("New Group created with the following VSLA Code %s",
                     newVslaCode));
             updateVslaInformation(); // update the database to sent
 
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
-            txtOperationType.setText("Group Information successfully Edited");
-            showFlashMessage("Successfully Edited Details.");
+            txtOperationType.setText("Group Information Edited");
+            flashMessage("Successfully Edited Details.");
             updateVslaInformation(); // update the database to sent
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
 
-            showFlashMessage("An Error Occured");
+            flashMessage("An Error Occured");
             txtOperationType.setText("Error Occured");
         }
 

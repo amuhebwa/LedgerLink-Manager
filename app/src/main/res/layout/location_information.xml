@@ -56,19 +56,17 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center"
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <com.google.android.gms.maps.MapView
+        <!--<com.google.android.gms.maps.MapView
             android:id="@+id/googleMap"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_below="@+id/layout_one"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:apiKey="@string/maps_api_key" />
+            android:apiKey="@string/maps_api_key" />-->
 
     </RelativeLayout>
 </ScrollView>

@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">LedgerLink Manager</string>
-
     <string name="action_settings">Settings</string>
+
+    <!--   region/district names  -->
+    <string-array name="districts">
+        <item>Busia</item>
+        <item>Bugiri</item>
+        <item>Iganga</item>
+        <item>Namayingo</item>
+    </string-array>
+
     <!-- String constants  -->
     <string name="_RecipientPost">Recipient Post</string>
     <string name="_RecipientName">Recipient Name</string>

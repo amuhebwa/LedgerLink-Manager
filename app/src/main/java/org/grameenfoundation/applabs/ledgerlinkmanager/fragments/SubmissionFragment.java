@@ -1,6 +1,7 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
@@ -39,7 +40,6 @@ public class SubmissionFragment extends Fragment {
     private String tTrainerId;
     private String vslaId;
     private TextView txtOperationType;
-    private Activity activity;
     private String vslaName;
     private String representativeName;
     private String representativePost;
@@ -83,13 +83,12 @@ public class SubmissionFragment extends Fragment {
     // Load preference information & data saved in the singleton class
     private void getPreferences() {
         Constants constants = new Constants();
-        android.content.SharedPreferences sharedPreferences = PreferenceManager.
-                getDefaultSharedPreferences(getActivity());
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
-        IsEditing = SharedPrefs.readSharedPreferences(activity, "IsEditing", "0");
-        tTrainerId = SharedPrefs.readSharedPreferences(activity, "ttrainerId", "-1");
-        vslaId = SharedPrefs.readSharedPreferences(activity, "vslaId", "-1");
+        IsEditing = SharedPrefs.readSharedPreferences(getActivity(), "IsEditing", "0");
+        tTrainerId = SharedPrefs.readSharedPreferences(getActivity(), "ttrainerId", "-1");
+        vslaId = SharedPrefs.readSharedPreferences(getActivity(), "vslaId", "-1");
 
         vslaName = DataHolder.getInstance().getVslaName();
         representativeName = DataHolder.getInstance().getGroupRepresentativeName();
@@ -275,16 +274,13 @@ public class SubmissionFragment extends Fragment {
             flashMessage("An Error Occured");
             txtOperationType.setText("Error Occured");
         }
-
         // Then clear the data holder
         DataHolder.getInstance().clearDataHolder();
     }
 
     @Override
-    public void onAttach(Activity a) {
-        super.onAttach(a);
-        this.activity = a;
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override

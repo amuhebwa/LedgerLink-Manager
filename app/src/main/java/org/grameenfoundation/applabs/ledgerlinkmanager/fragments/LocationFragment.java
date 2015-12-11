@@ -2,6 +2,8 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,21 +16,36 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
 
-public class LocationFragment extends Fragment{
+public class LocationFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, ILocationInformation {
     private EditText physicalAdress;
     private Spinner selectRegion;
     private MenuItem cancelMenu, editMenu, saveMenu;
 
     private MapView mapView;
     private GoogleMap googleMap;
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+    private GoogleApiClient mGoogleApiClient;
+    private String coodinates;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.location_information, container, false);
@@ -39,6 +56,13 @@ public class LocationFragment extends Fragment{
         mapView.onResume(); // Display the map immediately
 
         setupGoogleMaps(); // set up google maps
+
+        // First we need to check availability of play services
+        if (checkPlayServices()) {
+
+            // Building the GoogleApi client
+            buildGoogleApiClient();
+        }
 
         setHasOptionsMenu(true);
         physicalAdress = (EditText) view.findViewById(R.id.PhysicalAddress);
@@ -59,21 +83,55 @@ public class LocationFragment extends Fragment{
         googleMap = mapView.getMap();
     }
 
+    // check if google play services exist on the phone
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(getActivity());
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(),
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Toast.makeText(getActivity(),
+                        "This device is not supported.", Toast.LENGTH_LONG)
+                        .show();
+                getActivity().finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    // build the google api client
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
     public void onResume() {
         mapView.onResume();
-
         super.onResume();
+        checkPlayServices();
     }
 
     @Override
@@ -88,8 +146,9 @@ public class LocationFragment extends Fragment{
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        ((CreateGroup)context).iLocationInformation = this;
     }
 
     // Add region names to the drop down spinner
@@ -127,6 +186,14 @@ public class LocationFragment extends Fragment{
             }
         });
 
+    }
+
+    @Override
+    public void passLocationInformation(String physicalAddress, String regionName, String locationCordinates) {
+        physicalAdress.setText(physicalAddress);
+        // then save information to the data holder
+        setDataToDataHolderClass();
+        DataHolder.getInstance().setLocationCoordinates(coodinates);
     }
 
     private void setDataToDataHolderClass() {
@@ -191,5 +258,34 @@ public class LocationFragment extends Fragment{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            double latitude = mLastLocation.getLatitude();
+            double longitude = mLastLocation.getLongitude();
+
+            // save coordinates
+            coodinates = String.valueOf(latitude) + " , " + String.valueOf(longitude);
+            DataHolder.getInstance().setLocationCoordinates(coodinates);
+
+            // plot the location on the map
+            LatLng loc = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(loc));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 15));
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

@@ -27,7 +27,9 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername, txtPasskey;
-    private String result, _trainerId = "-1", _username;
+    private String result;
+    private String _trainerId = "-1";
+    private String _username;
     private Constants constants = new Constants();
     private Activity activity = this;
     private Utils utils;

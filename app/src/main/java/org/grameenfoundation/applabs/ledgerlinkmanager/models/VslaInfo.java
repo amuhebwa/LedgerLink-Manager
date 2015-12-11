@@ -19,6 +19,7 @@ public class VslaInfo {
     private String isDataSent;
     private int uploadDataIcon;
     private String supportType;
+    private String numberOfCycles;
 
     public VslaInfo() {
     }
@@ -133,5 +134,13 @@ public class VslaInfo {
 
     public void setSupportType(String supportType) {
         this.supportType = supportType;
+    }
+
+    public String getNumberOfCycles() {
+        return numberOfCycles;
+    }
+
+    public void setNumberOfCycles(String numberOfCycles) {
+        this.numberOfCycles = numberOfCycles;
     }
 }

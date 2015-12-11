@@ -11,6 +11,7 @@ public class DataHolder {
     private String groupPhoneNumber;
     private String locationCoordinates;
     public String supportTrainingType;
+    private String numberOfCycles;
     private static volatile DataHolder dataObject = null;
 
     private DataHolder() {
@@ -119,4 +120,11 @@ public class DataHolder {
         this.supportTrainingType = supportTrainingType;
     }
 
+    public String getNumberOfCycles() {
+        return numberOfCycles;
+    }
+
+    public void setNumberOfCycles(String numberOfCycles) {
+        this.numberOfCycles = numberOfCycles;
+    }
 }

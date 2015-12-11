@@ -25,6 +25,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
     private EditText extMemberPost;
     private EditText extMemberPhoneNumber;
     private EditText extGroupAccountName;
+    private EditText extNumbeOfCycles;
     private MenuItem cancelMenu;
     private MenuItem editMenu;
     private MenuItem saveMenu;
@@ -50,6 +51,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extMemberPost = (EditText) view.findViewById(R.id.memberPost);
         extMemberPhoneNumber = (EditText) view.findViewById(R.id.memberPhoneNumber);
         extGroupAccountName = (EditText) view.findViewById(R.id.groupAccountNumber);
+        extNumbeOfCycles = (EditText) view.findViewById(R.id.numbeOfCycles);
     }
 
     // Disable text fields to disable text fields
@@ -60,6 +62,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extMemberPhoneNumber.setEnabled(false);
         extGroupAccountName.setEnabled(false);
         extGroupPhoneNumber.setEnabled(false);
+        extNumbeOfCycles.setEnabled(false);
     }
 
     // Enable text fields
@@ -70,6 +73,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extMemberPhoneNumber.setEnabled(true);
         extGroupAccountName.setEnabled(true);
         extGroupPhoneNumber.setEnabled(true);
+        extNumbeOfCycles.setEnabled(true);
     }
 
     // Clear error messages from text fields
@@ -80,6 +84,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extMemberPhoneNumber.setError(null);
         extGroupAccountName.setError(null);
         extGroupPhoneNumber.setError(null);
+        extNumbeOfCycles.setError(null);
     }
 
     // Save data to singleton class
@@ -96,7 +101,10 @@ public class VslaFragment extends Fragment implements VslaInterface {
             extMemberPhoneNumber.setError("Phone Number is 10 Digits");
         } else if (extGroupAccountName.getText().toString().isEmpty() || extGroupAccountName.getText().toString().length() < 10 || extGroupAccountName.getText().toString().length() > 10) {
             extGroupAccountName.setError("Group Account is 10 Digits");
-        } else {
+        }else if (Integer.parseInt(extNumbeOfCycles.getText().toString()) > 100){
+            extNumbeOfCycles.setError("Number of cycles should be more than 100");
+        }
+        else {
             DataHolder.getInstance().setVslaName(extGroupName.getText().toString());
             DataHolder.getInstance().setGroupPhoneNumber(extGroupPhoneNumber.getText().toString());
             DataHolder.getInstance().setGroupRepresentativeName(extMemberName.getText().toString());

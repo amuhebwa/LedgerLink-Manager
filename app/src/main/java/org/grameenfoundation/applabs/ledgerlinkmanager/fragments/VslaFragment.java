@@ -18,7 +18,7 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
 
 
-public class GroupInformationFrag extends Fragment implements IGroupInformation {
+public class VslaFragment extends Fragment implements IGroupInformation {
     private EditText extGroupName;
     private EditText extGroupPhoneNumber;
     private EditText extMemberName;
@@ -29,7 +29,7 @@ public class GroupInformationFrag extends Fragment implements IGroupInformation 
     private MenuItem editMenu;
     private MenuItem saveMenu;
 
-    public GroupInformationFrag() {
+    public VslaFragment() {
     }
 
     @Override

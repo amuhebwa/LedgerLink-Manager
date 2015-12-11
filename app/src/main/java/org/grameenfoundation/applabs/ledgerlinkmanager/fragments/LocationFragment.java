@@ -15,32 +15,85 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 
-public class LocationInformationFrag extends Fragment {
+public class LocationFragment extends Fragment{
     private EditText physicalAdress;
     private Spinner selectRegion;
-    private MenuItem cancelMenu,editMenu, saveMenu;
+    private MenuItem cancelMenu, editMenu, saveMenu;
 
+    private MapView mapView;
+    private GoogleMap googleMap;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.location_information, container, false);
-        setHasOptionsMenu(true);
-        intializeUIComponents(view);
-        disableEditing();
-        return view;
-    }
 
-    // intialize the user interface components
-    private void intializeUIComponents(View view) {
+        // set up google maps
+        mapView = (MapView) view.findViewById(R.id._map);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume(); // Display the map immediately
+
+        setupGoogleMaps(); // set up google maps
+
+        setHasOptionsMenu(true);
         physicalAdress = (EditText) view.findViewById(R.id.PhysicalAddress);
         selectRegion = (Spinner) view.findViewById(R.id.RegionName);
         addRegionNames(selectRegion);
+
+        disableEditing(); // disable imput fields
+        return view;
+    }
+
+    // aet up the map
+    private void setupGoogleMaps() {
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        googleMap = mapView.getMap();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
     }
 
     // Add region names to the drop down spinner
-    public void addRegionNames(final Spinner spinner) {
+    private void addRegionNames(final Spinner spinner) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.districts, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -99,36 +152,6 @@ public class LocationInformationFrag extends Fragment {
     // clear Error messages
     private void clearErrorMessages() {
         physicalAdress.setError(null);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
     }
 
     @Override

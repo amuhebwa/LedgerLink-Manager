@@ -15,7 +15,7 @@ import android.widget.Toast;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 
-public class SupportAndTrainingFrag extends Fragment implements
+public class TrainingFragment extends Fragment implements
         RadioGroup.OnCheckedChangeListener {
     private RadioGroup radioGroup;
     private MenuItem cancelMenu;

@@ -5,10 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.GroupInformationFrag;
-import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.LocationInformationFrag;
-import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.SubmitDataFrag;
-import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.SupportAndTrainingFrag;
+import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.VslaFragment;
+import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.LocationFragment;
+import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.SubmissionFragment;
+import org.grameenfoundation.applabs.ledgerlinkmanager.fragments.TrainingFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 4;
@@ -23,13 +23,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new GroupInformationFrag();
+                return new VslaFragment();
             case 1:
-                return new LocationInformationFrag();
+                return new LocationFragment();
             case 2:
-                return new SupportAndTrainingFrag();
+                return new TrainingFragment();
             case 3:
-                return new SubmitDataFrag();
+                return new SubmissionFragment();
         }
         return null;
     }

@@ -39,5 +39,5 @@
     <string name="Server_default_value">http://192.168.1.157/DigitizingDataWebServices/DigitizingDataRestfulWebService.svc/</string>
 
     <string name="title_activity_preferences">PreferencesActivity</string>
-    <string name="maps_api_key">AIzaSyAPgfZdPNHON-vPln7a2cJJpyIfuCVw62s</string>
+    <string name="maps_api_key">AIzaSyALYsW9xBbSuJtyciSXkeoV-R3jGpX_lH4</string>
 </resources>

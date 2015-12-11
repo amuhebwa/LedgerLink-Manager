@@ -31,7 +31,7 @@ import java.net.URL;
 import java.util.Scanner;
 
 
-public class SubmitDataFrag extends Fragment {
+public class SubmissionFragment extends Fragment {
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
@@ -52,7 +52,7 @@ public class SubmitDataFrag extends Fragment {
     private String grpSupportType;
 
 
-    public SubmitDataFrag() {
+    public SubmissionFragment() {
     }
 
     @Override

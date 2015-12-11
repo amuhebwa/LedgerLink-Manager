@@ -15,10 +15,10 @@ import android.widget.EditText;
 import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.VslaInterface;
 
 
-public class VslaFragment extends Fragment implements IGroupInformation {
+public class VslaFragment extends Fragment implements VslaInterface {
     private EditText extGroupName;
     private EditText extGroupPhoneNumber;
     private EditText extMemberName;
@@ -110,7 +110,7 @@ public class VslaFragment extends Fragment implements IGroupInformation {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((CreateGroup) context).iGroupInformation = this;
+        ((CreateGroup) context).vslaInterface = this;
     }
 
     @Override

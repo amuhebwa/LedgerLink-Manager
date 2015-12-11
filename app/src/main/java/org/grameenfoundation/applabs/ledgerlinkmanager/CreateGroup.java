@@ -15,9 +15,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.ViewPagerAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IGroupInformation;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.IPhoneInformation;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.VslaInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.LocationInterface;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.PhoneInterface;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,9 +25,9 @@ import org.json.JSONObject;
 public class CreateGroup extends AppCompatActivity {
     private Constants constants = new Constants();
 
-    public IGroupInformation iGroupInformation;
-    public IPhoneInformation phoneInformationInterface;
-    public ILocationInformation iLocationInformation;
+    public VslaInterface vslaInterface;
+    public PhoneInterface phoneInformationInterface;
+    public LocationInterface locationInterface;
     private String vslaName;
     private String representativeName;
     private String representativePost;
@@ -112,16 +112,16 @@ public class CreateGroup extends AppCompatActivity {
     // Add data to interfaces
     private void setGroupDataToInterfaces() {
 
-        if (iGroupInformation != null) {
-            iGroupInformation.passGroupInformation(vslaName, grpPhoneNumber,
+        if (vslaInterface != null) {
+            vslaInterface.passGroupInformation(vslaName, grpPhoneNumber,
                     representativeName, representativePost, repPhoneNumber, grpBankAccount);
         }
         if (phoneInformationInterface != null) {
 
             phoneInformationInterface.passPhoneInformation(grpPhoneNumber);
         }
-        if (iLocationInformation != null) {
-            iLocationInformation.passLocationInformation(physAddress, regionName, locCoordinates);
+        if (locationInterface != null) {
+            locationInterface.passLocationInformation(physAddress, regionName, locCoordinates);
 
         }
     }

@@ -1,10 +1,10 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,10 +32,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.ILocationInformation;
+import org.grameenfoundation.applabs.ledgerlinkmanager.interfaces.LocationInterface;
 
 public class LocationFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ILocationInformation {
+        GoogleApiClient.OnConnectionFailedListener, LocationInterface {
     private EditText physicalAdress;
     private Spinner selectRegion;
     private MenuItem cancelMenu, editMenu, saveMenu;
@@ -59,7 +59,6 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
 
         // First we need to check availability of play services
         if (checkPlayServices()) {
-
             // Building the GoogleApi client
             buildGoogleApiClient();
         }
@@ -85,8 +84,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
 
     // check if google play services exist on the phone
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(getActivity());
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(),
@@ -148,7 +146,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((CreateGroup)context).iLocationInformation = this;
+        ((CreateGroup)context).locationInterface = this;
     }
 
     // Add region names to the drop down spinner
@@ -194,6 +192,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
         // then save information to the data holder
         setDataToDataHolderClass();
         DataHolder.getInstance().setLocationCoordinates(coodinates);
+
     }
 
     private void setDataToDataHolderClass() {

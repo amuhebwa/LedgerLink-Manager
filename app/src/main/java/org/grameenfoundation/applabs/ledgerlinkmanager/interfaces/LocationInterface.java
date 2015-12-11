@@ -1,5 +1,5 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.interfaces;
 
-public interface ILocationInformation {
+public interface LocationInterface {
     void passLocationInformation(String physicalAddress, String regionName, String locationCordinates);
 }

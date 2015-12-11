@@ -1,13 +1,10 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,10 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;

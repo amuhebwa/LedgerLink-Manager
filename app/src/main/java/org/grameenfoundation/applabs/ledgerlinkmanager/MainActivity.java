@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private String locCoordinates;
     private String groupSupportType;
     private String TechnicalTrainerId;
+    private String numberOfCycles;
     private int VslaId;
 
     @Override
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             grpPhoneNumber = vslaInfo.getIssuedPhoneNumber();
             locCoordinates = vslaInfo.getLocationCordinates();
             groupSupportType = vslaInfo.getSupportType();
+            numberOfCycles = vslaInfo.getNumberOfCycles();
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -168,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.put("tTrainerId", TechnicalTrainerId);
                 jsonObject.put("Status", "2");
                 jsonObject.put("GroupSupport", groupSupportType);
+                jsonObject.put("numberOfCycles", numberOfCycles);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -194,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
         vslaInfo.setIsDataSent("1");
         vslaInfo.setSupportType(groupSupportType);
+        vslaInfo.setNumberOfCycles(numberOfCycles);
         databaseHandler.upDateGroupData(vslaInfo, VslaId);
     }
 

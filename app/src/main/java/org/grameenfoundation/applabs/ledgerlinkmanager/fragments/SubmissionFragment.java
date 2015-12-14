@@ -47,6 +47,7 @@ public class SubmissionFragment extends Fragment {
     private String grpPhoneNumber;
     private String locCoordinates;
     private String grpSupportType;
+    private String numberOfCycles;
 
 
     public SubmissionFragment() {
@@ -98,6 +99,7 @@ public class SubmissionFragment extends Fragment {
         grpBankAccount = DataHolder.getInstance().getGroupBankAccount();
         locCoordinates = DataHolder.getInstance().getLocationCoordinates();
         grpSupportType = DataHolder.getInstance().getSupportTrainingType();
+        numberOfCycles = DataHolder.getInstance().getNumberOfCycles();
     }
 
     // submit data to the server
@@ -108,7 +110,7 @@ public class SubmissionFragment extends Fragment {
         StringBuilder url = new StringBuilder();
         url.append(serverUrl);
 
-        if (vslaName == null || representativeName == null || representativePost == null
+        if (vslaName == null || numberOfCycles == null || representativeName == null || representativePost == null
                 || repPhoneNumber == null || grpBankAccount == null || physAddress == null
                 || grpPhoneNumber == null || grpSupportType == null) {
             flashMessage("Please Fill all Fields");
@@ -146,6 +148,7 @@ public class SubmissionFragment extends Fragment {
             jsonObject.put("RegionName", regionName);
             jsonObject.put("tTrainerId", tTrainerId);
             jsonObject.put("Status", "2");
+            jsonObject.put("numberOfCycles", numberOfCycles);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -170,6 +173,7 @@ public class SubmissionFragment extends Fragment {
             vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
             vslaInfo.setSupportType(grpSupportType);
             vslaInfo.setIsDataSent("0");
+            vslaInfo.setNumberOfCycles(numberOfCycles);
 
             // get the Id of the Group just added to the database
             currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
@@ -194,6 +198,7 @@ public class SubmissionFragment extends Fragment {
         vslaInfo.setIssuedPhoneNumber(grpPhoneNumber);
         vslaInfo.setIsDataSent("1");
         vslaInfo.setSupportType(grpSupportType);
+        vslaInfo.setNumberOfCycles(numberOfCycles);
         databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 
@@ -260,19 +265,22 @@ public class SubmissionFragment extends Fragment {
             txtOperationType.setText(String.format("New Group created with the following VSLA Code %s",
                     newVslaCode));
             updateVslaInformation(); // update the database to sent
+            // Then clear the data holder
+            DataHolder.getInstance().clearDataHolder();
 
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             txtOperationType.setText("Group Information Edited");
             flashMessage("Successfully Edited Details.");
             updateVslaInformation(); // update the database to sent
+            // Then clear the data holder
+            DataHolder.getInstance().clearDataHolder();
 
         } else if (operationResult.equalsIgnoreCase("-1")) {
 
             flashMessage("An Error Occured");
             txtOperationType.setText("Error Occured");
         }
-        // Then clear the data holder
-        DataHolder.getInstance().clearDataHolder();
+
     }
 
     @Override

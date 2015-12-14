@@ -111,6 +111,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
             DataHolder.getInstance().setGroupRepresentativePost(extMemberPost.getText().toString());
             DataHolder.getInstance().setGroupRepresentativePhoneNumber(extMemberPhoneNumber.getText().toString());
             DataHolder.getInstance().setGroupBankAccount(extGroupAccountName.getText().toString());
+            DataHolder.getInstance().setNumberOfCycles(extNumbeOfCycles.getText().toString());
         }
     }
 
@@ -122,7 +123,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
     }
 
     @Override
-    public void passGroupInformation(String groupName, String groupPhoneNumber, String memberName, String memberPost, String memberPhoneNumber, String branchName) {
+    public void passGroupInformation(String groupName, String groupPhoneNumber, String memberName, String memberPost, String memberPhoneNumber, String branchName, String numberOfCycles) {
 
         // Populate the fields with data from the server
         extGroupName.setText(groupName);
@@ -131,6 +132,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extMemberPost.setText(memberPost);
         extMemberPhoneNumber.setText(memberPhoneNumber);
         extGroupAccountName.setText(branchName);
+        extNumbeOfCycles.setText(numberOfCycles);
 
         ((CreateGroup) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
         // Then save data to the data holder

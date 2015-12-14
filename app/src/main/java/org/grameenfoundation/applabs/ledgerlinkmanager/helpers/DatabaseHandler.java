@@ -28,10 +28,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String ISSUEDPHONENUMBER = "issuedPhoneNumber";
     private static final String ISDATASENT = "isDataSent";
     private static final String SUPPORTTYPE = "supportType";
+    private static final String NUMBEROFCYCLES = "numberOfCycles";
 
     private static final String[] COLUMNS = {ID, GROUPNAME, REPMEMBERNAME, REPMEMBERPOST, REPMEMBERPHONENUMBER,
             GROUPACCOUNTNUMBER, PHYSICALADDRESS, REGIONNAME, LOCATIONCORDINATES, ISSUEDPHONENUMBER, ISDATASENT,
-            SUPPORTTYPE};
+            SUPPORTTYPE, NUMBEROFCYCLES};
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,7 +52,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 LOCATIONCORDINATES + " TEXT, " +
                 ISSUEDPHONENUMBER + " TEXT, " +
                 ISDATASENT + " TEXT, " +
-                SUPPORTTYPE + " TEXT " + " ) ";
+                SUPPORTTYPE + " TEXT, " +
+                NUMBEROFCYCLES + " TEXT " + " ) ";
         db.execSQL(CREATE_DATABASE_LEDGERLINK);
     }
 
@@ -82,6 +84,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(ISSUEDPHONENUMBER, vslaInfo.getIssuedPhoneNumber());
         values.put(ISDATASENT, vslaInfo.getIsDataSent());
         values.put(SUPPORTTYPE, vslaInfo.getSupportType());
+        values.put(NUMBEROFCYCLES, vslaInfo.getNumberOfCycles());
         final long InsertedId = database.insert(TABLE_NAME, null, values);
         database.close();
         return InsertedId;
@@ -108,6 +111,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         vslaInfo.setIssuedPhoneNumber(cursor.getString(9));
         vslaInfo.setIsDataSent(cursor.getString(10));
         vslaInfo.setSupportType(cursor.getString(11));
+        vslaInfo.setNumberOfCycles(cursor.getString(12));
         // cursor.close();
         return vslaInfo;
     }
@@ -136,6 +140,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 vslaInfo.setIssuedPhoneNumber(cursor.getString(9));
                 vslaInfo.setIsDataSent(cursor.getString(10));
                 vslaInfo.setSupportType(cursor.getString(11));
+                vslaInfo.setNumberOfCycles(cursor.getString(12));
                 allVslaGroups.add(vslaInfo);
             } while (cursor.moveToNext());
             //  cursor.close();
@@ -159,12 +164,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(ISSUEDPHONENUMBER, vslaInfo.getIssuedPhoneNumber());
         values.put(ISDATASENT, vslaInfo.getIsDataSent());
         values.put(SUPPORTTYPE, vslaInfo.getSupportType());
+        values.put(NUMBEROFCYCLES, vslaInfo.getNumberOfCycles());
 
         return database.update(TABLE_NAME, values, ID + " = ?", new String[]{String.valueOf(vslaDatabaseId)});
         // database.close();
     }
-
-    /** Delete a group from the database */
 
    /* public void deletGroupData(VslaInfo vslaDataModel) {
         SQLiteDatabase database = this.getWritableDatabase();

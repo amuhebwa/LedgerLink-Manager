@@ -37,6 +37,7 @@ public class CreateGroup extends AppCompatActivity {
     private String regionName;
     private String grpPhoneNumber;
     private String locCoordinates;
+    private String numberOfCycles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class CreateGroup extends AppCompatActivity {
                         regionName = vslaDetails.getString("RegionName");
                         grpPhoneNumber = vslaDetails.getString("grpPhoneNumber");
                         locCoordinates = vslaDetails.getString("GpsLocation");
+                        numberOfCycles = vslaDetails.getString("numberOfCycles");
                         setGroupDataToInterfaces();
                     }
 
@@ -114,7 +116,7 @@ public class CreateGroup extends AppCompatActivity {
 
         if (vslaInterface != null) {
             vslaInterface.passGroupInformation(vslaName, grpPhoneNumber,
-                    representativeName, representativePost, repPhoneNumber, grpBankAccount);
+                    representativeName, representativePost, repPhoneNumber, grpBankAccount, numberOfCycles);
         }
         if (phoneInformationInterface != null) {
 

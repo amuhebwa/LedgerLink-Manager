@@ -119,7 +119,7 @@ public class VslaFragment extends Fragment implements VslaInterface {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Context context = getActivity();
-        ((CreateGroup) context).vslaInterface = this;
+       //  ((CreateGroup) context).vslaInterface = this;
     }
 
     @Override
@@ -134,12 +134,12 @@ public class VslaFragment extends Fragment implements VslaInterface {
         extGroupAccountName.setText(branchName);
         extNumbeOfCycles.setText(numberOfCycles);
 
-        ((CreateGroup) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
+        // ((CreateGroup) getActivity()).changeActionBarTitle(groupName != null ? groupName : null);
         // Then save data to the data holder
         saveInformationToDataHolder();
     }
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_group_information, menu);
 
@@ -153,9 +153,9 @@ public class VslaFragment extends Fragment implements VslaInterface {
         saveMenu.setVisible(false);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -181,5 +181,5 @@ public class VslaFragment extends Fragment implements VslaInterface {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

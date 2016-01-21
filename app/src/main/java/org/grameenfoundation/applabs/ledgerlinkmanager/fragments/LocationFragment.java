@@ -146,7 +146,7 @@ public class LocationFragment extends Fragment implements GoogleApiClient.Connec
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((CreateGroup)context).locationInterface = this;
+       //  ((CreateGroup)context).locationInterface = this;
     }
 
     // Add region names to the drop down spinner

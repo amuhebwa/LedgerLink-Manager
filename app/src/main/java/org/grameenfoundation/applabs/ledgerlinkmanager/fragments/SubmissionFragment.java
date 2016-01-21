@@ -248,8 +248,8 @@ public class SubmissionFragment extends Fragment {
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
             try {
-                 JSONObject jsonObject = new JSONObject(response);
-                 showResultFeedback(jsonObject.getString("operation"), jsonObject.getString("result"), jsonObject.getString("VslaCode"));
+                JSONObject jsonObject = new JSONObject(response);
+                showResultFeedback(jsonObject.getString("operation"), jsonObject.getString("result"), jsonObject.getString("VslaCode"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -58,8 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateUserDetails(serverUrl, txtUsername.getText().toString().trim(),
-                        txtPasskey.getText().toString().trim());
+               /* validateUserDetails(serverUrl, txtUsername.getText().toString().trim(),
+                        txtPasskey.getText().toString().trim());*/
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
     }

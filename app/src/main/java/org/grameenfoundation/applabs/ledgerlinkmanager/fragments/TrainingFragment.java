@@ -15,16 +15,14 @@ import android.widget.Toast;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 
-public class TrainingFragment extends Fragment implements
-        RadioGroup.OnCheckedChangeListener {
+public class TrainingFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
     private RadioGroup radioGroup;
     private MenuItem cancelMenu;
     private MenuItem editMenu;
     private MenuItem saveMenu;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_modules, container, false);
         setHasOptionsMenu(true);
         radioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);

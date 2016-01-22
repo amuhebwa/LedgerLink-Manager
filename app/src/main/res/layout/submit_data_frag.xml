@@ -5,249 +5,251 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TableLayout
-        android:gravity="center"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center">
 
         <TableRow
             android:id="@+id/row1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="VSLA Name"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/vslaName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
-            android:layout_marginBottom="10dp"
             android:id="@+id/row2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Group Representative"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/representativeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row3"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Representative Post"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/representativePost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row4"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Representative's Contact"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/representativeNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row5"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Account Number"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/groupBankAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row6"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Physical Address"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/physicalAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row7"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Region Name"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/regionName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row8"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Group Phone Number"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/groupPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row9"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Location"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/locCoordinates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row10"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Group Support Type"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/groupSupportType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
 
         <TableRow
             android:id="@+id/row11"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VSLA Name" />
+                android:text="Number OF Cycles with LedgerLink"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/numberOfCycles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Grameen Foundation" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row12"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="VSLA Name" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Grameen Foundation" />
+                android:text="--" />
         </TableRow>
     </TableLayout>
 

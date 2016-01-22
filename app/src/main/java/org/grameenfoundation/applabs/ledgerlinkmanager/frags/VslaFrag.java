@@ -25,7 +25,6 @@ public class VslaFrag extends Fragment {
     public VslaFrag() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vsla_frag, container, false);
@@ -120,7 +119,7 @@ public class VslaFrag extends Fragment {
         if (validateInputFields()) {
             vslaFragInterface.passInfoToActivity(command, fragmentNumber);
         } else {
-            Toast.makeText(getActivity(), "Some Fields are Empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Some Fields have Errors.", Toast.LENGTH_SHORT).show();
         }
     }
 

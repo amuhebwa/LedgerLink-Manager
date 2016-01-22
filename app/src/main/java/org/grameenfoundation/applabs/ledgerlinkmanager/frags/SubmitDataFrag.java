@@ -5,8 +5,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
@@ -25,6 +29,8 @@ import java.util.Scanner;
 public class SubmitDataFrag extends Fragment {
     private String vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles;
+    private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
+            mPhysicalAddress, mRegionName, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles;
 
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
@@ -37,8 +43,10 @@ public class SubmitDataFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.submit_data_frag, container, false);
+        setHasOptionsMenu(true);
         databaseHandler = new DatabaseHandler(getActivity());
         loadVslaInformation();
+        showSummaryOfFields(view);
         return view;
     }
 
@@ -55,6 +63,34 @@ public class SubmitDataFrag extends Fragment {
         locCoordinates = DataHolder.getInstance().getLocationCoordinates();
         groupSupportType = DataHolder.getInstance().getSupportTrainingType();
         numberOfCycles = DataHolder.getInstance().getNumberOfCycles();
+    }
+
+    // Show the summary of the filled fields
+    private void showSummaryOfFields(View view) {
+        mVslaName = (TextView) view.findViewById(R.id.vslaName);
+        mRepresentativeName = (TextView) view.findViewById(R.id.representativeName);
+        mRepresentativePost = (TextView) view.findViewById(R.id.representativePost);
+        mRepresentativeNumber = (TextView) view.findViewById(R.id.representativeNumber);
+        mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
+        mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
+        mRegionName = (TextView) view.findViewById(R.id.regionName);
+        mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
+        mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
+        mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
+        mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
+
+        // set text to the corrrsponding fields
+        mVslaName.setText(vslaName);
+        mRepresentativeName.setText(representativeName);
+        mRepresentativePost.setText(representativePost);
+        mRepresentativeNumber.setText(repPhoneNumber);
+        mGroupBankAccount.setText(groupBankAccount);
+        mPhysicalAddress.setText(physAddress);
+        mRegionName.setText(regionName);
+        mGroupPhoneNumber.setText(groupPhoneNumber);
+        mLocCoordinates.setText(locCoordinates);
+        mGroupSupportType.setText(groupSupportType);
+        mNumberOfCycles.setText(numberOfCycles);
     }
 
     // Show toast method
@@ -211,4 +247,22 @@ public class SubmitDataFrag extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_datasubmission_frag, menu);
+        setHasOptionsMenu(true);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                Toast.makeText(getActivity(), "Save Information", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

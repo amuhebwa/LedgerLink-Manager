@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText txtUsername, txtPasskey;
+    private EditText inputUsername, inputPasskey;
     private String result;
     private String _trainerId = "-1";
     private String _username;
@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private Activity activity = this;
     private Utils utils;
     private ProgressDialog progressDialog;
+    private String serverUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +45,22 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging In ...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
-
         utils = new Utils();
+
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         android.content.SharedPreferences sharedPreferences = PreferenceManager.
                 getDefaultSharedPreferences(getBaseContext());
-        final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
+        serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
-        txtUsername = (EditText) findViewById(R.id.username);
-        txtPasskey = (EditText) findViewById(R.id.passkey);
+        inputUsername = (EditText) findViewById(R.id.username);
+        inputPasskey = (EditText) findViewById(R.id.passkey);
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* validateUserDetails(serverUrl, txtUsername.getText().toString().trim(),
-                        txtPasskey.getText().toString().trim());*/
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                validateUserDetails(serverUrl, inputUsername.getText().toString().trim(),
+                        inputPasskey.getText().toString().trim());
             }
         });
     }
@@ -72,14 +72,13 @@ public class LoginActivity extends AppCompatActivity {
 
     // Validate user details before Logging in
     private void validateUserDetails(String serverUrl, String username, String passkey) {
-
         if (username.isEmpty()) {
-            txtUsername.setError("Enter Valid Username");
+            inputUsername.setError("Enter Valid Username");
         } else if (passkey.isEmpty()) {
-            txtPasskey.setError("Enter Valid PassKey");
+            inputPasskey.setError("Enter Valid PassKey");
         } else {
-            txtUsername.setError(null);
-            txtPasskey.setError(null);
+            inputUsername.setError(null);
+            inputPasskey.setError(null);
             if (utils.isInternetOn(getApplicationContext())) {
                 validateTrainer(serverUrl, username, passkey);
             } else {
@@ -94,35 +93,35 @@ public class LoginActivity extends AppCompatActivity {
         String request_url = url + constants.validateTrainer + "/" + username + "/" + passkey;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request_url,
                 null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        progressDialog.dismiss();
+            @Override
+            public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
 
-                        try {
+                try {
 
-                            JSONObject loginDetails = response.getJSONObject("validateTrainerResult");
-                            result = loginDetails.getString("resultId");
-                            _trainerId = loginDetails.getString("TrainerId");
-                            _username = loginDetails.getString("userName");
+                    JSONObject loginDetails = response.getJSONObject("validateTrainerResult");
+                    result = loginDetails.getString("resultId");
+                    _trainerId = loginDetails.getString("TrainerId");
+                    _username = loginDetails.getString("userName");
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                        if (result.equalsIgnoreCase("1")) { //  Success
-                            SharedPrefs.saveSharedPreferences(activity, "ttrainerId", _trainerId);
-                            Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-                            loginIntent.putExtra("_username", _username);
-                            loginIntent.putExtra("ttrainerId", _trainerId);
-                            startActivity(loginIntent);
-                            finish();
+                if (result.equalsIgnoreCase("1")) { //  Success
+                    SharedPrefs.saveSharedPreferences(activity, "ttrainerId", _trainerId);
+                    Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                    loginIntent.putExtra("_username", _username);
+                    loginIntent.putExtra("ttrainerId", _trainerId);
+                    startActivity(loginIntent);
+                    finish();
 
-                        } else { // Failed
-                            progressDialog.dismiss();
-                            showFlashMessage("Error Occured . Try again");
-                        }
-                    }
-                }, new Response.ErrorListener() {
+                } else { // Failed
+                    progressDialog.dismiss();
+                    showFlashMessage("Error Occured . Try again");
+                }
+            }
+        }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {

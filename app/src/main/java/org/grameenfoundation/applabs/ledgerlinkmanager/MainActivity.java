@@ -46,26 +46,16 @@ import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity {
-    private EditText extGroupSearch;
-    Activity activity = this;
+    private EditText inputGroupSearch;
     private DataAdapter dataAdapter;
     private ArrayList<VslaInfo> vslaInfo;
     private LinearLayout empty_view;
     private Utils utils;
     private ProgressDialog progressDialog;
     private Constants constants = new Constants();
-    private String vslaName;
-    private String representativeName;
-    private String representativePost;
-    private String repPhoneNumber;
-    private String grpBankAccount;
-    private String physAddress;
-    private String regionName;
-    private String grpPhoneNumber;
-    private String locCoordinates;
-    private String groupSupportType;
-    private String TechnicalTrainerId;
-    private String numberOfCycles;
+    private String vslaName, representativeName, representativePost, repPhoneNumber, grpBankAccount,
+            physAddress, regionName, grpPhoneNumber, locCoordinates, groupSupportType, TechnicalTrainerId,
+            numberOfCycles;
     private int VslaId;
 
     @Override
@@ -73,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
         TextView usernameTxt = (TextView) findViewById(R.id.TrainerUsername);
@@ -95,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        extGroupSearch = (EditText) findViewById(R.id.group_search);
-        extGroupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        inputGroupSearch = (EditText) findViewById(R.id.group_search);
+        inputGroupSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -113,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Searching For Group Name");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
+
         empty_view = (LinearLayout) findViewById(R.id.empty_view);
         utils = new Utils();
-
         vslaInfo = new ArrayList<>();
 
         new queryDatabaseForGroupsAsyncTask().execute();
@@ -124,10 +113,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         dataAdapter = new DataAdapter(vslaInfo);
         recyclerView.setAdapter(dataAdapter);
-
         RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this,
                 RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
@@ -208,13 +195,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Validate search term and check for internet connection
     private void validateSearchQuery(String serverUrl) {
-        String searchTerm = extGroupSearch.getText().toString().replace(" ", "");
+        String searchTerm = inputGroupSearch.getText().toString().replace(" ", "");
         if (!utils.isInternetOn(this)) {
             showFlashMessage("No Internet Connection");
         } else if (searchTerm.isEmpty()) {
-            extGroupSearch.setError("Invalid Search Term");
+            inputGroupSearch.setError("Invalid Search Term");
         } else {
-            extGroupSearch.setError(null);
+            inputGroupSearch.setError(null);
             searchForGroupInformation(searchTerm, serverUrl);
         }
     }
@@ -247,12 +234,9 @@ public class MainActivity extends AppCompatActivity {
 
     // asynchronous class for seaching the database
     private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaInfo>> {
-
         @Override
         protected List<VslaInfo> doInBackground(Void... params) {
-
             DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
-
             return databaseHandler.getAllGroups();
         }
 
@@ -269,15 +253,12 @@ public class MainActivity extends AppCompatActivity {
                     dataSet.setMemberName(vslaInfos.get(i).getMemberName());
                     dataSet.setVslaId(vslaInfos.get(i).getVslaId());
                     dataSet.setIsDataSent(vslaInfos.get(i).getIsDataSent());
-
                     // if the data has not been uploaded, show the cloud upload icon
                     if (vslaInfos.get(i).getIsDataSent().equalsIgnoreCase("0")) {
                         dataSet.setUploadDataIcon(R.drawable.ic_cloud_upload);
                     }
-
                     vslaInfo.add(dataSet);
                 }
-
                 dataAdapter.notifyDataSetChanged();
                 empty_view.setVisibility(View.VISIBLE);
             }
@@ -297,11 +278,9 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String postString = params[0];
             String jsonObjectString = params[1];
-
             String response = "";
             java.net.URL url;
             HttpURLConnection conn;
-
             try {
 
                 url = new URL(postString);
@@ -317,31 +296,25 @@ public class MainActivity extends AppCompatActivity {
                 out.print(jsonObjectString);
                 out.close();
                 Scanner inStream = new Scanner(conn.getInputStream());
-
                 while (inStream.hasNextLine()) {
                     response += (inStream.nextLine());
                 }
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return response;
         }
 
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-
             try {
-
                 JSONObject jsonObject = new JSONObject(response);
                 String operationType = jsonObject.getString("operation");
                 String operationResult = jsonObject.getString("result");
                 showResultFeedback(operationType, operationResult);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -353,9 +326,7 @@ public class MainActivity extends AppCompatActivity {
     private void showResultFeedback(String operationType, String operationResult) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
             showFlashMessage("Successfully added new VSLA.");
-
             updateDatabaseToSent(); // update the database to sent
-
         } else if (operationResult.equalsIgnoreCase("-1")) {
             showFlashMessage("An Error Occured");
         }
@@ -369,13 +340,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_add_group) {
             Intent intent = new Intent(MainActivity.this, CreateGroup.class);
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

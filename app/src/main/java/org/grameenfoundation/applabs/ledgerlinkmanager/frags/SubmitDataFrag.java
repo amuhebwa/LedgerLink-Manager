@@ -3,7 +3,9 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
@@ -35,6 +38,7 @@ public class SubmitDataFrag extends Fragment {
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
+    private Constants constants;
 
     public SubmitDataFrag() {
     }
@@ -47,7 +51,21 @@ public class SubmitDataFrag extends Fragment {
         databaseHandler = new DatabaseHandler(getActivity());
         loadVslaInformation();
         showSummaryOfFields(view);
+        constants = new Constants();
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+
         return view;
+    }
+
+    // function to prepare data for submission
+    private void dataSubmission() {
+        loadVslaInformation(); // First reload the information
+        String jsonObjectString = createJsonObject();
+        StringBuilder url = new StringBuilder();
+        url.append(serverUrl);
+        url.append("addNewVsla");
+        new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
     }
 
     // Load data from the singleton class
@@ -118,7 +136,7 @@ public class SubmitDataFrag extends Fragment {
             jsonObject.put("repPhoneNumber", repPhoneNumber);
             jsonObject.put("RegionName", regionName);
             // jsonObject.put("tTrainerId", tTrainerId);
-            jsonObject.put("tTrainerId", 1);
+            jsonObject.put("tTrainerId", 1); // TEMP
             jsonObject.put("Status", "2");
             jsonObject.put("numberOfCycles", numberOfCycles);
 
@@ -259,7 +277,7 @@ public class SubmitDataFrag extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_save:
-                Toast.makeText(getActivity(), "Save Information", Toast.LENGTH_SHORT).show();
+                dataSubmission();
                 break;
             default:
         }

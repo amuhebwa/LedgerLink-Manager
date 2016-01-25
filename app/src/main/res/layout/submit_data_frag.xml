@@ -4,253 +4,278 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <TableRow
-            android:id="@+id/row1"
+        <TextView
+            android:id="@+id/add_editOperation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="Add New Group"
+            android:textColor="#a30404"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="VSLA Name"
-                android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/confirmSubmission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_done_black"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/vslaName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row2"
+        <TableLayout
+            android:id="@+id/dataTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+            android:layout_margin="10dp">
 
-            <TextView
+            <TableRow
+                android:id="@+id/row1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Representative"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/representativeName"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="VSLA Name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/vslaName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-        <TableRow
-            android:id="@+id/row3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Group Representative"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/representativeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Representative Post"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/representativePost"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Representative Post"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/representativePost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-        <TableRow
-            android:id="@+id/row4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Representative's Contact"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/representativeNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Representative's Contact"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/representativeNumber"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Account Number"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/groupBankAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-        <TableRow
-            android:id="@+id/row5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Physical Address"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/physicalAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <!--<TableRow
+                android:id="@+id/row7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Account Number"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/groupBankAccount"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Region Name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/regionName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="&#45;&#45;" />
+            </TableRow>-->
+
+            <TableRow
+                android:id="@+id/row8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-        <TableRow
-            android:id="@+id/row6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Group Phone Number"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/groupPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Physical Address"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/physicalAddress"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Location"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/locCoordinates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-        <TableRow
-            android:id="@+id/row7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Group Support Type"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/groupSupportType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Region Name"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/regionName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Number Of Cycles with LedgerLink"
+                    android:textStyle="bold" />
 
-        <TableRow
-            android:id="@+id/row8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Phone Number"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Location"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/locCoordinates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Support Type"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupSupportType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/row11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Number OF Cycles with LedgerLink"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/numberOfCycles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="--" />
-        </TableRow>
-    </TableLayout>
-
+                <TextView
+                    android:id="@+id/numberOfCycles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="--" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

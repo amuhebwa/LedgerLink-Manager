@@ -5,13 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +34,9 @@ public class SubmitDataFrag extends Fragment {
     private String vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles;
     private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
-            mPhysicalAddress, mRegionName, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles;
-
+            mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;
+    private ImageView confirmSubmission;
+    private TableLayout dataTable;
     private String serverUrl = "";
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
@@ -65,6 +67,7 @@ public class SubmitDataFrag extends Fragment {
         StringBuilder url = new StringBuilder();
         url.append(serverUrl);
         url.append("addNewVsla");
+        saveVslaInformation();
         new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
     }
 
@@ -91,11 +94,14 @@ public class SubmitDataFrag extends Fragment {
         mRepresentativeNumber = (TextView) view.findViewById(R.id.representativeNumber);
         mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
         mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
-        mRegionName = (TextView) view.findViewById(R.id.regionName);
+        // mRegionName = (TextView) view.findViewById(R.id.regionName);
         mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
         mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
         mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
         mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
+        addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
+        confirmSubmission = (ImageView) view.findViewById(R.id.confirmSubmission);
+        dataTable = (TableLayout) view.findViewById(R.id.dataTable);
 
         // set text to the corrrsponding fields
         mVslaName.setText(vslaName);
@@ -104,11 +110,15 @@ public class SubmitDataFrag extends Fragment {
         mRepresentativeNumber.setText(repPhoneNumber);
         mGroupBankAccount.setText(groupBankAccount);
         mPhysicalAddress.setText(physAddress);
-        mRegionName.setText(regionName);
+        // mRegionName.setText(regionName);
         mGroupPhoneNumber.setText(groupPhoneNumber);
         mLocCoordinates.setText(locCoordinates);
         mGroupSupportType.setText(groupSupportType);
         mNumberOfCycles.setText(numberOfCycles);
+
+        // Set operation type(Adding New Group Or Editing an Existing Group)
+        String title = "Adding New Group " + vslaName;
+        addEditOperation.setText(title);
     }
 
     // Show toast method
@@ -250,17 +260,30 @@ public class SubmitDataFrag extends Fragment {
     // show results : Success/Fail
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
+
             flashMessage("Added new VSLA.");
             updateVslaInformation();
-            // Then clear the data holder
             DataHolder.getInstance().clearDataHolder();
+            addEditOperation.setText("Added New VSLA with VSLA Code : " + newVslaCode);
+            confirmSubmission.setVisibility(View.VISIBLE);
+            dataTable.setVisibility(View.GONE);
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             flashMessage("Successfully Edited Details.");
             updateVslaInformation();
             // Then clear the data holder
             DataHolder.getInstance().clearDataHolder();
+            addEditOperation.setText("Successfully Edited Information");
+            confirmSubmission.setVisibility(View.VISIBLE);
+            dataTable.setVisibility(View.GONE);
         } else if (operationResult.equalsIgnoreCase("-1")) {
             flashMessage("An Error Occured");
+            addEditOperation.setText("Error Occured. Try Again");
+            confirmSubmission.setImageResource(R.drawable.ic_error_black);
+            confirmSubmission.setVisibility(View.VISIBLE);
+        } else {
+            addEditOperation.setText("Error Occured. Try Again");
+            confirmSubmission.setImageResource(R.drawable.ic_error_black);
+            confirmSubmission.setVisibility(View.VISIBLE);
         }
 
     }

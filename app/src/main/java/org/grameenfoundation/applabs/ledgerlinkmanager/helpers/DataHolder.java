@@ -33,7 +33,7 @@ public class DataHolder {
         if (dataObject != null) {
             synchronized (DataHolder.class) {
                 if (dataObject != null) {
-                    dataObject = new DataHolder();
+                    dataObject = null;
                 }
             }
         }

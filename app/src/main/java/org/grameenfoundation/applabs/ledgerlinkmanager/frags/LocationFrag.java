@@ -29,9 +29,12 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class LocationFrag extends Fragment implements GoogleApiClient.ConnectionCallbacks,
@@ -53,25 +56,42 @@ public class LocationFrag extends Fragment implements GoogleApiClient.Connection
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.location_frag, container, false);
+        setHasOptionsMenu(true);
 
         // set up google maps
         mapView = (MapView) view.findViewById(R.id._map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume(); // Display the map immediately
-
         setupGoogleMaps(); // set up google maps
-
         if (checkPlayServices()) {
             buildGoogleApiClient();
         }
-
-        setHasOptionsMenu(true);
 
         inputPhysicalAdress = (EditText) view.findViewById(R.id.PhysicalAddress);
         selectRegion = (Spinner) view.findViewById(R.id.RegionName);
         addRegionNames(selectRegion);
 
+        Boolean isEditing = JsonData.getInstance().isEditing();
+        String jsonData = JsonData.getInstance().getVslaJsonStringData();
+        if (isEditing) {
+            processVslaInformation(jsonData);
+        }
         return view;
+    }
+    /**
+     * Add information attached to one vsla group into a singleton class. This is when a group is being edited
+     */
+    private void processVslaInformation(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            String physicalAddress = jsonObject.getString("PhysicalAddress");
+            String RegionName = jsonObject.getString("RegionName");
+            inputPhysicalAdress.setText(physicalAddress);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     // Validate input fields
@@ -128,7 +148,6 @@ public class LocationFrag extends Fragment implements GoogleApiClient.Connection
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API).build();
     }
-
 
     @Override
     public void onStart() {

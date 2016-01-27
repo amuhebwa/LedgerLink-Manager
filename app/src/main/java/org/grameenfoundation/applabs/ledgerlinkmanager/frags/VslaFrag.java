@@ -4,6 +4,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,9 +14,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
+import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class VslaFrag extends Fragment {
     private VslaFragInterface vslaFragInterface;
@@ -38,7 +43,41 @@ public class VslaFrag extends Fragment {
         inputGroupAccountNumber = (EditText) view.findViewById(R.id.groupAccountNumber);
         inputNumbeOfCycles = (EditText) view.findViewById(R.id.numbeOfCycles);
 
+        Boolean isEditing = JsonData.getInstance().isEditing();
+        String jsonData = JsonData.getInstance().getVslaJsonStringData();
+        if (isEditing) {
+            processVslaInformation(jsonData);
+        }
+
         return view;
+    }
+
+    /**
+     * Add information attached to one vsla group into a singleton class. This is when a group is being edited
+     */
+    private void processVslaInformation(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            String vslaName = jsonObject.getString("VslaName");
+            String groupPhoneNumber = jsonObject.getString("grpPhoneNumber");
+            String numberOfCycles = jsonObject.getString("numberOfCycles");
+            String memberName = jsonObject.getString("representativeName");
+            String memberPost = jsonObject.getString("representativePosition");
+            String memberPhoneNumber = jsonObject.getString("repPhoneNumber");
+            String bankAccount = jsonObject.getString("GroupAccountNumber");
+
+            inputGroupName.setText(vslaName);
+            inputGroupPhoneNumber.setText(groupPhoneNumber);
+            inputNumbeOfCycles.setText(numberOfCycles);
+            inputMemberName.setText(memberName);
+            inputMemberPost.setText(memberPost);
+            inputMemberPhoneNumber.setText(memberPhoneNumber);
+            inputGroupAccountNumber.setText(bankAccount);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
@@ -31,7 +32,7 @@ import java.util.Scanner;
 
 
 public class SubmitDataFrag extends Fragment {
-    private String vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
+    private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles;
     private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
             mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;
@@ -41,6 +42,7 @@ public class SubmitDataFrag extends Fragment {
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
     private Constants constants;
+    boolean isEditing = false;
 
     public SubmitDataFrag() {
     }
@@ -56,6 +58,9 @@ public class SubmitDataFrag extends Fragment {
         constants = new Constants();
         android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
+
+        isEditing = JsonData.getInstance().isEditing();
+        vslaId = JsonData.getInstance().getVslaId();
 
         return view;
     }
@@ -131,10 +136,9 @@ public class SubmitDataFrag extends Fragment {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            /*if (!vslaId.equalsIgnoreCase("-1")) {
-                // editing existing information
+            if (isEditing){
                 jsonObject.put("VslaId", vslaId);
-            }*/
+            }
             jsonObject.put("GroupSupport", groupSupportType);
             jsonObject.put("VslaName", vslaName);
             jsonObject.put("grpPhoneNumber", groupPhoneNumber);

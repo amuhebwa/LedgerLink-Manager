@@ -23,19 +23,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SearchResults extends AppCompatActivity {
     private ArrayList<VslaInfo> vslaInfo;
     private CardView emptyView;
     Activity activity = this;
+    Map<Integer, String> jsonObjectMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.search_results);
-
+        jsonObjectMap = new HashMap<>();
         DataHolder.getInstance().clearDataHolder();
         vslaInfo = new ArrayList<>();
 
@@ -74,10 +77,13 @@ public class SearchResults extends AppCompatActivity {
             @Override
             public void onItemClickListener(View view, int position) {
                 int vslaId = vslaInfo.get(position).getVslaId();
+
+                JsonData.getInstance().setIsEditing(true);
+                JsonData.getInstance().setVslaId(String.valueOf(vslaId));
+                String jsonString = jsonObjectMap.get(vslaId);
+                JsonData.getInstance().setVslaJsonStringData(jsonString);
+
                 Intent intent = new Intent(SearchResults.this, CreateGroup.class);
-                SharedPrefs.saveSharedPreferences(activity, "IsEditing", "1");
-                SharedPrefs.saveSharedPreferences(activity, "vslaId", String.valueOf(vslaId));
-                intent.putExtra("VslaId", vslaId);
                 startActivity(intent);
                 finish();
             }
@@ -114,10 +120,12 @@ public class SearchResults extends AppCompatActivity {
                         dataSet.setMemberName(ResponsiblePerson);
                         dataSet.setVslaId(vslaId);
                         vslaInfo.add(dataSet);
+                        // Add the whole json object to the hashmap
+                        jsonObjectMap.put(vslaId, obj.toString());
                     }
                 } else {
-                    SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
-                    SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
+                    JsonData.getInstance().setIsEditing(false);
+                    JsonData.getInstance().setVslaId("-1");
                     return "-1";
                 }
 
@@ -149,8 +157,8 @@ public class SearchResults extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_add_group) {
-            SharedPrefs.saveSharedPreferences(activity, "IsEditing", "0");
-            SharedPrefs.saveSharedPreferences(activity, "vslaId", "-1");
+            JsonData.getInstance().setIsEditing(false);
+            JsonData.getInstance().setVslaId("-1");
             startActivity(new Intent(SearchResults.this, CreateGroup.class));
             return true;
 
@@ -158,5 +166,6 @@ public class SearchResults extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 }

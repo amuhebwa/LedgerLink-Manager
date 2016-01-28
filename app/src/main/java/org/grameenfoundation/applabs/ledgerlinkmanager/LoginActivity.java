@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    // Validate user details before Logging in
     private void validateUserDetails(String serverUrl, String username, String passkey) {
         if (username.isEmpty()) {
             inputUsername.setError("Enter Valid Username");
@@ -78,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // Log-in the Technical Trainer
     private void validateTrainer(String url, String username, String passkey) {
         progressDialog.show();
         String request_url = url + constants.validateTrainer + "/" + username + "/" + passkey;

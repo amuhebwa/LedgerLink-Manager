@@ -35,11 +35,13 @@ public class SubmitDataFrag extends Fragment {
     private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles,
             trainerId;
-    private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
-            mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;
+    /*private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
+            mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;*/
+    private TextView addEditOperation;
     private ImageView confirmSubmission;
     private TableLayout dataTable;
     private String serverUrl = "";
+    private String EditAddTitle;
     private static long currentDatabaseId = 0;
     private DatabaseHandler databaseHandler;
     private Constants constants;
@@ -95,18 +97,18 @@ public class SubmitDataFrag extends Fragment {
     }
 
     private void showSummaryOfFields(View view) {
-        mVslaName = (TextView) view.findViewById(R.id.vslaName);
-        mRepresentativeName = (TextView) view.findViewById(R.id.representativeName);
-        mRepresentativePost = (TextView) view.findViewById(R.id.representativePost);
-        mRepresentativeNumber = (TextView) view.findViewById(R.id.representativeNumber);
-        mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
-        mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
-        // mRegionName = (TextView) view.findViewById(R.id.regionName);
-        mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
-        mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
-        mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
-        mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
-        addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
+        TextView mVslaName = (TextView) view.findViewById(R.id.vslaName);
+        TextView mRepresentativeName = (TextView) view.findViewById(R.id.representativeName);
+        TextView mRepresentativePost = (TextView) view.findViewById(R.id.representativePost);
+        TextView mRepresentativeNumber = (TextView) view.findViewById(R.id.representativeNumber);
+        TextView mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
+        TextView mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
+        //TextView mRegionName = (TextView) view.findViewById(R.id.regionName);
+        TextView mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
+        TextView mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
+        TextView mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
+        TextView mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
+        TextView addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
         confirmSubmission = (ImageView) view.findViewById(R.id.confirmSubmission);
         dataTable = (TableLayout) view.findViewById(R.id.dataTable);
 
@@ -124,8 +126,14 @@ public class SubmitDataFrag extends Fragment {
         mNumberOfCycles.setText(numberOfCycles);
 
         // Set operation type(Adding New Group Or Editing an Existing Group)
-        String title = "Adding New Group " + vslaName;
-        addEditOperation.setText(title);
+
+        if (isEditing) {
+            EditAddTitle = "Editing " + vslaName;
+            addEditOperation.setText(EditAddTitle);
+        } else {
+            EditAddTitle = "Adding New Group " + vslaName;
+            addEditOperation.setText(EditAddTitle);
+        }
     }
 
     // Show toast method
@@ -189,7 +197,11 @@ public class SubmitDataFrag extends Fragment {
         }
     }
 
-    // Update the group's sent status to true after successfully submitting
+    /**
+     * Update the group's sent status to true after successfully
+     * submitting
+     */
+
     private void updateVslaInformation() {
         VslaInfo vslaInfo = new VslaInfo();
         vslaInfo.setGroupName(vslaName);
@@ -207,7 +219,10 @@ public class SubmitDataFrag extends Fragment {
         databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 
-    // asynchronous task class to send data to the server.
+    /**
+     * asynchronous task class to send data to the server.
+     */
+
     private class HttpAsyncTaskClass extends AsyncTask<String, Integer, String> {
         @Override
         protected void onPreExecute() {

@@ -25,19 +25,16 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername, inputPasskey;
-    private String result;
-    private String mTrainerId;
-    private String mUserName;
-    private Constants constants = new Constants();
+    private String mResult, mTrainerId, mUserName, serverUrl;
+    private Constants constants;
     private Utils utils;
     private ProgressDialog progressDialog;
-    private String serverUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        constants = new Constants();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging In ...");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -45,8 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         utils = new Utils();
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        android.content.SharedPreferences sharedPreferences = PreferenceManager.
-                getDefaultSharedPreferences(getBaseContext());
+        android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
         inputUsername = (EditText) findViewById(R.id.username);
@@ -61,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Show toast method
     private void showFlashMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
@@ -96,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
 
                     JSONObject loginDetails = response.getJSONObject("validateTrainerResult");
-                    result = loginDetails.getString("resultId");
+                    mResult = loginDetails.getString("resultId");
                     mTrainerId = loginDetails.getString("TrainerId");
                     mUserName = loginDetails.getString("userName");
 
@@ -104,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (result.equalsIgnoreCase("1")) { //  Success
+                if (mResult.equalsIgnoreCase("1")) { //  Success
                     JsonData.getInstance().setTrainerId(mTrainerId);
                     JsonData.getInstance().setUserName(mUserName);
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);

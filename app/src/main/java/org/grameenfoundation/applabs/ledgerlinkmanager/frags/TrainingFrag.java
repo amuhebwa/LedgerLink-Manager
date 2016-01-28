@@ -4,6 +4,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +31,14 @@ public class TrainingFrag extends Fragment {
 
     public TrainingFrag() {
     }
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_frag, container, false);
-        setHasOptionsMenu(true);
         final ListView listView = (ListView) view.findViewById(R.id.trainingOptions);
 
         String[] options = new String[]{"Sensitization And Buy-In", "LedgerLink Training",
@@ -83,15 +88,18 @@ public class TrainingFrag extends Fragment {
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_save:
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionViewItem = menu.findItem(R.id.action_save);
+        View v = MenuItemCompat.getActionView(actionViewItem);
+        Button b = (Button) v.findViewById(R.id.btnSave);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 updateInfoToActivity();
-                break;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
+
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override

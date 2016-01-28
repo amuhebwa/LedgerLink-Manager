@@ -4,6 +4,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,10 +34,14 @@ public class VslaFrag extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.vsla_frag, container, false);
-        setHasOptionsMenu(true);
-
         inputGroupName = (EditText) view.findViewById(R.id.groupName);
         inputGroupPhoneNumber = (EditText) view.findViewById(R.id.groupPhoneNumber);
         inputMemberName = (EditText) view.findViewById(R.id.memberName);
@@ -100,24 +106,25 @@ public class VslaFrag extends Fragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionViewItem = menu.findItem(R.id.action_save);
+        View v = MenuItemCompat.getActionView(actionViewItem);
+        Button b = (Button) v.findViewById(R.id.btnSave);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateInfoToActivity();
+            }
+        });
+
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_vsla_frag, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_save:
-
-                updateInfoToActivity();
-                break;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     // Validate input fields
     private boolean validateInputFields() {
         String groupName, groupPhoneNumber, memberName, memberPost, memberPhoneNumber, groupAccountNumber, numberOfCycles;

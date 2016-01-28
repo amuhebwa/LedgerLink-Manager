@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -51,13 +53,15 @@ public class LocationFrag extends Fragment implements GoogleApiClient.Connection
 
     public LocationFrag() {
     }
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.location_frag, container, false);
-        setHasOptionsMenu(true);
-
         // set up google maps
         mapView = (MapView) view.findViewById(R.id._map);
         mapView.onCreate(savedInstanceState);
@@ -273,15 +277,18 @@ public class LocationFrag extends Fragment implements GoogleApiClient.Connection
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_save:
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionViewItem = menu.findItem(R.id.action_save);
+        View v = MenuItemCompat.getActionView(actionViewItem);
+        Button b = (Button) v.findViewById(R.id.btnSave);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 updateInfoToActivity();
-                break;
-            default:
-        }
-        return super.onOptionsItemSelected(item);
+            }
+        });
+
+        super.onPrepareOptionsMenu(menu);
     }
 
 

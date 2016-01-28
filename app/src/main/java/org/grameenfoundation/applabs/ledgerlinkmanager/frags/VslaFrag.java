@@ -73,7 +73,9 @@ public class VslaFrag extends Fragment {
             inputMemberPost.setText(memberPost);
             inputMemberPhoneNumber.setText(memberPhoneNumber);
             inputGroupAccountNumber.setText(bankAccount);
-
+            
+            //  set the title in the actionbar to group name
+            ((CreateGroup) getActivity()).changeActionBarTitle(vslaName != null ? vslaName : null);
 
         } catch (JSONException e) {
             e.printStackTrace();

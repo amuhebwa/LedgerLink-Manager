@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private Constants constants = new Constants();
     private String vslaName, representativeName, representativePost, repPhoneNumber, grpBankAccount,
             physAddress, regionName, grpPhoneNumber, locCoordinates, groupSupportType, TechnicalTrainerId,
-            numberOfCycles;
+            numberOfCycles, TrainerUsername;
     private int VslaId;
 
     @Override
@@ -66,16 +66,32 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         final String serverUrl = sharedPreferences.getString("baseurl", constants.DEFAULTURL);
 
+        TechnicalTrainerId = JsonData.getInstance().getTrainerId();
+        TrainerUsername = JsonData.getInstance().getUserName();
         TextView usernameTxt = (TextView) findViewById(R.id.TrainerUsername);
+        usernameTxt.setText(TrainerUsername);
 
-        if (getIntent().getStringExtra("_username") != null) {
-            usernameTxt.setText(getIntent().getStringExtra("_username"));
-        }
-        if (getIntent().getStringExtra("ttrainerId") != null) {
-            TechnicalTrainerId = getIntent().getStringExtra("ttrainerId");
-        }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Searching For Group Name");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
 
-        initializeUIComponents();
+        empty_view = (LinearLayout) findViewById(R.id.empty_view);
+        utils = new Utils();
+        vslaInfo = new ArrayList<>();
+
+        new queryDatabaseForGroupsAsyncTask().execute();
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyleView);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        dataAdapter = new DataAdapter(vslaInfo);
+        recyclerView.setAdapter(dataAdapter);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
+        recyclerView.addItemDecoration(itemDecoration);
+
+
 
         dataAdapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
             @Override
@@ -94,30 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    // Initialize UI components
-    private void initializeUIComponents() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Searching For Group Name");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
-
-        empty_view = (LinearLayout) findViewById(R.id.empty_view);
-        utils = new Utils();
-        vslaInfo = new ArrayList<>();
-
-        new queryDatabaseForGroupsAsyncTask().execute();
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyleView);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        dataAdapter = new DataAdapter(vslaInfo);
-        recyclerView.setAdapter(dataAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this,
-                RecyclerViewListDivider.VERTICAL_LIST);
-        recyclerView.addItemDecoration(itemDecoration);
     }
 
 
@@ -341,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add_group) {
+            JsonData.getInstance().setIsEditing(false);
             Intent intent = new Intent(MainActivity.this, CreateGroup.class);
             startActivity(intent);
             return true;

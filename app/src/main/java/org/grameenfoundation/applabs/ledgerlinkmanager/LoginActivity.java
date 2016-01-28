@@ -1,6 +1,5 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,10 +26,9 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     private EditText inputUsername, inputPasskey;
     private String result;
-    private String _trainerId = "-1";
-    private String _username;
+    private String mTrainerId;
+    private String mUserName;
     private Constants constants = new Constants();
-    private Activity activity = this;
     private Utils utils;
     private ProgressDialog progressDialog;
     private String serverUrl;
@@ -59,8 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateUserDetails(serverUrl, inputUsername.getText().toString().trim(),
-                        inputPasskey.getText().toString().trim());
+                validateUserDetails(serverUrl, inputUsername.getText().toString().trim(), inputPasskey.getText().toString().trim());
             }
         });
     }
@@ -101,18 +97,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     JSONObject loginDetails = response.getJSONObject("validateTrainerResult");
                     result = loginDetails.getString("resultId");
-                    _trainerId = loginDetails.getString("TrainerId");
-                    _username = loginDetails.getString("userName");
+                    mTrainerId = loginDetails.getString("TrainerId");
+                    mUserName = loginDetails.getString("userName");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 if (result.equalsIgnoreCase("1")) { //  Success
-                    SharedPrefs.saveSharedPreferences(activity, "ttrainerId", _trainerId);
+                    JsonData.getInstance().setTrainerId(mTrainerId);
+                    JsonData.getInstance().setUserName(mUserName);
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    loginIntent.putExtra("_username", _username);
-                    loginIntent.putExtra("ttrainerId", _trainerId);
                     startActivity(loginIntent);
                     finish();
 

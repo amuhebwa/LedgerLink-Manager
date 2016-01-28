@@ -1,6 +1,7 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,7 +23,8 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
 
     private void loadDefaultFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container, new VslaFrag());
+        VslaFrag vslaFrag = new VslaFrag();
+        fragmentTransaction.replace(R.id.frame_container, vslaFrag);
         fragmentTransaction.commit();
     }
 
@@ -41,15 +43,18 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (fragmentNumber == 1) {
-            transaction.replace(R.id.frame_container, new LocationFrag());
+            LocationFrag locationFrag = new LocationFrag();
+            transaction.replace(R.id.frame_container, locationFrag);
             transaction.addToBackStack("locationInformation");
             transaction.commit();
         } else if (fragmentNumber == 2) {
-            transaction.replace(R.id.frame_container, new TrainingFrag());
+            TrainingFrag trainingFrag = new TrainingFrag();
+            transaction.replace(R.id.frame_container, trainingFrag);
             transaction.addToBackStack("trainingInformation");
             transaction.commit();
         } else if (fragmentNumber == 3) {
-            transaction.replace(R.id.frame_container, new SubmitDataFrag());
+            SubmitDataFrag submitDataFrag = new SubmitDataFrag();
+            transaction.replace(R.id.frame_container, submitDataFrag);
             transaction.addToBackStack("submitInformation");
             transaction.commit();
         }
@@ -59,12 +64,12 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
 
     }
 
-/*
+
     // if in Editing mode, change the title of the actionbar
     public void changeActionBarTitle(String title) {
         if (title != null) {
             getSupportActionBar().setTitle(title);
         }
     }
-*/
+
 }

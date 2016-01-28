@@ -5,9 +5,11 @@ package org.grameenfoundation.applabs.ledgerlinkmanager;
  */
 public class JsonData {
     private static JsonData mInstance = null;
-    private boolean isEditing = false;
+    private boolean isEditing;
     private String VslaId = "-1";
     private String VslaJsonStringData;
+    private String TrainerId;
+    private String UserName;
 
     public JsonData() {
     }
@@ -42,5 +44,21 @@ public class JsonData {
 
     public void setVslaJsonStringData(String vslaJsonStringData) {
         VslaJsonStringData = vslaJsonStringData;
+    }
+
+    public String getTrainerId() {
+        return TrainerId;
+    }
+
+    public void setTrainerId(String trainerId) {
+        TrainerId = trainerId;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 }

@@ -30,21 +30,18 @@ import java.util.Map;
 public class SearchResults extends AppCompatActivity {
     private ArrayList<VslaInfo> vslaInfo;
     private CardView emptyView;
-    Activity activity = this;
     Map<Integer, String> jsonObjectMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.search_results);
         jsonObjectMap = new HashMap<>();
         DataHolder.getInstance().clearDataHolder();
         vslaInfo = new ArrayList<>();
 
         emptyView = (CardView) findViewById(R.id.empty_view);
-        FloatingActionButton NewGroupFab = (FloatingActionButton)
-                findViewById(R.id.add_new_group_Fab);
+        FloatingActionButton NewGroupFab = (FloatingActionButton) findViewById(R.id.add_new_group_Fab);
 
         NewGroupFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,15 +66,12 @@ public class SearchResults extends AppCompatActivity {
         DataAdapter dataAdapter = new DataAdapter(vslaInfo);
         dataAdapter.notifyDataSetChanged();
         recyclerView.setAdapter(dataAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this,
-                RecyclerViewListDivider.VERTICAL_LIST);
+        RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
-
         dataAdapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
                 int vslaId = vslaInfo.get(position).getVslaId();
-
                 JsonData.getInstance().setIsEditing(true);
                 JsonData.getInstance().setVslaId(String.valueOf(vslaId));
                 String jsonString = jsonObjectMap.get(vslaId);
@@ -120,12 +114,10 @@ public class SearchResults extends AppCompatActivity {
                         dataSet.setMemberName(ResponsiblePerson);
                         dataSet.setVslaId(vslaId);
                         vslaInfo.add(dataSet);
-                        // Add the whole json object to the hashmap
-                        jsonObjectMap.put(vslaId, obj.toString());
+                        jsonObjectMap.put(vslaId, obj.toString());// Add the whole json object to the hashmap
                     }
                 } else {
                     JsonData.getInstance().setIsEditing(false);
-                    JsonData.getInstance().setVslaId("-1");
                     return "-1";
                 }
 
@@ -158,7 +150,6 @@ public class SearchResults extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_add_group) {
             JsonData.getInstance().setIsEditing(false);
-            JsonData.getInstance().setVslaId("-1");
             startActivity(new Intent(SearchResults.this, CreateGroup.class));
             return true;
 

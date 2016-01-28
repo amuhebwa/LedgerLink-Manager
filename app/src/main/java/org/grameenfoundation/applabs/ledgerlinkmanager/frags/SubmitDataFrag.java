@@ -33,7 +33,8 @@ import java.util.Scanner;
 
 public class SubmitDataFrag extends Fragment {
     private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
-            physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles;
+            physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles,
+            trainerId;
     private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
             mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;
     private ImageView confirmSubmission;
@@ -58,25 +59,24 @@ public class SubmitDataFrag extends Fragment {
         constants = new Constants();
         android.content.SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         serverUrl = sharedPreferences.getString("LedgerLinkBaseUrl", constants.DEFAULTURL);
-
-        isEditing = JsonData.getInstance().isEditing();
-        vslaId = JsonData.getInstance().getVslaId();
-
         return view;
     }
 
-    // function to prepare data for submission
     private void dataSubmission() {
-        loadVslaInformation(); // First reload the information
+        // First reload the information
+        loadVslaInformation();
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
         url.append(serverUrl);
-        url.append("addNewVsla");
+        if (isEditing) {
+            url.append("editVsla");
+        } else {
+            url.append("addNewVsla");
+        }
         saveVslaInformation();
         new HttpAsyncTaskClass().execute(url.toString(), jsonObjectString);
     }
 
-    // Load data from the singleton class
     private void loadVslaInformation() {
         vslaName = DataHolder.getInstance().getVslaName();
         representativeName = DataHolder.getInstance().getGroupRepresentativeName();
@@ -89,9 +89,11 @@ public class SubmitDataFrag extends Fragment {
         locCoordinates = DataHolder.getInstance().getLocationCoordinates();
         groupSupportType = DataHolder.getInstance().getSupportTrainingType();
         numberOfCycles = DataHolder.getInstance().getNumberOfCycles();
+        trainerId = JsonData.getInstance().getTrainerId();
+        isEditing = JsonData.getInstance().isEditing();
+        vslaId = JsonData.getInstance().getVslaId();
     }
 
-    // Show the summary of the filled fields
     private void showSummaryOfFields(View view) {
         mVslaName = (TextView) view.findViewById(R.id.vslaName);
         mRepresentativeName = (TextView) view.findViewById(R.id.representativeName);
@@ -136,7 +138,7 @@ public class SubmitDataFrag extends Fragment {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            if (isEditing){
+            if (isEditing) {
                 jsonObject.put("VslaId", vslaId);
             }
             jsonObject.put("GroupSupport", groupSupportType);
@@ -149,8 +151,7 @@ public class SubmitDataFrag extends Fragment {
             jsonObject.put("GroupAccountNumber", groupBankAccount);
             jsonObject.put("repPhoneNumber", repPhoneNumber);
             jsonObject.put("RegionName", regionName);
-            // jsonObject.put("tTrainerId", tTrainerId);
-            jsonObject.put("tTrainerId", 1); // TEMP
+            jsonObject.put("tTrainerId", trainerId);
             jsonObject.put("Status", "2");
             jsonObject.put("numberOfCycles", numberOfCycles);
 

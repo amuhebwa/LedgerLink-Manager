@@ -35,8 +35,6 @@ public class SubmitDataFrag extends Fragment {
     private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles,
             trainerId;
-    /*private TextView mVslaName, mRepresentativeName, mRepresentativePost, mRepresentativeNumber, mGroupBankAccount,
-            mPhysicalAddress, mGroupPhoneNumber, mLocCoordinates, mGroupSupportType, mNumberOfCycles, addEditOperation;*/
     private TextView addEditOperation;
     private ImageView confirmSubmission;
     private TableLayout dataTable;
@@ -103,12 +101,11 @@ public class SubmitDataFrag extends Fragment {
         TextView mRepresentativeNumber = (TextView) view.findViewById(R.id.representativeNumber);
         TextView mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
         TextView mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
-        //TextView mRegionName = (TextView) view.findViewById(R.id.regionName);
         TextView mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
         TextView mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
         TextView mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
         TextView mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
-        TextView addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
+        addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
         confirmSubmission = (ImageView) view.findViewById(R.id.confirmSubmission);
         dataTable = (TableLayout) view.findViewById(R.id.dataTable);
 
@@ -126,7 +123,6 @@ public class SubmitDataFrag extends Fragment {
         mNumberOfCycles.setText(numberOfCycles);
 
         // Set operation type(Adding New Group Or Editing an Existing Group)
-
         if (isEditing) {
             EditAddTitle = "Editing " + vslaName;
             addEditOperation.setText(EditAddTitle);
@@ -136,7 +132,6 @@ public class SubmitDataFrag extends Fragment {
         }
     }
 
-    // Show toast method
     private void flashMessage(String toastMessage) {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }

@@ -4,6 +4,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -73,9 +74,11 @@ public class VslaFrag extends Fragment {
             inputMemberPost.setText(memberPost);
             inputMemberPhoneNumber.setText(memberPhoneNumber);
             inputGroupAccountNumber.setText(bankAccount);
-            
+
             //  set the title in the actionbar to group name
-            ((CreateGroup) getActivity()).changeActionBarTitle(vslaName != null ? vslaName : null);
+            ActionBar actionBar = ((CreateGroup)getActivity()).getSupportActionBar();
+            actionBar.setTitle(vslaName != null ? vslaName : null);
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
         } catch (JSONException e) {
             e.printStackTrace();

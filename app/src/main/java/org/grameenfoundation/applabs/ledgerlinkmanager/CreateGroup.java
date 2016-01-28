@@ -1,7 +1,6 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -63,13 +62,4 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
     private void moveToPreviousFragment(int fragmentNumber) {
 
     }
-
-
-    // if in Editing mode, change the title of the actionbar
-    public void changeActionBarTitle(String title) {
-        if (title != null) {
-            getSupportActionBar().setTitle(title);
-        }
-    }
-
 }

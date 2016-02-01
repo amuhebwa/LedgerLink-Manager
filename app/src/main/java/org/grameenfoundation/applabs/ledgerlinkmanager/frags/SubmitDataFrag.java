@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
+import org.grameenfoundation.applabs.ledgerlinkmanager.TrainingOptionsData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
@@ -39,7 +39,6 @@ public class SubmitDataFrag extends Fragment {
             trainerId;
     private TextView addEditOperation;
     private ImageView confirmSubmission;
-    private TableLayout dataTable;
     private String serverUrl = "";
     private String EditAddTitle;
     private static long currentDatabaseId = 0;
@@ -49,6 +48,7 @@ public class SubmitDataFrag extends Fragment {
 
     public SubmitDataFrag() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class SubmitDataFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.submit_data_frag, container, false);
-       //  setHasOptionsMenu(true);
+        //  setHasOptionsMenu(true);
         databaseHandler = new DatabaseHandler(getActivity());
         loadVslaInformation();
         showSummaryOfFields(view);
@@ -98,6 +98,7 @@ public class SubmitDataFrag extends Fragment {
         trainerId = JsonData.getInstance().getTrainerId();
         isEditing = JsonData.getInstance().isEditing();
         vslaId = JsonData.getInstance().getVslaId();
+
     }
 
     private void showSummaryOfFields(View view) {
@@ -113,7 +114,6 @@ public class SubmitDataFrag extends Fragment {
         TextView mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
         addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
         confirmSubmission = (ImageView) view.findViewById(R.id.confirmSubmission);
-        dataTable = (TableLayout) view.findViewById(R.id.dataTable);
 
         // set text to the corrrsponding fields
         mVslaName.setText(vslaName);
@@ -287,7 +287,6 @@ public class SubmitDataFrag extends Fragment {
             DataHolder.getInstance().clearDataHolder();
             addEditOperation.setText("Added New VSLA with VSLA Code : " + newVslaCode);
             confirmSubmission.setVisibility(View.VISIBLE);
-            dataTable.setVisibility(View.GONE);
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             flashMessage("Successfully Edited Details.");
             updateVslaInformation();
@@ -295,7 +294,6 @@ public class SubmitDataFrag extends Fragment {
             DataHolder.getInstance().clearDataHolder();
             addEditOperation.setText("Successfully Edited Information");
             confirmSubmission.setVisibility(View.VISIBLE);
-            dataTable.setVisibility(View.GONE);
         } else if (operationResult.equalsIgnoreCase("-1")) {
             flashMessage("An Error Occured");
             addEditOperation.setText("Error Occured. Try Again");
@@ -306,6 +304,8 @@ public class SubmitDataFrag extends Fragment {
             confirmSubmission.setImageResource(R.drawable.ic_error_black);
             confirmSubmission.setVisibility(View.VISIBLE);
         }
+        DataHolder.getInstance().clearDataHolder();
+        TrainingOptionsData.getInstance().clearFields();
 
     }
 

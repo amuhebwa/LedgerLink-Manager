@@ -17,7 +17,13 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_group);
-        loadDefaultFragment();
+
+        String starredFrag = TrainingOptionsData.getInstance().getStarredFragment();
+        if (starredFrag == null) {
+            loadDefaultFragment();
+        } else {
+            reloadTrainingFragment();
+        }
     }
 
     private void loadDefaultFragment() {
@@ -25,6 +31,18 @@ public class CreateGroup extends AppCompatActivity implements VslaFrag.VslaFragI
         VslaFrag vslaFrag = new VslaFrag();
         fragmentTransaction.replace(R.id.frame_container, vslaFrag);
         fragmentTransaction.commit();
+    }
+
+    /**
+     * Re-load the training fragment after selecting the
+     * training options delivered.
+     */
+    private void reloadTrainingFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        TrainingFrag trainingFrag = new TrainingFrag();
+        transaction.replace(R.id.frame_container, trainingFrag);
+       //  transaction.addToBackStack("trainingInformation");
+        transaction.commit();
     }
 
     @Override

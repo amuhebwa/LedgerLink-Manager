@@ -31,11 +31,17 @@ public class DataHolder {
     // Clear the singleton class
     public void clearDataHolder() {
         if (dataObject != null) {
-            synchronized (DataHolder.class) {
-                if (dataObject != null) {
-                    dataObject = null;
-                }
-            }
+            vslaName = null;
+            groupRepresentativeName = null;
+            groupRepresentativePost = null;
+            groupRepresentativePhoneNumber = null;
+            groupBankAccount = null;
+            physicalAddress = null;
+            regionName = null;
+            groupPhoneNumber = null;
+            locationCoordinates = null;
+            supportTrainingType = null;
+            numberOfCycles = null;
         }
     }
 

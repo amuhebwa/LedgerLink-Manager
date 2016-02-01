@@ -42,9 +42,11 @@
             android:label="New Group"
             android:screenOrientation="portrait" />
 
-       <!-- <meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />-->
+            android:value="@integer/google_play_services_version" />
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
@@ -53,6 +55,8 @@
             android:name=".PreferencesActivity"
             android:label="@string/title_activity_preferences"
             android:screenOrientation="portrait" />
+        <activity android:name=".trainingOptions.LedgerLinkTraining" />
+        <activity android:name=".trainingOptions.EkeysTraining"></activity>
     </application>
 
 </manifest>

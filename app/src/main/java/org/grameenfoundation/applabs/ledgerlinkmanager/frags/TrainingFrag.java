@@ -2,6 +2,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
+import org.grameenfoundation.applabs.ledgerlinkmanager.trainingOptions.EkeysTraining;
+import org.grameenfoundation.applabs.ledgerlinkmanager.trainingOptions.LedgerLinkTraining;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,18 +34,20 @@ public class TrainingFrag extends Fragment {
 
     public TrainingFrag() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.training_frag, container, false);
         final ListView listView = (ListView) view.findViewById(R.id.trainingOptions);
-
-        String[] options = new String[]{"Sensitization And Buy-In", "LedgerLink Training",
-                "eKeys Training", "General Support", "Refresher Training"};
+        selectedOption = DataHolder.getInstance().getSupportTrainingType();
+        String[] options = new String[]{"LedgerLink Training", "eKeys Training",
+                "Sensitization And Buy-In", "General Support", "Refresher Training"};
 
         ArrayList<String> optionsList = new ArrayList<>();
         optionsList.addAll(Arrays.asList(options));
@@ -54,15 +59,41 @@ public class TrainingFrag extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String item = ((TextView) view).getText().toString();
-                selectedOption = item;
+                startOptionsActivity(position, item);
             }
         });
         return view;
     }
 
+    private void startOptionsActivity(int position, String title) {
+        switch (position) {
+            case 0:
+                Intent intent = new Intent(getActivity(), LedgerLinkTraining.class);
+                getActivity().startActivity(intent);
+                break;
+            case 1:
+                Intent intent1 = new Intent(getActivity(), EkeysTraining.class);
+                getActivity().startActivity(intent1);
+                break;
+            case 2:
+                selectedOption = title;
+                DataHolder.getInstance().setSupportTrainingType(title);
+                break;
+            case 3:
+                selectedOption = title;
+                DataHolder.getInstance().setSupportTrainingType(title);
+                break;
+            case 4:
+                selectedOption = title;
+                DataHolder.getInstance().setSupportTrainingType(title);
+                break;
+            default:
+                break;
+        }
+    }
+
     // Validate selected details
     private boolean validateInputFields() {
-        DataHolder.getInstance().setSupportTrainingType(selectedOption);
         if (selectedOption == null) {
             return false;
         }

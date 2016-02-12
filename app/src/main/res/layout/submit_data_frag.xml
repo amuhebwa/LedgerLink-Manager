@@ -193,34 +193,12 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_eight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_seven"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Location"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/locCoordinates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_nine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_eight"
+            android:layout_below="@+id/layout_seven"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 

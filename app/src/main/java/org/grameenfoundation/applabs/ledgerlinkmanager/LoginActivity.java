@@ -113,13 +113,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
                 progressDialog.dismiss();
                 showFlashMessage("An Error Occurred. Try again");
-
             }
         });
-
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -132,12 +129,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, PreferencesActivity.class));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

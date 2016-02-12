@@ -10,6 +10,8 @@ public class JsonData {
     private String VslaJsonStringData;
     private String TrainerId;
     private String UserName;
+    private double latitude;
+    private double longitude;
 
     public JsonData() {
     }
@@ -20,7 +22,6 @@ public class JsonData {
         }
         return mInstance;
     }
-
 
     public boolean isEditing() {
         return isEditing;
@@ -61,4 +62,21 @@ public class JsonData {
     public void setUserName(String userName) {
         UserName = userName;
     }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
 }

@@ -1,6 +1,5 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.view.View;
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,25 +37,19 @@ public class SearchResults extends AppCompatActivity {
         jsonObjectMap = new HashMap<>();
         DataHolder.getInstance().clearDataHolder();
         vslaInfo = new ArrayList<>();
-
         emptyView = (CardView) findViewById(R.id.empty_view);
         FloatingActionButton NewGroupFab = (FloatingActionButton) findViewById(R.id.add_new_group_Fab);
-
         NewGroupFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SearchResults.this, CreateGroup.class));
             }
         });
-
-
         Intent intent = getIntent();
         if (intent != null) {
             String jsonResponseString = intent.getStringExtra("jsonIntent");
             new JsonProcessingAsycTask().execute(jsonResponseString);
         }
-
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyleView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
@@ -76,16 +68,13 @@ public class SearchResults extends AppCompatActivity {
                 JsonData.getInstance().setVslaId(String.valueOf(vslaId));
                 String jsonString = jsonObjectMap.get(vslaId);
                 JsonData.getInstance().setVslaJsonStringData(jsonString);
-
                 Intent intent = new Intent(SearchResults.this, CreateGroup.class);
                 startActivity(intent);
                 finish();
             }
         });
-
     }
 
-    // asynchronous task to process JSON request
     private class JsonProcessingAsycTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -95,12 +84,9 @@ public class SearchResults extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String jsonString = params[0];
-
             try {
-
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray jsonArray = jsonObject.getJSONArray("searchVslaResult");
-
                 if (jsonArray.length() != 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
@@ -114,7 +100,7 @@ public class SearchResults extends AppCompatActivity {
                         dataSet.setMemberName(ResponsiblePerson);
                         dataSet.setVslaId(vslaId);
                         vslaInfo.add(dataSet);
-                        jsonObjectMap.put(vslaId, obj.toString());// Add the whole json object to the hashmap
+                        jsonObjectMap.put(vslaId, obj.toString());
                     }
                 } else {
                     JsonData.getInstance().setIsEditing(false);
@@ -124,18 +110,15 @@ public class SearchResults extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
             if (result == "-1") {
                 emptyView.setVisibility(View.VISIBLE);
             }
-
         }
     }
 
@@ -147,16 +130,11 @@ public class SearchResults extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_add_group) {
             JsonData.getInstance().setIsEditing(false);
             startActivity(new Intent(SearchResults.this, CreateGroup.class));
             return true;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

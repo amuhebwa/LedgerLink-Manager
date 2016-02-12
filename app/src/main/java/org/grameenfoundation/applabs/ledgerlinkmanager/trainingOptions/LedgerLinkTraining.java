@@ -52,7 +52,7 @@ public class LedgerLinkTraining extends AppCompatActivity {
         if (cbDaySix.isChecked()) {
             result.append("Ledger Link Assessment");
         }
-        return result.toString() != null ? result.toString() : null;
+        return result.toString();
     }
 
 
@@ -72,7 +72,6 @@ public class LedgerLinkTraining extends AppCompatActivity {
                     DataHolder.getInstance().setSupportTrainingType(result);
                     Intent intent = new Intent(LedgerLinkTraining.this, CreateGroup.class);
                     startActivity(intent);
-
                 }
             }
         });

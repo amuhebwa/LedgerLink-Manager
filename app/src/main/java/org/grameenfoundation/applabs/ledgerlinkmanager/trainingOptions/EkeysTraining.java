@@ -52,7 +52,7 @@ public class EkeysTraining extends AppCompatActivity {
         if (cbDaySix.isChecked()) {
             result.append("eKeys Assessment");
         }
-        return result.toString() != null ? result.toString() : null;
+        return result.toString();
     }
 
     @Override

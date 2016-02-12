@@ -32,8 +32,7 @@ public class TrainingFrag extends Fragment {
     public TrainingFragInterface trainingFragInterface;
     private String selectedOption = null;
 
-    public TrainingFrag() {
-    }
+    public TrainingFrag() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,7 @@ public class TrainingFrag extends Fragment {
         View view = inflater.inflate(R.layout.training_frag, container, false);
         final ListView listView = (ListView) view.findViewById(R.id.trainingOptions);
         selectedOption = DataHolder.getInstance().getSupportTrainingType();
+
         String[] options = new String[]{"LedgerLink Training", "eKeys Training",
                 "Sensitization And Buy-In", "General Support", "Refresher Training"};
 
@@ -92,7 +92,6 @@ public class TrainingFrag extends Fragment {
         }
     }
 
-    // Validate selected details
     private boolean validateInputFields() {
         if (selectedOption == null) {
             return false;
@@ -150,5 +149,4 @@ public class TrainingFrag extends Fragment {
     public interface TrainingFragInterface {
         void passInfoToActivity(String command, int fragmentNumber);
     }
-
 }

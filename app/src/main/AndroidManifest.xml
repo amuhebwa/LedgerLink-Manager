@@ -6,7 +6,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -42,11 +42,11 @@
             android:label="New Group"
             android:screenOrientation="portrait" />
 
-        <!--
-            <meta-data
+
+        <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/maps_api_key" />
@@ -56,7 +56,7 @@
             android:label="@string/title_activity_preferences"
             android:screenOrientation="portrait" />
         <activity android:name=".trainingOptions.LedgerLinkTraining" />
-        <activity android:name=".trainingOptions.EkeysTraining"></activity>
+        <activity android:name=".trainingOptions.EkeysTraining" />
     </application>
 
 </manifest>

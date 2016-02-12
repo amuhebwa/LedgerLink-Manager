@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.ItemDecoration itemDecoration = new RecyclerViewListDivider(this, RecyclerViewListDivider.VERTICAL_LIST);
         recyclerView.addItemDecoration(itemDecoration);
 
-
-
         dataAdapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
@@ -112,14 +110,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     // If data has not been sent, allow it to be uploaded
     private void uploadUnsentData(int position) {
-
         String isDataSent = vslaInfo.get(position).getIsDataSent();
         DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
         VslaId = vslaInfo.get(position).getId();
-
         if (!isDataSent.equalsIgnoreCase("1")) {
             VslaInfo vslaInfo = databaseHandler.getGroupData(VslaId);
             vslaName = vslaInfo.getGroupName();
@@ -153,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             StringBuilder url = new StringBuilder();
             url.append(constants.DEFAULTURL);
             url.append("createNewVsla");
@@ -180,12 +174,10 @@ public class MainActivity extends AppCompatActivity {
         databaseHandler.upDateGroupData(vslaInfo, VslaId);
     }
 
-    // Show toast method
     private void showFlashMessage(String toastMessage) {
         Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    // Validate search term and check for internet connection
     private void validateSearchQuery(String serverUrl) {
         String searchTerm = inputGroupSearch.getText().toString().replace(" ", "");
         if (!utils.isInternetOn(this)) {
@@ -198,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Search for the requested group name
     private void searchForGroupInformation(String keyWord, String url) {
         progressDialog.show();
         String urlRequest = url + constants.searchVsla + "/" + keyWord;
@@ -210,17 +201,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent jsonIntent = new Intent(MainActivity.this, SearchResults.class);
                 jsonIntent.putExtra("jsonIntent", jsonObject.toString());
                 startActivity(jsonIntent);
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
                 progressDialog.dismiss();
                 showFlashMessage("Error Occurred");
             }
         });
-
         VolleySingleton.getIntance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -235,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<VslaInfo> vslaInfos) {
             super.onPostExecute(vslaInfos);
-
             if (vslaInfos.size() != 0) {
                 for (int i = 0; i < vslaInfos.size(); i++) {
                     VslaInfo dataSet = new VslaInfo();
@@ -274,13 +261,11 @@ public class MainActivity extends AppCompatActivity {
             java.net.URL url;
             HttpURLConnection conn;
             try {
-
                 url = new URL(postString);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
                 conn.setFixedLengthStreamingMode(jsonObjectString.getBytes().length);
-
                 //make some HTTP header nicety
                 conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                 conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
@@ -311,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
     }
 
     // Show results : success/fail

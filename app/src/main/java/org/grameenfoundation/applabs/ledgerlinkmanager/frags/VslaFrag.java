@@ -30,8 +30,7 @@ public class VslaFrag extends Fragment {
     private EditText inputGroupName, inputGroupPhoneNumber, inputMemberName, inputMemberPost,
             inputMemberPhoneNumber, inputGroupAccountNumber, inputNumbeOfCycles;
 
-    public VslaFrag() {
-    }
+    public VslaFrag() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,13 +48,11 @@ public class VslaFrag extends Fragment {
         inputMemberPhoneNumber = (EditText) view.findViewById(R.id.memberPhoneNumber);
         inputGroupAccountNumber = (EditText) view.findViewById(R.id.groupAccountNumber);
         inputNumbeOfCycles = (EditText) view.findViewById(R.id.numbeOfCycles);
-
         Boolean isEditing = JsonData.getInstance().isEditing();
         String jsonData = JsonData.getInstance().getVslaJsonStringData();
         if (isEditing) {
             processVslaInformation(jsonData);
         }
-
         return view;
     }
 
@@ -72,7 +69,6 @@ public class VslaFrag extends Fragment {
             String memberPost = jsonObject.getString("representativePosition");
             String memberPhoneNumber = jsonObject.getString("repPhoneNumber");
             String bankAccount = jsonObject.getString("GroupAccountNumber");
-
             inputGroupName.setText(vslaName);
             inputGroupPhoneNumber.setText(groupPhoneNumber);
             inputNumbeOfCycles.setText(numberOfCycles);
@@ -81,11 +77,10 @@ public class VslaFrag extends Fragment {
             inputMemberPhoneNumber.setText(memberPhoneNumber);
             inputGroupAccountNumber.setText(bankAccount);
 
-            //  set the title in the actionbar to group name
+            // Set the title in the actionbar to group name
             ActionBar actionBar = ((CreateGroup)getActivity()).getSupportActionBar();
             actionBar.setTitle(vslaName != null ? vslaName : null);
             actionBar.setDisplayHomeAsUpEnabled(true);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -116,7 +111,6 @@ public class VslaFrag extends Fragment {
                 updateInfoToActivity();
             }
         });
-
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -125,7 +119,7 @@ public class VslaFrag extends Fragment {
         inflater.inflate(R.menu.menu_vsla_frag, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-    // Validate input fields
+
     private boolean validateInputFields() {
         String groupName, groupPhoneNumber, memberName, memberPost, memberPhoneNumber, groupAccountNumber, numberOfCycles;
         groupName = inputGroupName.getText().toString().trim();
@@ -143,7 +137,6 @@ public class VslaFrag extends Fragment {
         DataHolder.getInstance().setGroupRepresentativePhoneNumber(memberPhoneNumber);
         DataHolder.getInstance().setGroupBankAccount(groupAccountNumber);
         DataHolder.getInstance().setNumberOfCycles(numberOfCycles);
-
 
         if (groupName.isEmpty()) {
             return false;
@@ -178,5 +171,4 @@ public class VslaFrag extends Fragment {
     public interface VslaFragInterface {
         void passInfoToActivity(String command, int fragmentNumber);
     }
-
 }

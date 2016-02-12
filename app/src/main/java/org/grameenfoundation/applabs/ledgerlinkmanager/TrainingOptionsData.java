@@ -7,10 +7,7 @@ package org.grameenfoundation.applabs.ledgerlinkmanager;
 public class TrainingOptionsData {
     public static TrainingOptionsData mInstance = null;
     private String starredFragment = null;
-    private String trainingModules;
-    public TrainingOptionsData(){
-
-    }
+    public TrainingOptionsData(){}
     public static TrainingOptionsData getInstance(){
         if (mInstance == null){
             mInstance = new TrainingOptionsData();
@@ -26,13 +23,6 @@ public class TrainingOptionsData {
         this.starredFragment = starredFragment;
     }
 
-    public String getTrainingModules() {
-        return trainingModules;
-    }
-
-    public void setTrainingModules(String trainingModules) {
-        this.trainingModules = trainingModules;
-    }
     public void clearFields(){
         if (mInstance != null){
             mInstance = null;

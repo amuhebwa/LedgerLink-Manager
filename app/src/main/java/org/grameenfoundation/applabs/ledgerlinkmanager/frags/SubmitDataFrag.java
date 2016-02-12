@@ -32,7 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-
 public class SubmitDataFrag extends Fragment {
     private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles,
@@ -58,7 +57,6 @@ public class SubmitDataFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.submit_data_frag, container, false);
-        //  setHasOptionsMenu(true);
         databaseHandler = new DatabaseHandler(getActivity());
         loadVslaInformation();
         showSummaryOfFields(view);
@@ -69,7 +67,7 @@ public class SubmitDataFrag extends Fragment {
     }
 
     private void dataSubmission() {
-        // First reload the information
+        /* Reload the information */
         loadVslaInformation();
         String jsonObjectString = createJsonObject();
         StringBuilder url = new StringBuilder();
@@ -98,7 +96,6 @@ public class SubmitDataFrag extends Fragment {
         trainerId = JsonData.getInstance().getTrainerId();
         isEditing = JsonData.getInstance().isEditing();
         vslaId = JsonData.getInstance().getVslaId();
-
     }
 
     private void showSummaryOfFields(View view) {
@@ -109,7 +106,6 @@ public class SubmitDataFrag extends Fragment {
         TextView mGroupBankAccount = (TextView) view.findViewById(R.id.groupBankAccount);
         TextView mPhysicalAddress = (TextView) view.findViewById(R.id.physicalAddress);
         TextView mGroupPhoneNumber = (TextView) view.findViewById(R.id.groupPhoneNumber);
-        TextView mLocCoordinates = (TextView) view.findViewById(R.id.locCoordinates);
         TextView mGroupSupportType = (TextView) view.findViewById(R.id.groupSupportType);
         TextView mNumberOfCycles = (TextView) view.findViewById(R.id.numberOfCycles);
         addEditOperation = (TextView) view.findViewById(R.id.add_editOperation);
@@ -122,9 +118,7 @@ public class SubmitDataFrag extends Fragment {
         mRepresentativeNumber.setText(repPhoneNumber);
         mGroupBankAccount.setText(groupBankAccount);
         mPhysicalAddress.setText(physAddress);
-        // mRegionName.setText(regionName);
         mGroupPhoneNumber.setText(groupPhoneNumber);
-        mLocCoordinates.setText(locCoordinates);
         mGroupSupportType.setText(groupSupportType);
         mNumberOfCycles.setText(numberOfCycles);
 
@@ -142,10 +136,9 @@ public class SubmitDataFrag extends Fragment {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
-    // Load information and create a json object
+    /* Load information and create a json object */
     public String createJsonObject() {
         JSONObject jsonObject = new JSONObject();
-
         try {
             if (isEditing) {
                 jsonObject.put("VslaId", vslaId);
@@ -171,10 +164,10 @@ public class SubmitDataFrag extends Fragment {
         return jsonObject.toString();
     }
 
-    // insert data into the database
+    /* insert data into the database */
     private void saveVslaInformation() {
-        if (!databaseHandler.checkIfGroupExists(vslaName)) { // Group Doesn't exist in the database
-
+        if (!databaseHandler.checkIfGroupExists(vslaName)) {
+            // Group Doesn't exist in the database
             VslaInfo vslaInfo = new VslaInfo();
             vslaInfo.setGroupName(vslaName);
             vslaInfo.setMemberName(representativeName);
@@ -235,7 +228,6 @@ public class SubmitDataFrag extends Fragment {
         protected String doInBackground(String... params) {
             String postString = params[0];
             String jsonObjectString = params[1];
-
             String response = "";
             java.net.URL url;
             HttpURLConnection conn;
@@ -246,14 +238,12 @@ public class SubmitDataFrag extends Fragment {
                 conn.setDoOutput(true);
                 conn.setRequestMethod("POST");
                 conn.setFixedLengthStreamingMode(jsonObjectString.getBytes().length);
-
                 //make some HTTP header nicety
                 conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                 conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
                 PrintWriter out = new PrintWriter(conn.getOutputStream());
                 out.print(jsonObjectString);
                 out.close();
-
                 Scanner inStream = new Scanner(conn.getInputStream());
                 while (inStream.hasNextLine()) {
                     response += (inStream.nextLine());
@@ -281,7 +271,6 @@ public class SubmitDataFrag extends Fragment {
     // show results : Success/Fail
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
-
             flashMessage("Added new VSLA.");
             updateVslaInformation();
             DataHolder.getInstance().clearDataHolder();
@@ -290,7 +279,7 @@ public class SubmitDataFrag extends Fragment {
         } else if (operationType.equalsIgnoreCase("edit") && operationResult.equalsIgnoreCase("1")) {
             flashMessage("Successfully Edited Details.");
             updateVslaInformation();
-            // Then clear the data holder
+            // Clear the data holder
             DataHolder.getInstance().clearDataHolder();
             addEditOperation.setText("Successfully Edited Information");
             confirmSubmission.setVisibility(View.VISIBLE);

@@ -10,6 +10,14 @@
         <item>Namayingo</item>
     </string-array>
 
+    <!-- Implemementers -->
+    <string-array name="implemeters">
+        <item>-Select-</item>
+        <item>CARE Uganda</item>
+        <item>Plan Uganda</item>
+        <item>Community Vision</item>
+    </string-array>
+
     <!-- String constants  -->
     <string name="_RecipientPost">Recipient Post</string>
     <string name="_RecipientName">Recipient Name</string>

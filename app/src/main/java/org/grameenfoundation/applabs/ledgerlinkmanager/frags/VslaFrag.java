@@ -13,13 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
+import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
@@ -29,8 +33,10 @@ public class VslaFrag extends Fragment {
     private VslaFragInterface vslaFragInterface;
     private EditText inputGroupName, inputGroupPhoneNumber, inputMemberName, inputMemberPost,
             inputMemberPhoneNumber, inputGroupAccountNumber, inputNumbeOfCycles;
+    private String Implemeter = null;
 
-    public VslaFrag() {}
+    public VslaFrag() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,27 @@ public class VslaFrag extends Fragment {
         inputMemberPhoneNumber = (EditText) view.findViewById(R.id.memberPhoneNumber);
         inputGroupAccountNumber = (EditText) view.findViewById(R.id.groupAccountNumber);
         inputNumbeOfCycles = (EditText) view.findViewById(R.id.numbeOfCycles);
+
+        Spinner spImplementers = (Spinner) view.findViewById(R.id.sp_implemeters);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.implemeters, android.R.layout.simple_spinner_dropdown_item);
+        spImplementers.setAdapter(adapter);
+
+        spImplementers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Implemeter = parent.getItemAtPosition(position).toString();
+                if (!Implemeter.equalsIgnoreCase("-Select-")) {
+                    DataHolder.getInstance().setImplementers(Implemeter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         Boolean isEditing = JsonData.getInstance().isEditing();
         String jsonData = JsonData.getInstance().getVslaJsonStringData();
         if (isEditing) {
@@ -56,9 +83,6 @@ public class VslaFrag extends Fragment {
         return view;
     }
 
-    /**
-     * Add information attached to one vsla group into a singleton class. This is when a group is being edited
-     */
     private void processVslaInformation(String jsonString) {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -78,7 +102,7 @@ public class VslaFrag extends Fragment {
             inputGroupAccountNumber.setText(bankAccount);
 
             // Set the title in the actionbar to group name
-            ActionBar actionBar = ((CreateGroup)getActivity()).getSupportActionBar();
+            ActionBar actionBar = ((CreateGroup) getActivity()).getSupportActionBar();
             actionBar.setTitle(vslaName != null ? vslaName : null);
             actionBar.setDisplayHomeAsUpEnabled(true);
         } catch (JSONException e) {
@@ -151,6 +175,8 @@ public class VslaFrag extends Fragment {
         } else if (groupAccountNumber.length() < 10 || groupAccountNumber.length() > 10) {
             return false;
         } else if (numberOfCycles.isEmpty()) {
+            return false;
+        } else if(Implemeter == null || Implemeter.equalsIgnoreCase("-Select-")){
             return false;
         } else {
             return true;

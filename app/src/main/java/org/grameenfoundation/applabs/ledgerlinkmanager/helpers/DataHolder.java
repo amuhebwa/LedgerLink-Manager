@@ -10,8 +10,9 @@ public class DataHolder {
     private String regionName;
     private String groupPhoneNumber;
     private String locationCoordinates;
-    public String supportTrainingType;
+    private String supportTrainingType;
     private String numberOfCycles;
+    private String implementers;
     private static volatile DataHolder dataObject = null;
 
     private DataHolder() {
@@ -42,6 +43,7 @@ public class DataHolder {
             locationCoordinates = null;
             supportTrainingType = null;
             numberOfCycles = null;
+            implementers = null;
         }
     }
 
@@ -132,5 +134,13 @@ public class DataHolder {
 
     public void setNumberOfCycles(String numberOfCycles) {
         this.numberOfCycles = numberOfCycles;
+    }
+
+    public String getImplementers() {
+        return implementers;
+    }
+
+    public void setImplementers(String implementers) {
+        this.implementers = implementers;
     }
 }

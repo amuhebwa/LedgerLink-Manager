@@ -97,7 +97,6 @@ public class LocationFrag extends Fragment {
             String physicalAddress = jsonObject.getString("PhysicalAddress");
             String RegionName = jsonObject.getString("RegionName");
             inputPhysicalAdress.setText(physicalAddress);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

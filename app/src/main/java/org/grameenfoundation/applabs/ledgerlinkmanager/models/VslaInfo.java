@@ -20,6 +20,7 @@ public class VslaInfo {
     private int uploadDataIcon;
     private String supportType;
     private String numberOfCycles;
+    private String implementers;
 
     public VslaInfo() {
     }
@@ -142,5 +143,13 @@ public class VslaInfo {
 
     public void setNumberOfCycles(String numberOfCycles) {
         this.numberOfCycles = numberOfCycles;
+    }
+
+    public String getImplementers() {
+        return implementers;
+    }
+
+    public void setImplementers(String implementers) {
+        this.implementers = implementers;
     }
 }

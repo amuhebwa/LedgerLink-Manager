@@ -40,7 +40,8 @@ public class LocationFrag extends Fragment {
     private MapView mapView;
     private GoogleMap googleMap;
 
-    public LocationFrag() {}
+    public LocationFrag() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class LocationFrag extends Fragment {
         }
         return view;
     }
+
     private void setupGoogleMaps() {
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -75,7 +77,7 @@ public class LocationFrag extends Fragment {
         googleMap = mapView.getMap();
     }
 
-    private void addLocation(){
+    private void addLocation() {
         double latitude = JsonData.getInstance().getLatitude();
         double longitude = JsonData.getInstance().getLongitude();
         String location = String.valueOf(latitude) + "," + String.valueOf(longitude);
@@ -95,7 +97,32 @@ public class LocationFrag extends Fragment {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             String physicalAddress = jsonObject.getString("PhysicalAddress");
-            String RegionName = jsonObject.getString("RegionName");
+            // String RegionName = jsonObject.getString("RegionName");
+            int RegionId = Integer.valueOf(jsonObject.getString("RegionId"));
+            /**
+             * Best approach is to reseed the regions table so that IDs start at 1
+             * this is a quick hack that maps the Ids stored in the regionId column in the
+             * vsla table against the string array for regions
+             * 9 --> 0
+             * 10 --> 1
+             * 11 --> 2
+             * 12 --> 3
+             *
+             */
+            switch (RegionId) {
+                case 9:
+                    selectRegion.setSelection(0);
+                    break;
+                case 10:
+                    selectRegion.setSelection(1);
+                    break;
+                case 11:
+                    selectRegion.setSelection(2);
+                    break;
+                case 12:
+                    selectRegion.setSelection(3);
+                    break;
+            }
             inputPhysicalAdress.setText(physicalAddress);
         } catch (JSONException e) {
             e.printStackTrace();

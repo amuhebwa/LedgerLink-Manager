@@ -11,30 +11,31 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class SQLiteDbHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Ledgerlink";
     private static final String TABLE_NAME = "VslaGroupsData";
     /** Table column names */
-    private static final String ID = "id";
-    private static final String GROUPNAME = "groupName";
-    private static final String REPMEMBERNAME = "RepresentativeMemberName";
-    private static final String REPMEMBERPOST = "RepresentativeMemberPost";
-    private static final String REPMEMBERPHONENUMBER = "memberPhoneNumber";
-    private static final String GROUPACCOUNTNUMBER = "groupAccountNumber";
-    private static final String PHYSICALADDRESS = "physicalAddress";
-    private static final String REGIONNAME = "regionName";
-    private static final String LOCATIONCORDINATES = "locationCordinates";
-    private static final String ISSUEDPHONENUMBER = "issuedPhoneNumber";
-    private static final String ISDATASENT = "isDataSent";
-    private static final String SUPPORTTYPE = "supportType";
-    private static final String NUMBEROFCYCLES = "numberOfCycles";
+    private static final String ID = "Id";
+    private static final String GROUPNAME = "GroupName";
+    private static final String REPMEMBERNAME = "RepresentativeName";
+    private static final String REPMEMBERPOST = "RepresentativePost";
+    private static final String REPMEMBERPHONENUMBER = "RepresentativeContact";
+    private static final String GROUPACCOUNTNUMBER = "GroupAccountNumber";
+    private static final String PHYSICALADDRESS = "PhysicalAddress";
+    private static final String REGIONNAME = "RegionName";
+    private static final String LOCATIONCORDINATES = "LocationCordinates";
+    private static final String ISSUEDPHONENUMBER = "IssuedPhoneNumber";
+    private static final String ISDATASENT = "IsDataSent";
+    private static final String SUPPORTTYPE = "SupportType";
+    private static final String NUMBEROFCYCLES = "NumberOfCycles";
+    private static final String IMPLEMENTERS = "Implementers";
 
     private static final String[] COLUMNS = {ID, GROUPNAME, REPMEMBERNAME, REPMEMBERPOST, REPMEMBERPHONENUMBER,
             GROUPACCOUNTNUMBER, PHYSICALADDRESS, REGIONNAME, LOCATIONCORDINATES, ISSUEDPHONENUMBER, ISDATASENT,
-            SUPPORTTYPE, NUMBEROFCYCLES};
+            SUPPORTTYPE, NUMBEROFCYCLES, IMPLEMENTERS};
 
-    public DatabaseHandler(Context context) {
+    public SQLiteDbHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -53,7 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 ISSUEDPHONENUMBER + " TEXT, " +
                 ISDATASENT + " TEXT, " +
                 SUPPORTTYPE + " TEXT, " +
-                NUMBEROFCYCLES + " TEXT " + " ) ";
+                NUMBEROFCYCLES + " TEXT, " +
+                IMPLEMENTERS + " TEXT " + " ) ";
         db.execSQL(CREATE_DATABASE_LEDGERLINK);
     }
 
@@ -85,6 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(ISDATASENT, vslaInfo.getIsDataSent());
         values.put(SUPPORTTYPE, vslaInfo.getSupportType());
         values.put(NUMBEROFCYCLES, vslaInfo.getNumberOfCycles());
+        values.put(IMPLEMENTERS, vslaInfo.getImplementers());
         final long InsertedId = database.insert(TABLE_NAME, null, values);
         database.close();
         return InsertedId;
@@ -112,6 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         vslaInfo.setIsDataSent(cursor.getString(10));
         vslaInfo.setSupportType(cursor.getString(11));
         vslaInfo.setNumberOfCycles(cursor.getString(12));
+        vslaInfo.setImplementers(cursor.getString(13));
         // cursor.close();
         return vslaInfo;
     }
@@ -141,6 +145,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 vslaInfo.setIsDataSent(cursor.getString(10));
                 vslaInfo.setSupportType(cursor.getString(11));
                 vslaInfo.setNumberOfCycles(cursor.getString(12));
+                vslaInfo.setImplementers(cursor.getString(13));
                 allVslaGroups.add(vslaInfo);
             } while (cursor.moveToNext());
             //  cursor.close();
@@ -165,6 +170,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(ISDATASENT, vslaInfo.getIsDataSent());
         values.put(SUPPORTTYPE, vslaInfo.getSupportType());
         values.put(NUMBEROFCYCLES, vslaInfo.getNumberOfCycles());
+        values.put(IMPLEMENTERS, vslaInfo.getImplementers());
 
         return database.update(TABLE_NAME, values, ID + " = ?", new String[]{String.valueOf(vslaDatabaseId)});
         // database.close();

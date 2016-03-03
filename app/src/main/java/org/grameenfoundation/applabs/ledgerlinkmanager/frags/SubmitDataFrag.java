@@ -22,7 +22,7 @@ import org.grameenfoundation.applabs.ledgerlinkmanager.R;
 import org.grameenfoundation.applabs.ledgerlinkmanager.TrainingOptionsData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SQLiteDbHandler;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,13 +35,13 @@ import java.util.Scanner;
 public class SubmitDataFrag extends Fragment {
     private String vslaId, vslaName, representativeName, representativePost, repPhoneNumber, groupBankAccount,
             physAddress, regionName, groupPhoneNumber, locCoordinates, groupSupportType, numberOfCycles,
-            trainerId;
+            trainerId, implementer;
     private TextView addEditOperation;
     private ImageView confirmSubmission;
     private String serverUrl = "";
     private String EditAddTitle;
     private static long currentDatabaseId = 0;
-    private DatabaseHandler databaseHandler;
+    private SQLiteDbHandler SQLiteDbHandler;
     private Constants constants;
     boolean isEditing = false;
 
@@ -57,7 +57,7 @@ public class SubmitDataFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.submit_data_frag, container, false);
-        databaseHandler = new DatabaseHandler(getActivity());
+        SQLiteDbHandler = new SQLiteDbHandler(getActivity());
         loadVslaInformation();
         showSummaryOfFields(view);
         constants = new Constants();
@@ -93,6 +93,7 @@ public class SubmitDataFrag extends Fragment {
         locCoordinates = DataHolder.getInstance().getLocationCoordinates();
         groupSupportType = DataHolder.getInstance().getSupportTrainingType();
         numberOfCycles = DataHolder.getInstance().getNumberOfCycles();
+        implementer = DataHolder.getInstance().getImplementers();
         trainerId = JsonData.getInstance().getTrainerId();
         isEditing = JsonData.getInstance().isEditing();
         vslaId = JsonData.getInstance().getVslaId();
@@ -156,6 +157,7 @@ public class SubmitDataFrag extends Fragment {
             jsonObject.put("tTrainerId", trainerId);
             jsonObject.put("Status", "2");
             jsonObject.put("numberOfCycles", numberOfCycles);
+            jsonObject.put("Implementer", implementer);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -166,7 +168,7 @@ public class SubmitDataFrag extends Fragment {
 
     /* insert data into the database */
     private void saveVslaInformation() {
-        if (!databaseHandler.checkIfGroupExists(vslaName)) {
+        if (!SQLiteDbHandler.checkIfGroupExists(vslaName)) {
             // Group Doesn't exist in the database
             VslaInfo vslaInfo = new VslaInfo();
             vslaInfo.setGroupName(vslaName);
@@ -181,9 +183,10 @@ public class SubmitDataFrag extends Fragment {
             vslaInfo.setSupportType(groupSupportType);
             vslaInfo.setIsDataSent("0");
             vslaInfo.setNumberOfCycles(numberOfCycles);
+            vslaInfo.setImplementers(implementer);
 
             // get the Id of the Group just added to the database
-            currentDatabaseId = databaseHandler.addGroupData(vslaInfo);
+            currentDatabaseId = SQLiteDbHandler.addGroupData(vslaInfo);
             flashMessage("Data Saved Successfully");
 
         } else {
@@ -210,7 +213,8 @@ public class SubmitDataFrag extends Fragment {
         vslaInfo.setIsDataSent("1");
         vslaInfo.setSupportType(groupSupportType);
         vslaInfo.setNumberOfCycles(numberOfCycles);
-        databaseHandler.upDateGroupData(vslaInfo, currentDatabaseId);
+        vslaInfo.setImplementers(implementer);
+        SQLiteDbHandler.upDateGroupData(vslaInfo, currentDatabaseId);
     }
 
     /**

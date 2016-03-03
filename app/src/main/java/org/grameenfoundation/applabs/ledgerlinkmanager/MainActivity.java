@@ -1,6 +1,5 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,9 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DatabaseHandler;
+import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SQLiteDbHandler;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.RecyclerViewListDivider;
-import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.SharedPrefs;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Utils;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.Constants;
 import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
@@ -113,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
     // If data has not been sent, allow it to be uploaded
     private void uploadUnsentData(int position) {
         String isDataSent = vslaInfo.get(position).getIsDataSent();
-        DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
+        SQLiteDbHandler SQLiteDbHandler = new SQLiteDbHandler(getApplicationContext());
         VslaId = vslaInfo.get(position).getId();
         if (!isDataSent.equalsIgnoreCase("1")) {
-            VslaInfo vslaInfo = databaseHandler.getGroupData(VslaId);
+            VslaInfo vslaInfo = SQLiteDbHandler.getGroupData(VslaId);
             vslaName = vslaInfo.getGroupName();
             representativeName = vslaInfo.getMemberName();
             representativePost = vslaInfo.getMemberPost();
@@ -157,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Update the group's sent status to true after successfully submitting
     private void updateDatabaseToSent() {
-        DatabaseHandler databaseHandler = new DatabaseHandler(this);
+        SQLiteDbHandler SQLiteDbHandler = new SQLiteDbHandler(this);
         VslaInfo vslaInfo = new VslaInfo();
         vslaInfo.setGroupName(vslaName);
         vslaInfo.setMemberName(representativeName);
@@ -171,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         vslaInfo.setIsDataSent("1");
         vslaInfo.setSupportType(groupSupportType);
         vslaInfo.setNumberOfCycles(numberOfCycles);
-        databaseHandler.upDateGroupData(vslaInfo, VslaId);
+        SQLiteDbHandler.upDateGroupData(vslaInfo, VslaId);
     }
 
     private void showFlashMessage(String toastMessage) {
@@ -216,8 +214,8 @@ public class MainActivity extends AppCompatActivity {
     private class queryDatabaseForGroupsAsyncTask extends AsyncTask<Void, Void, List<VslaInfo>> {
         @Override
         protected List<VslaInfo> doInBackground(Void... params) {
-            DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
-            return databaseHandler.getAllGroups();
+            SQLiteDbHandler SQLiteDbHandler = new SQLiteDbHandler(getApplicationContext());
+            return SQLiteDbHandler.getAllGroups();
         }
 
         @Override

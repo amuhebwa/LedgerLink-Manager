@@ -23,9 +23,7 @@ import android.widget.Toast;
 import org.grameenfoundation.applabs.ledgerlinkmanager.CreateGroup;
 import org.grameenfoundation.applabs.ledgerlinkmanager.JsonData;
 import org.grameenfoundation.applabs.ledgerlinkmanager.R;
-import org.grameenfoundation.applabs.ledgerlinkmanager.adapters.DataAdapter;
 import org.grameenfoundation.applabs.ledgerlinkmanager.helpers.DataHolder;
-import org.grameenfoundation.applabs.ledgerlinkmanager.models.VslaInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +31,8 @@ public class VslaFrag extends Fragment {
     private VslaFragInterface vslaFragInterface;
     private EditText inputGroupName, inputGroupPhoneNumber, inputMemberName, inputMemberPost,
             inputMemberPhoneNumber, inputGroupAccountNumber, inputNumbeOfCycles;
-    private String Implemeter = null;
+    private String Implementer = null;
+    private Spinner spImplementers;
 
     public VslaFrag() {
     }
@@ -55,7 +54,7 @@ public class VslaFrag extends Fragment {
         inputGroupAccountNumber = (EditText) view.findViewById(R.id.groupAccountNumber);
         inputNumbeOfCycles = (EditText) view.findViewById(R.id.numbeOfCycles);
 
-        Spinner spImplementers = (Spinner) view.findViewById(R.id.sp_implemeters);
+        spImplementers = (Spinner) view.findViewById(R.id.sp_implemeters);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.implemeters, android.R.layout.simple_spinner_dropdown_item);
         spImplementers.setAdapter(adapter);
@@ -63,9 +62,10 @@ public class VslaFrag extends Fragment {
         spImplementers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Implemeter = parent.getItemAtPosition(position).toString();
-                if (!Implemeter.equalsIgnoreCase("-Select-")) {
-                    DataHolder.getInstance().setImplementers(Implemeter);
+                // Implementer = parent.getItemAtPosition(position).toString();
+                Implementer = String.format("%s", String.valueOf(position));
+                if (!Implementer.equalsIgnoreCase("-Select-")) {
+                    DataHolder.getInstance().setImplementers(Implementer);
                 }
             }
 
@@ -93,6 +93,8 @@ public class VslaFrag extends Fragment {
             String memberPost = jsonObject.getString("representativePosition");
             String memberPhoneNumber = jsonObject.getString("repPhoneNumber");
             String bankAccount = jsonObject.getString("GroupAccountNumber");
+            String regionId = jsonObject.getString("RegionId");
+            String implementerId = jsonObject.getString("Implementer");
             inputGroupName.setText(vslaName);
             inputGroupPhoneNumber.setText(groupPhoneNumber);
             inputNumbeOfCycles.setText(numberOfCycles);
@@ -100,6 +102,11 @@ public class VslaFrag extends Fragment {
             inputMemberPost.setText(memberPost);
             inputMemberPhoneNumber.setText(memberPhoneNumber);
             inputGroupAccountNumber.setText(bankAccount);
+
+            // Set default value for implementer in the drop down list
+            if(!implementerId.isEmpty() || implementerId.trim().length() != 0) {
+                spImplementers.setSelection(Integer.valueOf(implementerId));
+            }
 
             // Set the title in the actionbar to group name
             ActionBar actionBar = ((CreateGroup) getActivity()).getSupportActionBar();
@@ -176,7 +183,7 @@ public class VslaFrag extends Fragment {
             return false;
         } else if (numberOfCycles.isEmpty()) {
             return false;
-        } else if(Implemeter == null || Implemeter.equalsIgnoreCase("-Select-")){
+        } else if (Implementer == null || Implementer.equalsIgnoreCase("0")) {
             return false;
         } else {
             return true;

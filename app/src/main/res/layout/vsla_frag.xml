@@ -9,65 +9,48 @@
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:paddingTop="20dp">
+        android:padding="20dp">
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_marginBottom="10dp"
+            android:hint="@string/_GroupName"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/groupName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/_GroupName"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/groupPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="10">
+            android:layout_marginBottom="10dp"
+            android:hint="Group Phone Number"
+            android:inputType="phone"
+            android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/groupPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Group Phone Number"
-                android:inputType="phone"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/numbeOfCycles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-            <EditText
-                android:id="@+id/numbeOfCycles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Number Of Cycles in LedgerLink"
-                android:inputType="phone"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:hint="Number Of Cycles in LedgerLink"
+            android:inputType="phone"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Implementers"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <Spinner
             android:id="@+id/sp_implemeters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,58 +60,41 @@
             android:gravity="center"
             android:text="@string/_GroupRepresentativeDetails"
             android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
-        <android.support.design.widget.TextInputLayout
+
+        <EditText
+            android:id="@+id/memberName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:hint="@string/_MemberName"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/memberName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="1"
-                android:hint="@string/_MemberName"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/memberPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:hint="@string/_MemberPost"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/memberPost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/_MemberPost"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/memberPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="10">
-
-            <EditText
-                android:id="@+id/memberPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/_MemberPhoneNumber"
-                android:inputType="phone"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:hint="@string/_MemberPhoneNumber"
+            android:inputType="phone"
+            android:singleLine="true"
+            android:textSize="16sp" />
 
 
         <TextView
@@ -139,25 +105,16 @@
             android:gravity="center"
             android:text="@string/_GroupBankDetails"
             android:textColor="#FFFFFF"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/groupAccountNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="10">
-
-            <EditText
-                android:id="@+id/groupAccountNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/_AccountNumber"
-                android:inputType="number"
-                android:singleLine="true"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginBottom="20dp"
+            android:hint="@string/_AccountNumber"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textSize="16sp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

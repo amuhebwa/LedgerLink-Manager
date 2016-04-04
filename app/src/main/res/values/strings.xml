@@ -46,7 +46,7 @@
     <string name="Server_default_value">http://192.168.1.157/DigitizingDataWebServices/DigitizingDataRestfulWebService.svc/</string>
 
     <string name="title_activity_preferences">PreferencesActivity</string>
-    <string name="maps_api_key">AIzaSyDJU9iKJOdEaTon8byVqBSHWcMjbQ6sqvg</string>
+    <string name="maps_api_key">AIzaSyAD7nxPGK0eF15R7ecjS9_9RCrPyrj3cLU</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

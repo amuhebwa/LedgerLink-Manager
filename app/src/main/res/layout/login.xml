@@ -2,12 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -15,45 +17,40 @@
             android:id="@+id/ledgerlink_logo"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/_appLogo"
-            android:scaleType="centerInside"
             android:src="@drawable/ledgerlink_logo" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
 
             <EditText
                 android:id="@+id/username"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_mail"
+                android:drawableStart="@drawable/ic_mail"
                 android:hint="@string/_username"
+                android:drawablePadding="5dp"
                 android:inputType="text"
+                android:layout_marginTop="30dp"
                 android:singleLine="true"
                 android:textSize="18sp" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
 
             <EditText
                 android:id="@+id/passkey"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
+                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_lock"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_lock"
                 android:hint="@string/_passkey"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="18sp" />
-        </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:layout_marginTop="20dp"
             android:id="@+id/loginButton"
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/square"
             android:gravity="center"
@@ -68,7 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="@string/_userInformationRecovery"
-            android:textSize="13sp"
+            android:textSize="16sp"
+            android:gravity="center"
             android:textStyle="bold" />
         <!-- Version format {yy}{mm}{dd}{release number }  -->
         <TextView
@@ -76,7 +74,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="V15091701"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

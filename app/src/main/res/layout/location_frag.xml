@@ -8,11 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:orientation="vertical">
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+
         <EditText
             android:id="@+id/PhysicalAddress"
             android:layout_width="match_parent"
@@ -20,7 +19,7 @@
             android:hint="@string/_PhysicalAddress"
             android:inputType="text"
             android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,20 +27,18 @@
             android:text="@string/_RegionName"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
+
         <Spinner
             android:id="@+id/RegionName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:textSize="16sp" />
+
         <com.google.android.gms.maps.MapView
             android:id="@+id/_map"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:minHeight="300dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+            android:minHeight="350dp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

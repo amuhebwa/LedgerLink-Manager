@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
         TechnicalTrainerId = JsonData.getInstance().getTrainerId();
         TrainerUsername = JsonData.getInstance().getUserName();
         TextView usernameTxt = (TextView) findViewById(R.id.TrainerUsername);
-        usernameTxt.setText(TrainerUsername);
+        // String cap = TrainerUsername.substring(0, 1).toUpperCase() + TrainerUsername.substring(1);
+        String loggedIn = String.format("Hello, %s", TrainerUsername.substring(0, 1).toUpperCase() + TrainerUsername.substring(1));
+        usernameTxt.setText(loggedIn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Searching For Group Name");

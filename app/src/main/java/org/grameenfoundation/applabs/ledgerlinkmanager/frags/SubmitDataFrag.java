@@ -1,6 +1,7 @@
 package org.grameenfoundation.applabs.ledgerlinkmanager.frags;
 
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +45,7 @@ public class SubmitDataFrag extends Fragment {
     private SQLiteDbHandler SQLiteDbHandler;
     private Constants constants;
     boolean isEditing = false;
+    private ProgressDialog progressDialog;
 
     public SubmitDataFrag() {
     }
@@ -52,6 +54,10 @@ public class SubmitDataFrag extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Submitting Data...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
     }
 
     @Override
@@ -226,6 +232,7 @@ public class SubmitDataFrag extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             flashMessage("Sending Data");
+            progressDialog.show();
         }
 
         @Override
@@ -274,6 +281,7 @@ public class SubmitDataFrag extends Fragment {
 
     // show results : Success/Fail
     private void showResultFeedback(String operationType, String operationResult, String newVslaCode) {
+        progressDialog.cancel();
         if (operationType.equalsIgnoreCase("create") && operationResult.equalsIgnoreCase("1")) {
             flashMessage("Added new VSLA.");
             updateVslaInformation();

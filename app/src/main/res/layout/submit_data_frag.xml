@@ -2,242 +2,170 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="18dp">
 
         <TextView
             android:id="@+id/add_editOperation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:text="Add New Group"
             android:textColor="#a30404"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/confirmSubmission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/add_editOperation"
-            android:layout_gravity="center"
             android:layout_marginBottom="10dp"
+            android:gravity="center"
             android:src="@drawable/ic_done_black"
             android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/layout_one"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/confirmSubmission"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp"
+            android:text="VSLA Name"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="VSLA Name"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/vslaName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_two"
+        <TextView
+            android:id="@+id/vslaName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_one"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:text="-NA-" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Representative"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/representativeName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_three"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_two"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp"
+            android:text="Group Representative"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Representative Post"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/representativePost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_four"
+        <TextView
+            android:id="@+id/representativeName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_three"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:text="-NA-" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Representative's Contact"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/representativeNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_five"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_four"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp"
+            android:text="Representative Post"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Account Number"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupBankAccount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_six"
+        <TextView
+            android:id="@+id/representativePost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_five"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:text="-NA-" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Physical Address"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/physicalAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_seven"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_six"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="5dp"
+            android:text="Representative's Contact"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Phone Number"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupPhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/layout_nine"
+        <TextView
+            android:id="@+id/representativeNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_seven"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:text="-NA-" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Group Support Type"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/groupSupportType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_ten"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_nine"
+            android:layout_marginBottom="5dp"
+            android:text="Account Number"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/groupBankAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+            android:text="-NA-" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Number Of Cycles with LedgerLink"
-                android:textStyle="bold" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Physical Address"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/numberOfCycles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="-NA-" />
-        </LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/physicalAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="-NA-" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Group Phone Number"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/groupPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="-NA-" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Group Support Type"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/groupSupportType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="-NA-" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="Number Of Cycles with LedgerLink"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/numberOfCycles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="-NA-"
+            android:textSize="16sp" />
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

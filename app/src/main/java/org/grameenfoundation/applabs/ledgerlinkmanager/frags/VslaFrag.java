@@ -95,6 +95,7 @@ public class VslaFrag extends Fragment {
             String bankAccount = jsonObject.getString("GroupAccountNumber");
             String regionId = jsonObject.getString("RegionId");
             String implementerId = jsonObject.getString("Implementer");
+            inputGroupName.setEnabled(false);
             inputGroupName.setText(vslaName);
             inputGroupPhoneNumber.setText(groupPhoneNumber);
             inputNumbeOfCycles.setText(numberOfCycles);
@@ -104,8 +105,10 @@ public class VslaFrag extends Fragment {
             inputGroupAccountNumber.setText(bankAccount);
 
             // Set default value for implementer in the drop down list
-            if(!implementerId.isEmpty() || implementerId.trim().length() != 0) {
+            if(!implementerId.trim().equals("--")) {
                 spImplementers.setSelection(Integer.valueOf(implementerId));
+            }else {
+                spImplementers.setSelection(0);
             }
 
             // Set the title in the actionbar to group name

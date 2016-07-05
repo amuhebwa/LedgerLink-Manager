@@ -39,6 +39,7 @@
             android:id="@+id/_map"
             android:layout_width="match_parent"
             android:layout_height="350dp"
+            android:layout_weight="1"
             android:minHeight="350dp" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

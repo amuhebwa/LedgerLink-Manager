@@ -29,8 +29,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Scanner;
 
 public class SubmitDataFrag extends Fragment {
@@ -143,6 +149,29 @@ public class SubmitDataFrag extends Fragment {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
 
+    /* Generate a time stamp and hash it. This is to avoid the server caching data*/
+    public String generateHashedTimestamp(){
+        Date date = new Date();
+        long time = date.getTime();
+        Timestamp timestamp = new Timestamp(time);
+        String strtmstamp = String.valueOf(timestamp);
+        // Hash it
+        MessageDigest digest;
+        try
+        {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(strtmstamp.getBytes(Charset.forName("US-ASCII")),0,strtmstamp.length());
+            byte[] bytesize = digest.digest();
+            BigInteger bi = new BigInteger(1, bytesize);
+            return String.format("%0" + (bytesize.length << 1) + "x", bi);
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     /* Load information and create a json object */
     public String createJsonObject() {
         JSONObject jsonObject = new JSONObject();
@@ -164,6 +193,7 @@ public class SubmitDataFrag extends Fragment {
             jsonObject.put("Status", "2");
             jsonObject.put("numberOfCycles", numberOfCycles);
             jsonObject.put("Implementer", implementer);
+            jsonObject.put("Temp_TimeStamp", generateHashedTimestamp());
 
         } catch (JSONException e) {
             e.printStackTrace();

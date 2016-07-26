@@ -198,6 +198,49 @@ public class LocationFrag extends Fragment {
                     case 3:
                         DataHolder.getInstance().setRegionName("12");
                         break;
+                    // Added new districts
+                    case 4:
+                        DataHolder.getInstance().setRegionName("13");
+                        break;
+                    case 5:
+                        DataHolder.getInstance().setRegionName("14");
+                        break;
+                    case 6:
+                        DataHolder.getInstance().setRegionName("15");
+                        break;
+                    case 7:
+                        DataHolder.getInstance().setRegionName("16");
+                        break;
+                    case 8:
+                        DataHolder.getInstance().setRegionName("17");
+                        break;
+                    case 9:
+                        DataHolder.getInstance().setRegionName("18");
+                        break;
+                    case 10:
+                        DataHolder.getInstance().setRegionName("19");
+                        break;
+                    case 11:
+                        DataHolder.getInstance().setRegionName("20");
+                        break;
+                    case 12:
+                        DataHolder.getInstance().setRegionName("21");
+                        break;
+                    case 13:
+                        DataHolder.getInstance().setRegionName("22");
+                        break;
+                    case 14:
+                        DataHolder.getInstance().setRegionName("23");
+                        break;
+                    case 15:
+                        DataHolder.getInstance().setRegionName("24");
+                        break;
+                    case 16:
+                        DataHolder.getInstance().setRegionName("25");
+                        break;
+                    case 17:
+                        DataHolder.getInstance().setRegionName("26");
+                        break;
                     default:
                         break;
                 }
